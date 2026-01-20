@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+
+
+.logo {
+  font-family: "Playfair Display", "Times New Roman", serif;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0.06em;
+  color: #4A1F2A; /* deep maroon */
+} 
+
+
+/* Lightbox theme override */
+.yarl__button {
+  color: #8b6a3f !important;
+  opacity: 0.8;
+}
+
+.yarl__button:hover {
+  opacity: 1;
+}
+
+.yarl__navigation_prev,
+.yarl__navigation_next {
+  color: #b9935a !important;
+}

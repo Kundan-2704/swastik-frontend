@@ -1,0 +1,53 @@
+/* =====================================================
+   CUSTOMER (PUBLIC) PAGES – PREMIUM LUXURY SCROLLBAR
+   ===================================================== */
+
+/* ---------- BASE ---------- */
+.customer-scroll {
+  /* Native smooth scroll for programmatic jumps */
+  scroll-behavior: auto;
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(185, 147, 90, 0.65) transparent;
+}
+
+/* ---------- CHROME / EDGE / SAFARI ---------- */
+
+.customer-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.customer-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.customer-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(185, 147, 90, 0.85),
+    rgba(231, 199, 125, 0.85)
+  );
+  border-radius: 12px;
+
+  /* Luxury idle state */
+  opacity: 0.22;
+
+  transition:
+    opacity 0.35s ease,
+    background 0.35s ease;
+}
+
+/* Hover / interaction reveal */
+.customer-scroll:hover::-webkit-scrollbar-thumb {
+  opacity: 0.9;
+}
+
+/* Active drag feedback */
+.customer-scroll::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(
+    180deg,
+    #b9935a,
+    #e7c77d
+  );
+}

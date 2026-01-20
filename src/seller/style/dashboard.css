@@ -1,0 +1,54 @@
+/* ==========================================
+   SELLER / ADMIN DASHBOARD – PREMIUM SCROLL
+   ========================================== */
+
+.dashboard-content {
+    /* Native but polished scroll */
+    scroll-behavior: smooth;
+
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(185, 147, 90, 0.8) transparent;
+}
+
+/* ===== Chrome / Edge / Safari ===== */
+
+.dashboard-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dashboard-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.dashboard-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg,
+            rgba(185, 147, 90, 0.9),
+            rgba(231, 199, 125, 0.9));
+    border-radius: 10px;
+
+    /* Luxury feel */
+    opacity: 0.35;
+    transition:
+        opacity 0.25s ease,
+        background 0.25s ease;
+}
+
+/* Hover reveal */
+.dashboard-content:hover::-webkit-scrollbar-thumb {
+    opacity: 1;
+}
+
+/* Active drag feedback */
+.dashboard-content::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(180deg,
+            #b9935a,
+            #e7c77d);
+}
+
+/* ===== Optional: ultra-clean look ===== */
+/*
+.dashboard-content::-webkit-scrollbar {
+  width: 4px;
+}
+*/

@@ -1,0 +1,190 @@
+
+
+
+
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { apiSeller } from "../../../Config/apiSeller";
+
+const API_URL = "/sellers";
+
+/* ===================== TYPES ===================== */
+
+interface SellerAuthState {
+  otpSent: boolean;
+  otpVerified: boolean;
+  jwt: string | null;
+  loading: boolean;
+  error: string;
+}
+
+interface SellerState {
+  sellerAuth: SellerAuthState;
+}
+
+/* ===================== SAFE JWT HYDRATION ===================== */
+
+const getStoredSellerJwt = (): string | null => {
+  try {
+    return localStorage.getItem("seller_jwt");
+  } catch {
+    return null;
+  }
+};
+
+/* ===================== INITIAL STATE ===================== */
+
+const initialState: SellerState = {
+  sellerAuth: {
+    otpSent: false,
+    otpVerified: false,
+    jwt: getStoredSellerJwt(), // ✅ reload-safe hydration
+    loading: false,
+    error: "",
+  },
+};
+
+/* ===================== THUNKS ===================== */
+
+// ===== SEND LOGIN OTP =====
+export const sendLoginOtp = createAsyncThunk<
+  any,
+  { email: string },
+  { rejectValue: string }
+>("sellers/sendLoginOtp", async ({ email }, { rejectWithValue }) => {
+  try {
+    const response = await apiSeller.post(
+      `${API_URL}/send/login-otp`,
+      { email }
+    );
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(
+      error.response?.data?.message || "OTP send failed"
+    );
+  }
+});
+
+// ===== VERIFY LOGIN OTP =====
+export const verifyLoginOtp = createAsyncThunk<
+  any,
+  { email: string; otp: string },
+  { rejectValue: string }
+>("sellers/verifyLoginOtp", async (data, { rejectWithValue }) => {
+  try {
+    const response = await apiSeller.post(
+      `${API_URL}/verify/login-otp`,
+      data
+    );
+
+    // ✅ persist jwt
+    localStorage.setItem("seller_jwt", response.data.jwt);
+
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(
+      error.response?.data?.message || "OTP verification failed"
+    );
+  }
+});
+
+// ===== CREATE SELLER (SIGNUP) =====
+export const createSeller = createAsyncThunk<
+  any,
+  any,
+  { rejectValue: string }
+>("sellers/createSeller", async (seller, { rejectWithValue }) => {
+  try {
+    const response = await apiSeller.post(`${API_URL}`, seller);
+
+    if (response.data?.jwt) {
+      localStorage.setItem("seller_jwt", response.data.jwt);
+    }
+
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(
+      error.response?.data?.message || "Seller signup failed"
+    );
+  }
+});
+
+/* ===================== SLICE ===================== */
+
+const sellerSlice = createSlice({
+  name: "seller",
+  initialState,
+  reducers: {
+    clearSellerError: (state) => {
+      state.sellerAuth.error = "";
+    },
+
+    resetOtpState: (state) => {
+      state.sellerAuth.otpSent = false;
+      state.sellerAuth.otpVerified = false;
+    },
+
+    logoutSeller: (state) => {
+      state.sellerAuth.jwt = null;
+      state.sellerAuth.otpSent = false;
+      state.sellerAuth.otpVerified = false;
+      state.sellerAuth.error = "";
+      localStorage.removeItem("seller_jwt");
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+
+      /* ===== SEND LOGIN OTP ===== */
+      .addCase(sendLoginOtp.pending, (state) => {
+        state.sellerAuth.loading = true;
+        state.sellerAuth.error = "";
+      })
+      .addCase(sendLoginOtp.fulfilled, (state) => {
+        state.sellerAuth.loading = false;
+        state.sellerAuth.otpSent = true;
+      })
+      .addCase(sendLoginOtp.rejected, (state, action) => {
+        state.sellerAuth.loading = false;
+        state.sellerAuth.error = action.payload || "";
+      })
+
+      /* ===== VERIFY LOGIN OTP ===== */
+      .addCase(verifyLoginOtp.pending, (state) => {
+        state.sellerAuth.loading = true;
+        state.sellerAuth.error = "";
+      })
+      .addCase(verifyLoginOtp.fulfilled, (state, action) => {
+        state.sellerAuth.loading = false;
+        state.sellerAuth.otpVerified = true;
+        state.sellerAuth.jwt = action.payload?.jwt || null;
+      })
+      .addCase(verifyLoginOtp.rejected, (state, action) => {
+        state.sellerAuth.loading = false;
+        state.sellerAuth.error = action.payload || "";
+      })
+
+      /* ===== CREATE SELLER ===== */
+      .addCase(createSeller.pending, (state) => {
+        state.sellerAuth.loading = true;
+        state.sellerAuth.error = "";
+      })
+      .addCase(createSeller.fulfilled, (state, action) => {
+        state.sellerAuth.loading = false;
+        state.sellerAuth.jwt = action.payload?.jwt || null;
+      })
+      .addCase(createSeller.rejected, (state, action) => {
+        state.sellerAuth.loading = false;
+        state.sellerAuth.error = action.payload || "";
+      });
+  },
+});
+
+/* ===================== EXPORTS ===================== */
+
+export const {
+  clearSellerError,
+  resetOtpState,
+  logoutSeller,
+} = sellerSlice.actions;
+
+export default sellerSlice.reducer;

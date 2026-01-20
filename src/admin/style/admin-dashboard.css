@@ -1,0 +1,76 @@
+/* =====================================================
+   ADMIN DASHBOARD – ENTERPRISE PREMIUM SCROLL
+   ===================================================== */
+
+/* ---------- BASE ---------- */
+.admin-dashboard-content {
+  /* Native + smooth programmatic scrolling */
+  scroll-behavior: smooth;
+
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(185, 147, 90, 0.85) transparent;
+
+  /* Scroll fade hint (top & bottom) */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 18px,
+    black calc(100% - 18px),
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 18px,
+    black calc(100% - 18px),
+    transparent
+  );
+}
+
+/* ---------- CHROME / EDGE / SAFARI ---------- */
+
+.admin-dashboard-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-dashboard-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-dashboard-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(185, 147, 90, 0.9),
+    rgba(231, 199, 125, 0.9)
+  );
+  border-radius: 10px;
+
+  /* Luxury idle state */
+  opacity: 0.35;
+
+  transition:
+    opacity 0.25s ease,
+    background 0.25s ease;
+}
+
+/* Hover reveal */
+.admin-dashboard-content:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+}
+
+/* Active drag feedback */
+.admin-dashboard-content::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(
+    180deg,
+    #b9935a,
+    #e7c77d
+  );
+}
+
+/* ---------- OPTIONAL: EXTRA CLEAN LOOK ---------- */
+/*
+.admin-dashboard-content::-webkit-scrollbar {
+  width: 5px;
+}
+*/
