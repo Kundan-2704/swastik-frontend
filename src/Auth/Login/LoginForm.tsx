@@ -181,7 +181,9 @@ const LoginForm = () => {
           )}
 
           <Button
-            onClick={auth.otpSent ? formik.handleSubmit : handleSentOtp}
+            onClick={() =>
+              auth.otpSent ? formik.handleSubmit() : handleSentOtp()
+            }
             fullWidth
             type="button"
             variant="contained"
@@ -202,6 +204,7 @@ const LoginForm = () => {
           >
             {auth.loading ? "Please wait..." : "Login"}
           </Button>
+
 
         </div>
       </div>
