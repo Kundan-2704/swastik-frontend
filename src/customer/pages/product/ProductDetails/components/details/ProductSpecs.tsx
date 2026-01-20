@@ -1,4 +1,3 @@
-import React from "react";
 
 const ProductSpecs = ({ details }: any) => {
   if (!details) return null;

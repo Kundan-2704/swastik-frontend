@@ -1,5 +1,4 @@
-// import React from "react";
-// import { Outlet, useNavigate } from "react-router-dom";
+// // import { Outlet, useNavigate } from "react-router-dom";
 
 // const HomepageLayout = () => {
 //   const navigate = useNavigate();
@@ -50,7 +49,6 @@
 
 
 
-import React from 'react';
 
 const HomePageLayout = () => {
   return (

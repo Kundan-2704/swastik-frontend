@@ -74,7 +74,7 @@
 
 
 import { Button } from "@mui/material";
-import React, { useState } from "react";
+import  { useState } from "react";
 import SellerLogin from "../Login/SellerLogin";
 import SellerAccountForm from "./SellerAccountForm";
 

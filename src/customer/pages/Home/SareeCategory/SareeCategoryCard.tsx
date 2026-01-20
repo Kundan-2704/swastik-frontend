@@ -1,5 +1,4 @@
-// import React from "react";
-// import { useNavigate } from "react-router-dom";
+// // import { useNavigate } from "react-router-dom";
 
 // const SareeCategoryCard = ({ item }: any) => {
 //   const navigate = useNavigate();
@@ -63,7 +62,6 @@
 
 
 
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 

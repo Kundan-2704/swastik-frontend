@@ -1,5 +1,4 @@
-// import React from "react";
-
+// 
 // const DealCard = ({ deal }: any) => {
 //   return (
 //     <div
@@ -75,7 +74,6 @@
 
 
 
-import React from "react";
 
 /* ================= TYPES ================= */
 interface DealCardProps {

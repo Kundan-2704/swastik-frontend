@@ -1,4 +1,3 @@
-import React from "react";
 
 const CraftStory = ({ story }: { story: string }) => {
   if (!story) return null;

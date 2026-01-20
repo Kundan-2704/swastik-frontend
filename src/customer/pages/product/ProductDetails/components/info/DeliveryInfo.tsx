@@ -1,4 +1,3 @@
-import React from "react";
 import { LocalShipping } from "@mui/icons-material";
 
 const DeliveryInfo = () => {

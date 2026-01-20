@@ -181,7 +181,6 @@
 
 
 import { Box, TextField } from "@mui/material";
-import React from "react";
 
 const BecomeSellerStep4 = ({ formik }: any) => {
   return (

@@ -1,5 +1,4 @@
-// import React from "react";
-
+// 
 // const ProductMainImage = ({ product, gallery, imageRef, onOpen }: any) => {
 //     if (!gallery) return null;
 

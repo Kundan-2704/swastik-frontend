@@ -4,7 +4,6 @@
 
 import { Button, Step, StepLabel, Stepper } from "@mui/material";
 import { useFormik } from "formik";
-import React from "react";
 import BecomeSellerStep1 from "./BecomeSellerStep1";
 import BecomeSellerStep2 from "./BecomeSellerStep2";
 import BecomeSellerStep3 from "./BecomeSellerStep3";

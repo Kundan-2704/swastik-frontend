@@ -1,4 +1,3 @@
-import React from "react";
 import { Favorite } from "@mui/icons-material";
 import { Button } from "@mui/material";
 

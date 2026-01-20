@@ -1,4 +1,3 @@
-import React from "react";
 import SimilarProducts from "../SimilarProducts";
 
 const SimilarProductsSection = ({ product }: any) => {

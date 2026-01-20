@@ -2,7 +2,6 @@
 
 import { ElectricBolt } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
-import React from "react";
 import { useNavigate } from "react-router";
 
 const OrderItemCard = ({ orderItem , order }) => {

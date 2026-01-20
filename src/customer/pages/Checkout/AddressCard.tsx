@@ -29,7 +29,6 @@
 
 
 import { Radio } from "@mui/material";
-import React from "react";
 
 const AddressCard = ({ value, selectedValue, handleChange, item }: any) => {
   const isSelected = selectedValue == value;

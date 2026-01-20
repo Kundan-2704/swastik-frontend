@@ -1,7 +1,6 @@
 // import { Add, Close, Remove } from "@mui/icons-material";
 // import { Button, Divider, IconButton } from "@mui/material";
-// import React from "react";
-// import { useAppDispatch } from "../../../Redux Toolkit/Store";
+// // import { useAppDispatch } from "../../../Redux Toolkit/Store";
 // import { deleteCartItem, fetchCart, updateCartItem } from "../../../Redux Toolkit/Features/Customer/CartSlice";
 
 // const CartItemCard = ({ item }: any) => {
@@ -143,7 +142,6 @@
 
 import { Add, Close, Remove } from "@mui/icons-material";
 import { Button, Divider, IconButton } from "@mui/material";
-import React from "react";
 import { useAppDispatch } from "../../../Redux Toolkit/Store";
 import {
   deleteCartItem,

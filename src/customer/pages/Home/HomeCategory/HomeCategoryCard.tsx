@@ -2,8 +2,7 @@
 
 
 
-// import React from "react";
-
+// 
 // const HomeCategoryCard = ({ item }: any) => {
 //   return (
 //     <div className="flex flex-col justify-center items-center gap-4 group cursor-pointer">
@@ -48,7 +47,6 @@
 
 
 
-import React from "react";
 
 /* ================= TYPES ================= */
 interface HomeCategoryCardProps {

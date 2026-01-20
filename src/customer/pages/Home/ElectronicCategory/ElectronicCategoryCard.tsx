@@ -12,7 +12,6 @@
 // export default ElectronicCategoryCard;
 
 
-import React from "react";
 
 const ElectronicCategoryCard = ({ item }: any) => {
   return (

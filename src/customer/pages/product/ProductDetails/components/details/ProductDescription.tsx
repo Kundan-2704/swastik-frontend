@@ -1,4 +1,3 @@
-import React from "react";
 
 const ProductDescription = ({ description }: { description: string }) => {
   return (

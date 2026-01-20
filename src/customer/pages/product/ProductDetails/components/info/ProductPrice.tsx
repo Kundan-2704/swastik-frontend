@@ -1,4 +1,3 @@
-import React from "react";
 
 const ProductPrice = ({ product }: any) => {
   return (
