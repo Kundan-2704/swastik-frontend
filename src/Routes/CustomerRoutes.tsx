@@ -12,8 +12,6 @@ import Products from "../customer/pages/product/Products";
 import "../customer/style/customer-scroll.css";
 import OrderSuccess from "../customer/pages/Checkout/OrderSuccess";
 import { useAppDispatch, useAppSelector } from "../Redux Toolkit/Store";
-import { fetchNotifications } from "../Redux Toolkit/Features/Customer/NotificationSlice";
-import { socket } from "../socket";
 import Policies from "../pages/Policies";
 
 const CustomerRoutes = () => {
@@ -23,17 +21,6 @@ const CustomerRoutes = () => {
 
  
 
-useEffect(() => {
-  socket.on("notification", (data) => {
-    console.log("🔔 Notification received:", data);
-
-    dispatch(fetchNotifications()); // DB se refresh
-  });
-
-  return () => {
-    socket.off("notification");
-  };
-}, [dispatch]);
 
 
 
