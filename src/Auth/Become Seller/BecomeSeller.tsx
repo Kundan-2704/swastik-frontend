@@ -72,14 +72,14 @@
 
 
 
-
+import React from "react";  
 
 import { Button } from "@mui/material";
 import  { useState } from "react";
 import SellerLogin from "../Login/SellerLogin";
 import SellerAccountForm from "./SellerAccountForm";
 
-const BecomeSeller = () => {
+const BecomeSeller:React.FC = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   return (
