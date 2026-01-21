@@ -1,9 +1,9 @@
-// src/socket.ts
-import { io, Socket } from "socket.io-client";
+// // src/socket.ts
+// import { io, Socket } from "socket.io-client";
 
-export const socket: Socket = io(
-  import.meta.env.VITE_SOCKET_URL,
-  {
-    withCredentials: true,
-  }
-);
+// export const socket: Socket = io(
+//   import.meta.env.VITE_SOCKET_URL,
+//   {
+//     withCredentials: true,
+//   }
+// );
