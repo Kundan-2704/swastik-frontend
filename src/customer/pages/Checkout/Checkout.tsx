@@ -425,46 +425,101 @@ const Checkout = () => {
 //   }
 // };
 
+// const handleCheckout = async () => {
+//   if (!selectedAddress || cart.totalSellingPrice === 0 || loading) return;
+
+//   try {
+//     setLoading(true);
+
+//     const orderRes = await dispatch(
+//       createOrder({
+//         addressId: selectedAddress,
+//         paymentGateway: "RAZORPAY",
+//         jwt: localStorage.getItem("jwt") || "",
+//       })
+//     ).unwrap();
+
+//     const orderId = orderRes?.orders?.[0]?._id;
+//     if (!orderId) throw new Error("Order not created");
+
+//     const { data } = await axios.post(
+//       "http://localhost:5000/api/payment/razorpay/create-order",
+//       { orderId },
+//       {
+//         headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
+//       }
+//     );
+
+//     const amount =
+//       import.meta.env.MODE === "development"
+//         ? 1000 // ₹1 test
+//         : cart.totalSellingPrice * 1000;
+
+//     const options = {
+//       key: import.meta.env.VITE_RAZORPAY_KEY,
+//       order_id: data.razorpayOrderId,
+//       amount,
+//       currency: "INR",
+//       name: "Swastik",
+//       description: "Order Payment",
+//       remember_customer: false,
+//       handler: async (response: any) => {
+//         console.log("✅ PAYMENT SUCCESS:", response);
+//         navigate("/order-success");
+//       },
+//       modal: {
+//         ondismiss: () => setLoading(false),
+//       },
+//       theme: { color: "#4A1F2A" },
+//     };
+
+//     const rzp = new window.Razorpay(options);
+//     rzp.open();
+//   } catch (err) {
+//     console.error(err);
+//     setLoading(false);
+//   }
+// };
+
+
 const handleCheckout = async () => {
   if (!selectedAddress || cart.totalSellingPrice === 0 || loading) return;
 
   try {
     setLoading(true);
 
-    const orderRes = await dispatch(
-      createOrder({
-        addressId: selectedAddress,
-        paymentGateway: "RAZORPAY",
-        jwt: localStorage.getItem("jwt") || "",
-      })
-    ).unwrap();
-
-    const orderId = orderRes?.orders?.[0]?._id;
-    if (!orderId) throw new Error("Order not created");
-
+    // 1️⃣ Razorpay order create FIRST
     const { data } = await axios.post(
-      "http://localhost:5000/api/payment/razorpay/create-order",
-      { orderId },
+      `${import.meta.env.VITE_API_URL}/api/payment/razorpay/create-order`,
+      {
+        amount: cart.totalSellingPrice * 100, // paisa
+      },
       {
         headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
       }
     );
 
-    const amount =
-      import.meta.env.MODE === "development"
-        ? 1000 // ₹1 test
-        : cart.totalSellingPrice * 1000;
-
+    // 2️⃣ Open Razorpay popup
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY,
-      order_id: data.razorpayOrderId,
-      amount,
+      amount: data.amount,
       currency: "INR",
+      order_id: data.id,
       name: "Swastik",
       description: "Order Payment",
-      remember_customer: false,
-      handler: async (response: any) => {
-        console.log("✅ PAYMENT SUCCESS:", response);
+      handler: async (response) => {
+        // 3️⃣ Payment success → NOW create order
+        await dispatch(
+          createOrder({
+            addressId: selectedAddress,
+            paymentGateway: "RAZORPAY",
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+            jwt: localStorage.getItem("jwt") || "",
+          })
+        ).unwrap();
+
         navigate("/order-success");
       },
       modal: {
@@ -475,8 +530,9 @@ const handleCheckout = async () => {
 
     const rzp = new window.Razorpay(options);
     rzp.open();
+
   } catch (err) {
-    console.error(err);
+    console.error("Checkout error:", err);
     setLoading(false);
   }
 };
