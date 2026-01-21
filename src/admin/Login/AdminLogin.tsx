@@ -123,28 +123,45 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
-    try {
-      setError("");
-      setLoading(true);
+  const API = import.meta.env.VITE_API_BASE_URL;
 
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/auth/signin`,
-        { email, password }
-      );
+  const sendOtp = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      await axios.post(`${API}/auth/send/login-signup-otp`, { email });
+      setOtpSent(true);
+    } catch (e: any) {
+      setError(e.response?.data?.message || "OTP send failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const verifyOtp = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const res = await axios.post(`${API}/auth/signin`, {
+        email,
+        otp,
+      });
 
       if (res.data.role !== "ROLE_ADMIN") {
-        throw new Error("Not an admin account");
+        throw new Error("Not admin account");
       }
 
       localStorage.setItem("admin_jwt", res.data.jwt);
-      navigate("/Admin");
-    } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      navigate("/admin");
+    } catch (e: any) {
+      setError(e.response?.data?.message || "Invalid OTP");
     } finally {
       setLoading(false);
     }
@@ -154,7 +171,7 @@ const AdminLogin = () => {
     <div className="min-h-screen flex items-center justify-center bg-[#FFFCF7]">
       <div className="bg-white p-6 rounded-2xl w-96 shadow border">
         <h2 className="text-2xl font-semibold text-center mb-6">
-          Admin Login
+          Admin Login (OTP)
         </h2>
 
         {error && <Alert severity="error">{error}</Alert>}
@@ -167,24 +184,37 @@ const AdminLogin = () => {
           margin="normal"
         />
 
-        <TextField
-          fullWidth
-          label="Admin Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          margin="normal"
-        />
+        {otpSent && (
+          <TextField
+            fullWidth
+            label="Enter OTP"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            margin="normal"
+          />
+        )}
 
-        <Button
-          fullWidth
-          variant="contained"
-          onClick={handleLogin}
-          disabled={loading}
-          sx={{ mt: 3 }}
-        >
-          {loading ? "Logging in..." : "Login"}
-        </Button>
+        {!otpSent ? (
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={sendOtp}
+            disabled={loading}
+            sx={{ mt: 3 }}
+          >
+            {loading ? "Sending OTP..." : "Send OTP"}
+          </Button>
+        ) : (
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={verifyOtp}
+            disabled={loading}
+            sx={{ mt: 3 }}
+          >
+            {loading ? "Verifying..." : "Verify & Login"}
+          </Button>
+        )}
       </div>
     </div>
   );
