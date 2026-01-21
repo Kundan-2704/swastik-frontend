@@ -489,9 +489,8 @@ const handleCheckout = async () => {
     setLoading(true);
 
     // 1️⃣ Razorpay order create FIRST
-    const { data } = axios.post(
-  `${import.meta.env.VITE_API_BASE_URL}/api/payment/razorpay/create-order`,
-
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/api/payment/razorpay/create-order`,
       {
         amount: cart.totalSellingPrice * 100, // paisa
       },
@@ -499,6 +498,10 @@ const handleCheckout = async () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
       }
     );
+
+    if (!data?.id || !data?.amount) {
+      throw new Error("Razorpay order create failed");
+    }
 
     // 2️⃣ Open Razorpay popup
     const options = {
@@ -509,19 +512,24 @@ const handleCheckout = async () => {
       name: "Swastik",
       description: "Order Payment",
       handler: async (response) => {
-        // 3️⃣ Payment success → NOW create order
-        await dispatch(
-          createOrder({
-            addressId: selectedAddress,
-            paymentGateway: "RAZORPAY",
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_signature: response.razorpay_signature,
-            jwt: localStorage.getItem("jwt") || "",
-          })
-        ).unwrap();
+        try {
+          // 3️⃣ Payment success → NOW create order
+          await dispatch(
+            createOrder({
+              addressId: selectedAddress,
+              paymentGateway: "RAZORPAY",
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+              jwt: localStorage.getItem("jwt") || "",
+            })
+          ).unwrap();
 
-        navigate("/order-success");
+          navigate("/order-success");
+        } catch (err) {
+          console.error("Order create after payment failed:", err);
+          setLoading(false);
+        }
       },
       modal: {
         ondismiss: () => setLoading(false),
