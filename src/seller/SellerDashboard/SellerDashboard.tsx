@@ -12,24 +12,11 @@ import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
 import { fetchSellerReport } from "../../Redux Toolkit/Features/Seller/SellerSlice";
 // SellerDashboard.tsx
 import "../../seller/style/dashboard.css";
-import { socket } from "../../socket";
-import { fetchSellerNotifications } from "../../Redux Toolkit/Features/Seller/NotificationSlice";
 
 
 const SellerDashboard: React.FC = () => {
   const dispatch = useAppDispatch();
 
-useEffect(() => {
-  socket.on("notification", (data) => {
-    console.log("🔔 Notification received:", data);
-
-    dispatch(fetchSellerNotifications()); // DB se refresh
-  });
-
-  return () => {
-    socket.off("notification");
-  };
-}, [dispatch]);
 
 
   const sellerJwt = useAppSelector(

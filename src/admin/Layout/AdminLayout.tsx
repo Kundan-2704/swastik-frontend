@@ -7,30 +7,14 @@ import AdminDrawerList from "../Sidebar/AdminDrawerList";
 import { Outlet } from "react-router-dom";
 // AdminLayout.tsx
 import "../../admin/style/admin-dashboard.css";
-import { useAppDispatch } from "../../Redux Toolkit/Store";
-import { useEffect } from "react";
-import { socket } from "../../socket";
-import { fetchAdminNotifications } from "../../Redux Toolkit/Features/Admin/NotificationSlice";
 
 
 const AdminLayout = () => {
 
 
-  const dispatch = useAppDispatch()
 
 
 
-  useEffect(() => {
-  socket.on("notification", (data) => {
-    console.log("🔔 Notification received:", data);
-
-    dispatch(fetchAdminNotifications()); // DB se refresh
-  });
-
-  return () => {
-    socket.off("notification");
-  };
-}, [dispatch]);
 
 
 

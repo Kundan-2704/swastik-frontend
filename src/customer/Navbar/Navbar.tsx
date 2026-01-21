@@ -295,8 +295,6 @@ import Logo from "../../assets/swastik-logo.png";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
 import NotificationBell from "../../Components/Notifications/NotificationBell";
-import { socket } from "../../socket";
-import { fetchNotifications } from "../../Redux Toolkit/Features/Customer/NotificationSlice";
 
 const Navbar = () => {
   const theme = useTheme();
@@ -329,23 +327,6 @@ const Navbar = () => {
   (state) => state.user.user?.id
 );
 
-useEffect(() => {
-  if (!userId) return;
-
-  // join room
-  socket.emit("join", userId);
-
-  // listen notification
-  socket.on("notification", (data) => {
-      console.log("🔥 SOCKET EVENT RECEIVED:", data);
-    console.log("🔔 CUSTOMER notification:", data);
-    dispatch(fetchNotifications());
-  });
-
-  return () => {
-    socket.off("notification");
-  };
-}, [userId, dispatch]);
 
 
 

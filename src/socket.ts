@@ -7,3 +7,14 @@
 //     withCredentials: true,
 //   }
 // );
+
+
+// src/socket.ts
+// TEMPORARY dummy socket (notifications disabled)
+
+export const socket = {
+  on: () => {},
+  off: () => {},
+  emit: () => {},
+  disconnect: () => {},
+};

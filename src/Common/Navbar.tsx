@@ -5,9 +5,6 @@ import { useNavigate } from 'react-router';
 
 import store, { useAppDispatch, useAppSelector } from '../Redux Toolkit/Store';
 import NotificationBell from '../Components/Notifications/NotificationBell';
-import { socket } from '../socket';
-import { fetchAdminNotifications } from '../Redux Toolkit/Features/Admin/NotificationSlice';
-import { fetchSellerNotifications } from '../Redux Toolkit/Features/Seller/NotificationSlice';
 
 const Navbar = ({ DrawerList }: any) => {
   const [open, setOpen] = React.useState(false);
@@ -15,42 +12,10 @@ const Navbar = ({ DrawerList }: any) => {
 
   const role = useAppSelector((state) => state.auth.role);
 
-  const unread = useAppSelector((state) => {
-    if (role === "SELLER") return state.sellerNotifications.unread;
-    if (role === "ADMIN") return state.adminNotifications.unread;
-    return 0;
-  });
 
 
   const dispatch = useAppDispatch();
 
-useEffect(() => {
-  if (!role) return;
-
-  if (role === "SELLER") {
-    const sellerId = store.getState().sellerManagement.profile?._id;
-    if (!sellerId) return;
-
-    socket.emit("join", sellerId);
-
-    socket.on("notification", () => {
-      
-      dispatch(fetchSellerNotifications());
-    });
-  }
-
-  if (role === "ADMIN") {
-    socket.emit("join", "ADMIN");
-
-    socket.on("notification", () => {
-      dispatch(fetchAdminNotifications());
-    });
-  }
-
-  return () => {
-    socket.off("notification");
-  };
-}, [role, dispatch]);
 
 
 

@@ -37,9 +37,6 @@ import categoryReducer from "./Features/Admin/CategorySlice";
 
 //Notification
 
-import sellerNotificationReducer from "./Features/Seller/NotificationSlice";
-import customerNotificationReducer from "./Features/Customer/NotificationSlice";
-import adminNotificationReducer from "./Features/Admin/NotificationSlice";
 
 /* ================= ROOT REDUCER ================= */
 const rootReducer = combineReducers({
@@ -71,10 +68,6 @@ const rootReducer = combineReducers({
 
 
   //Notification
-  sellerNotifications: sellerNotificationReducer,
-  customerNotifications: customerNotificationReducer,
-  adminNotifications: adminNotificationReducer,
-
 
 });
 
