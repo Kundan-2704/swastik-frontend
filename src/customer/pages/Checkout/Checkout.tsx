@@ -488,63 +488,51 @@ const handleCheckout = async () => {
   try {
     setLoading(true);
 
-    // 1️⃣ Razorpay order create FIRST
+    // 1️⃣ DB ORDER CREATE FIRST
+    const orderRes = await dispatch(
+      createOrder({
+        addressId: selectedAddress,
+        paymentGateway: "RAZORPAY",
+        jwt: localStorage.getItem("jwt") || "",
+      })
+    ).unwrap();
+
+    const orderId = orderRes?.orders?.[0]?._id;
+    if (!orderId) throw new Error("Order not created");
+
+    // 2️⃣ RAZORPAY ORDER CREATE (backend expects orderId)
     const { data } = await axios.post(
       `${import.meta.env.VITE_API_BASE_URL}/api/payment/razorpay/create-order`,
-      {
-        amount: cart.totalSellingPrice * 100, // paisa
-      },
+      { orderId },
       {
         headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
       }
     );
 
-    if (!data?.id || !data?.amount) {
-      throw new Error("Razorpay order create failed");
-    }
-
-    // 2️⃣ Open Razorpay popup
+    // 3️⃣ OPEN RAZORPAY POPUP
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY,
+      order_id: data.razorpayOrderId,
       amount: data.amount,
-      currency: "INR",
-      order_id: data.id,
+      currency: data.currency,
       name: "Swastik",
       description: "Order Payment",
-      handler: async (response) => {
-        try {
-          // 3️⃣ Payment success → NOW create order
-          await dispatch(
-            createOrder({
-              addressId: selectedAddress,
-              paymentGateway: "RAZORPAY",
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature,
-              jwt: localStorage.getItem("jwt") || "",
-            })
-          ).unwrap();
-
-          navigate("/order-success");
-        } catch (err) {
-          console.error("Order create after payment failed:", err);
-          setLoading(false);
-        }
+      handler: () => {
+        navigate("/order-success");
       },
       modal: {
         ondismiss: () => setLoading(false),
       },
-      theme: { color: "#4A1F2A" },
     };
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
+    new window.Razorpay(options).open();
 
   } catch (err) {
     console.error("Checkout error:", err);
     setLoading(false);
   }
 };
+
 
 
   return (
