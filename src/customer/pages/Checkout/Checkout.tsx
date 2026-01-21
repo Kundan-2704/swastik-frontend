@@ -489,8 +489,9 @@ const handleCheckout = async () => {
     setLoading(true);
 
     // 1️⃣ Razorpay order create FIRST
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/payment/razorpay/create-order`,
+    const { data } = axios.post(
+  `${import.meta.env.VITE_API_BASE_URL}/api/payment/razorpay/create-order`,
+
       {
         amount: cart.totalSellingPrice * 100, // paisa
       },
