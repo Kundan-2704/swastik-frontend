@@ -29,13 +29,13 @@ import SellerTable from "./admin/Seller/SellerTable";
 import SellerApproval from "./admin/Seller/SellerApproval";
 import OrdersTable from "./admin/Order/OrdersTable";
 import OrderDetails from "./admin/Order/OrderDetails";
-import { useNotificationSocket } from "./hooks/useNotificationSocket";
+// import { useNotificationSocket } from "./hooks/useNotificationSocket";
 
 function App() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);
 
-   useNotificationSocket();
+  //  useNotificationSocket();
 
 
 
