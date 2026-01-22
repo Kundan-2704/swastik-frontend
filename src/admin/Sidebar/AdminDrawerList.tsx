@@ -185,7 +185,7 @@ const AdminDrawerList = () => {
 
   return (
     <div
-     data-lenis-prevent
+      data-lenis-prevent
       className="flex flex-col justify-between h-full w-[260px] bg-[#FFFCF7]"
       style={{ borderRight: "1px solid #E3D4B6" }}
     >
@@ -216,10 +216,9 @@ const AdminDrawerList = () => {
                   key={item.path}
                   onClick={() => navigate(item.path)}
                   className={`w-full flex items-center gap-4 px-4 py-3 rounded-r-full transition-all
-                    ${
-                      active
-                        ? "bg-[#B9935A] text-white shadow-md"
-                        : "text-[#4A1F2A] hover:bg-[#FFF5E7]"
+                    ${active
+                      ? "bg-[#B9935A] text-white shadow-md"
+                      : "text-[#4A1F2A] hover:bg-[#FFF5E7]"
                     }`}
                 >
                   <ListItemIcon className="min-w-[36px]">
@@ -252,7 +251,7 @@ const AdminDrawerList = () => {
 
         <button
           onClick={() => {
-            localStorage.removeItem("adminToken");
+            localStorage.removeItem("admin_jwt");
             navigate("/admin/login");
           }}
           className="w-full flex items-center gap-4 px-4 py-3 rounded-r-full text-[#4A1F2A] hover:bg-[#FFF5E7]"
@@ -260,6 +259,7 @@ const AdminDrawerList = () => {
           <Logout />
           <span>Logout</span>
         </button>
+
       </div>
     </div>
   );

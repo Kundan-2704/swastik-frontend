@@ -12,12 +12,6 @@ import "../../admin/style/admin-dashboard.css";
 const AdminLayout = () => {
 
 
-
-
-
-
-
-
   return (
     <div
       data-lenis-prevent
