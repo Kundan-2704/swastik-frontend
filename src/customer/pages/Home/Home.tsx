@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@mui/material";
 
 import Grid from "./Grid/Grid";
@@ -21,6 +21,9 @@ import Skeleton from "@mui/material/Skeleton";
 import { useNavigate } from "react-router-dom";
 
 
+import WeaverImage from "../../../assets/SK2.png";
+import ModelImage from "../../../assets/A1.png";
+
 
 /* ================= PRIMARY BUTTON ================= */
 interface PrimaryButtonProps {
@@ -30,6 +33,9 @@ interface PrimaryButtonProps {
   className?: string;
   type?: "button" | "submit";
 }
+
+
+
 
 const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   children,
@@ -66,13 +72,17 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   );
 };
 
+
+
 const Home: React.FC = () => {
 
   const location = useLocation();
 
   const [loading, setLoading] = React.useState(true);
 
+
   const navigate = useNavigate();
+
 
 
   useEffect(() => {
@@ -88,6 +98,34 @@ const Home: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
+
+  const heroImages = [
+  {
+    src: WeaverImage,
+    position: "center",
+  },
+  {
+    src: ModelImage,
+    position: "top",
+  },
+];
+
+
+
+const [activeImage, setActiveImage] = React.useState(0);
+
+React.useEffect(() => {
+  const interval = setInterval(() => {
+    setActiveImage((prev) => (prev + 1) % heroImages.length);
+  }, 4500);
+
+  return () => clearInterval(interval);
+}, []);
+
+
+
+
+
   return (
     <main className="bg-[#F8F3E8]">
 
@@ -96,148 +134,141 @@ const Home: React.FC = () => {
         ⚠️ TEST MODE — Orders & payments are for demo purpose only
       </div>
 
+{/* ================= HERO SECTION ================= */}
+{/* ================= HERO SECTION ================= */}
 
-      {/* ================= HERO SECTION ================= */}
-      {loading ? (
-        /* ================= SKELETON HERO ================= */
-        <section className="w-full border-b border-[#ECDCC2]">
-          <div className="max-w-7xl mx-auto px-4 lg:px-20 py-24 grid lg:grid-cols-2 gap-12">
-
-            {/* LEFT SKELETON */}
-            <div>
-              <Skeleton
-                variant="text"
-                width="80%"
-                height={60}
-                sx={{ bgcolor: "#EFE6D8" }}
-              />
-              <Skeleton
-                variant="text"
-                width="60%"
-                height={40}
-                sx={{ bgcolor: "#EFE6D8" }}
-              />
-              <Skeleton
-                variant="text"
-                width="90%"
-                height={30}
-                sx={{ bgcolor: "#EFE6D8" }}
-              />
-
-              <Skeleton
-                variant="rounded"
-                width={180}
-                height={48}
-                sx={{ mt: 3, borderRadius: 999, bgcolor: "#EFE6D8" }}
-              />
-            </div>
-
-            {/* RIGHT IMAGE SKELETON */}
-            <Skeleton
-              variant="rounded"
-              width="100%"
-              height={420}
-              sx={{ borderRadius: "24px", bgcolor: "#EFE6D8" }}
-            />
-          </div>
-        </section>
-      ) : (
-        /* ================= REAL HERO ================= */
-        <section className="w-full border-b border-[#ECDCC2]">
-          <div className="max-w-7xl mx-auto px-4 lg:px-20 py-12 lg:py-24 flex flex-col-reverse lg:flex-row items-center gap-12">
-
-            {/* LEFT */}
-            <div className="w-full lg:w-1/2">
-              <motion.h1
-                className="text-3xl md:text-5xl font-semibold text-[#3B302A] leading-tight mb-5"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              >
-                Pure Handloom <br />
-                Kosa &amp; Tussar Sarees
-              </motion.h1>
-
-              <motion.p
-                className="text-base md:text-xl text-[#5A4A3C] mb-7 max-w-xl"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.1 }}
-              >
-                Woven by skilled artisans of Chhattisgarh.
-                Authentic, sustainable and timeless elegance.
-              </motion.p>
-
-              {/* TRUST BADGES */}
-              <motion.div
-                className="grid grid-cols-2 gap-3 mb-9 md:flex md:flex-wrap md:gap-5"
-                initial="hidden"
-                animate="show"
-                variants={{
-                  hidden: {},
-                  show: { transition: { staggerChildren: 0.15 } },
-                }}
-              >
-                {[
-                  { icon: <VerifiedIcon fontSize="small" />, text: "100% Handloom Certified" },
-                  { icon: <HandshakeIcon fontSize="small" />, text: "Direct From Weavers" },
-                  { icon: <CurrencyRupeeIcon fontSize="small" />, text: "Cash on Delivery" },
-                  { icon: <LocalShippingIcon fontSize="small" />, text: "Pan India Delivery" },
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    className="flex items-center gap-2 text-[#5A4A3C] text-sm font-medium"
-                    variants={{
-                      hidden: { opacity: 0, y: 20 },
-                      show: { opacity: 1, y: 0 },
-                    }}
-                  >
-                    {item.icon}
-                    <span>{item.text}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.4 }}
-              >
-                <PrimaryButton
-                  onClick={() => navigate("/products")}
-                >
-                  Shop Sarees
-                </PrimaryButton>
-
-                <p className="text-xs text-[#8A7A68] mt-3">
-                  Authentic handloom • Direct from weavers
-                </p>
+{/* ===== auto fade logic (hero section ke upar paste karo) ===== */}
 
 
-              </motion.div>
-            </div>
+<section className="w-full border-b border-[#ECDCC2] bg-[#FBF7F2]">
+  <div className="max-w-7xl mx-auto px-4 lg:px-20 py-12 lg:py-24">
 
-            {/* RIGHT IMAGE */}
-            <motion.div
-              className="w-full lg:w-1/2 flex justify-center"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.9, ease: "easeOut", delay: 0.25 }}
+    {/* ================= MOBILE HERO ================= */}
+    <div className="block lg:hidden relative mb-12">
+      <div className="relative w-full h-[380px] rounded-3xl overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={activeImage}
+            src={heroImages[activeImage]}
+            className="absolute inset-0 w-full h-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+          />
+        </AnimatePresence>
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+      </div>
+
+      <div className="absolute bottom-6 left-6 right-6 text-white">
+        <h1 className="text-2xl font-semibold leading-snug mb-2">
+          Woven by Hands, <br /> Worn with Pride
+        </h1>
+
+        <p className="text-sm text-white/90 mb-4">
+          Authentic Kosa & Tussar handloom sarees crafted by master weavers of
+          Chhattisgarh.
+        </p>
+
+        <PrimaryButton
+          className="w-full text-base py-3 bg-[#C58A4A] text-white font-semibold
+                     hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+          onClick={() => navigate("/products")}
+        >
+          Explore Collection
+        </PrimaryButton>
+      </div>
+    </div>
+
+    {/* ================= DESKTOP HERO ================= */}
+    <div className="hidden lg:flex items-center gap-16">
+
+      {/* LEFT CONTENT */}
+      <motion.div
+        className="w-1/2"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h1 className="text-5xl font-semibold leading-[1.15] tracking-tight text-[#3B302A] mb-6">
+          Woven by Hands, <br /> Worn with Pride
+        </h1>
+
+        <p className="text-xl text-[#5A4A3C] mb-8 max-w-xl">
+          Discover authentic Kosa & Tussar handloom sarees, crafted by master
+          artisans of Chhattisgarh. Each piece carries tradition, patience and pride.
+        </p>
+
+        <div className="grid grid-cols-2 gap-4 mb-10">
+          {[
+            { icon: <VerifiedIcon fontSize="small" />, text: "100% Handloom Certified" },
+            { icon: <HandshakeIcon fontSize="small" />, text: "Direct From Weavers" },
+            { icon: <CurrencyRupeeIcon fontSize="small" />, text: "Cash on Delivery" },
+            { icon: <LocalShippingIcon fontSize="small" />, text: "Pan India Delivery" },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-2 bg-[#F7F1E8] px-4 py-3 rounded-xl
+                         text-sm shadow-sm text-[#5A4A3C]"
             >
-              <div className="relative w-full max-w-md rounded-3xl overflow-hidden shadow-2xl">
-                <img
-                  src={AA}
-                  alt="Handloom Weaver"
-                  loading="lazy"
-                  className="w-full h-[300px] md:h-[420px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-              </div>
+              {item.icon}
+              <span>{item.text}</span>
+            </div>
+          ))}
+        </div>
 
-            </motion.div>
-          </div>
-        </section>
-      )}
+        <PrimaryButton
+          onClick={() => navigate("/products")}
+          className="px-10 py-3 text-lg shadow-lg
+                     hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+        >
+          Discover Handloom Collection
+        </PrimaryButton>
+
+        <p className="text-xs text-[#8A7A68] mt-3">
+          Limited artisan pieces • Made on traditional looms
+        </p>
+      </motion.div>
+
+      {/* RIGHT IMAGE (AUTO FADE) */}
+      <motion.div
+        className="w-1/2 flex justify-center"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.9, delay: 0.2 }}
+      >
+        <div
+          className="relative w-full max-w-lg h-[460px] rounded-3xl overflow-hidden shadow-2xl"
+          style={{ border: "1px solid #E7D6BE" }}
+        >
+         <AnimatePresence mode="wait">
+  <motion.img
+    key={activeImage}
+    src={heroImages[activeImage].src}
+    className="absolute inset-0 w-full h-full object-cover"
+    style={{
+      objectPosition:
+        heroImages[activeImage].position === "top"
+          ? "center top"
+          : "center center",
+    }}
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 1.2, ease: "easeInOut" }}
+  />
+</AnimatePresence>
+
+
+          <div className="absolute inset-0 shadow-inner pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+        </div>
+      </motion.div>
+    </div>
+  </div>
+</section>
+
 
 
 
