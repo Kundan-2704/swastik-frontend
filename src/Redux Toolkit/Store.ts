@@ -25,6 +25,7 @@ import sellerProductReducer from "./Features/Seller/SellerProductSlice";
 import sellerManagementReducer from "./Features/Seller/SellerSlice";
 import sellerTransactionReducer from "./Features/Seller/transactionSlice";
 import sellerPaymentReducer from "./Features/Seller/paymentSlice";
+import sellerPayoutReducer from "./Features/Seller/SellerPayoutSlice";
 
 /* ================= ADMIN ================= */
 import adminHomeCategoryReducer from "./Features/Admin/AdminSlice";
@@ -33,6 +34,7 @@ import adminCouponReducer from "./Features/Admin/CouponSlice";
 import adminCustomerReducer from "./Features/Admin/AdminCustomerSlice";
 import adminOrderReducer from "./Features/Admin/AdminOrderSlice";
 import categoryReducer from "./Features/Admin/CategorySlice";
+import adminPayoutReducer from "./Features/Admin/AdminPayoutSlice";
 
 
 //Notification
@@ -57,6 +59,7 @@ const rootReducer = combineReducers({
   sellerManagement: sellerManagementReducer,
   sellerTransaction: sellerTransactionReducer,
   sellerPayments: sellerPaymentReducer,
+  sellerPayout: sellerPayoutReducer,
 
   // Admin
   adminHomeCategory: adminHomeCategoryReducer,
@@ -65,6 +68,7 @@ const rootReducer = combineReducers({
   adminCustomers: adminCustomerReducer,
   adminOrders: adminOrderReducer,
   category: categoryReducer,
+   adminPayout: adminPayoutReducer,
 
 
   //Notification

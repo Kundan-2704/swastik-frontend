@@ -1,53 +1,86 @@
-
 import {
   Box,
   Paper,
   Typography,
   Chip,
   Button,
+  Skeleton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
 } from "@mui/material";
 import {
   AccountBalance,
   CheckCircle,
   Visibility,
+  Cancel,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-/* ================= MOCK DATA ================= */
-
-const payouts = [
-  {
-    id: "PO1001",
-    orderId: "ORD12345",
-    seller: "Bastar Handloom",
-    orderAmount: 6499,
-    commission: 650,
-    payoutAmount: 5849,
-    paymentMode: "ONLINE",
-    status: "PENDING", // PENDING | PAID
-    date: "22 Jul 2025",
-  },
-  {
-    id: "PO1002",
-    orderId: "ORD12346",
-    seller: "Kosa Kala Kendra",
-    orderAmount: 12499,
-    commission: 1250,
-    payoutAmount: 11249,
-    paymentMode: "COD",
-    status: "PAID",
-    date: "20 Jul 2025",
-  },
-];
+import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
+import {
+  fetchAdminPayouts,
+  updateAdminPayoutStatus,
+} from "../../Redux Toolkit/Features/Admin/AdminPayoutSlice";
 
 /* ================= COMPONENT ================= */
 
 const PayoutTable = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const handlePayout = (id: string) => {
-    console.log("Process payout:", id);
-    // TODO: trigger payout API (Razorpay / Bank transfer)
+  const { payouts, loading } = useAppSelector((state) => state.adminPayout);
+
+  const [selectedPayout, setSelectedPayout] = useState<string | null>(null);
+  const [rejectReason, setRejectReason] = useState("");
+  const [rejectOpen, setRejectOpen] = useState(false);
+  const [payOpen, setPayOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchAdminPayouts());
+  }, [dispatch]);
+
+  /* ================= ACTIONS ================= */
+
+  const approvePayout = (payoutId: string) => {
+    dispatch(
+      updateAdminPayoutStatus({
+        payoutId,
+        status: "processing",
+      })
+    );
+  };
+
+  const markAsPaid = () => {
+    if (!selectedPayout) return;
+
+    dispatch(
+      updateAdminPayoutStatus({
+        payoutId: selectedPayout,
+        status: "paid",
+      })
+    );
+
+    setPayOpen(false);
+    setSelectedPayout(null);
+  };
+
+  const rejectPayout = () => {
+    if (!selectedPayout || !rejectReason) return;
+
+    dispatch(
+      updateAdminPayoutStatus({
+        payoutId: selectedPayout,
+        status: "rejected",
+      })
+    );
+
+    setRejectOpen(false);
+    setRejectReason("");
+    setSelectedPayout(null);
   };
 
   return (
@@ -64,114 +97,178 @@ const PayoutTable = () => {
 
       {/* LIST */}
       <div className="space-y-4">
-        {payouts.map((pay) => (
-          <Paper
-            key={pay.id}
-            elevation={0}
-            className="rounded-2xl p-5"
-            style={{
-              background: "#FFFCF7",
-              border: "1px solid #E3D4B6",
-            }}
-          >
-            <div className="flex flex-col md:flex-row md:justify-between gap-4">
-              {/* LEFT */}
-              <div>
-                <Typography className="font-semibold text-[#4A1F2A]">
-                  {pay.seller}
-                </Typography>
-                <Typography variant="body2" className="text-[#7A6A58]">
-                  Order ID: {pay.orderId}
-                </Typography>
-              </div>
+        {loading ? (
+          [...Array(3)].map((_, i) => (
+            <Paper key={i} className="rounded-2xl p-5">
+              <Skeleton height={40} />
+              <Skeleton height={40} />
+            </Paper>
+          ))
+        ) : payouts.length === 0 ? (
+          <Typography className="text-center text-gray-500 py-10">
+            No payout requests yet
+          </Typography>
+        ) : (
+          payouts.map((pay) => (
+            <Paper
+              key={pay._id}
+              elevation={0}
+              className="rounded-2xl p-5"
+              style={{
+                background: "#FFFCF7",
+                border: "1px solid #E3D4B6",
+              }}
+            >
+              <div className="flex flex-col md:flex-row md:justify-between gap-4">
+                {/* SELLER */}
+                <div>
+                  <Typography className="font-semibold text-[#4A1F2A]">
+                    {pay.seller?.shopName}
+                  </Typography>
+                  <Typography variant="body2" className="text-[#7A6A58]">
+                    Seller ID: {pay.seller?._id}
+                  </Typography>
+                </div>
 
-              {/* AMOUNTS */}
-              <div className="flex flex-wrap gap-3 items-center">
+                {/* AMOUNT */}
                 <Chip
-                  label={`Order ₹${pay.orderAmount}`}
-                  sx={{ backgroundColor: "#FFF5E7" }}
-                />
-                <Chip
-                  label={`Commission ₹${pay.commission}`}
-                  sx={{ backgroundColor: "#FDECEA", color: "#D32F2F" }}
-                />
-                <Chip
-                  label={`Payout ₹${pay.payoutAmount}`}
+                  label={`Payout ₹${pay.amount.toLocaleString()}`}
                   sx={{ backgroundColor: "#E8F5E9", color: "#2E7D32" }}
                 />
-              </div>
 
-              {/* STATUS */}
-              <div className="flex flex-wrap gap-3 items-center">
+                {/* STATUS */}
                 <Chip
-                  label={pay.status === "PAID" ? "Paid" : "Pending"}
+                  label={pay.status.toUpperCase()}
                   sx={{
                     backgroundColor:
-                      pay.status === "PAID"
+                      pay.status === "paid"
                         ? "#E8F5E9"
+                        : pay.status === "rejected"
+                        ? "#FDECEA"
                         : "#FFF3CD",
                     color:
-                      pay.status === "PAID"
+                      pay.status === "paid"
                         ? "#2E7D32"
+                        : pay.status === "rejected"
+                        ? "#D32F2F"
                         : "#856404",
                     fontWeight: 500,
                   }}
                 />
 
+                {/* METHOD */}
                 <Chip
-                  label={pay.paymentMode}
+                  label={pay.method.toUpperCase()}
                   sx={{
                     backgroundColor:
-                      pay.paymentMode === "COD"
-                        ? "#FFF3CD"
-                        : "#E3F2FD",
-                    color:
-                      pay.paymentMode === "COD"
-                        ? "#856404"
-                        : "#1565C0",
+                      pay.method === "upi" ? "#E3F2FD" : "#FFF3CD",
+                    color: pay.method === "upi" ? "#1565C0" : "#856404",
                   }}
                 />
-              </div>
 
-              {/* ACTIONS */}
-              <div className="flex items-center gap-2">
-                <Button
-                  size="small"
-                  startIcon={<Visibility />}
-                  onClick={() =>
-                    navigate(`/admin/orders/${pay.orderId}`)
-                  }
-                >
-                  View Order
-                </Button>
+                {/* ACTIONS */}
+                <div className="flex gap-2 flex-wrap">
+                  <Button
+                    size="small"
+                    startIcon={<Visibility />}
+                    onClick={() =>
+                      navigate(`/admin/sellers/${pay.seller?._id}`)
+                    }
+                  >
+                    View Seller
+                  </Button>
 
-                {pay.status === "PENDING" &&
-                  pay.paymentMode === "ONLINE" && (
+                  {pay.status === "pending" && (
+                    <>
+                      <Button
+                        size="small"
+                        color="warning"
+                        onClick={() => approvePayout(pay._id)}
+                      >
+                        Approve
+                      </Button>
+
+                      <Button
+                        size="small"
+                        color="error"
+                        startIcon={<Cancel />}
+                        onClick={() => {
+                          setSelectedPayout(pay._id);
+                          setRejectOpen(true);
+                        }}
+                      >
+                        Reject
+                      </Button>
+                    </>
+                  )}
+
+                  {pay.status === "processing" && (
                     <Button
                       size="small"
                       color="success"
                       startIcon={<AccountBalance />}
-                      onClick={() => handlePayout(pay.id)}
+                      onClick={() => {
+                        setSelectedPayout(pay._id);
+                        setPayOpen(true);
+                      }}
                     >
                       Pay Seller
                     </Button>
                   )}
 
-                {pay.status === "PAID" && (
-                  <Chip
-                    icon={<CheckCircle />}
-                    label="Completed"
-                    sx={{
-                      backgroundColor: "#E8F5E9",
-                      color: "#2E7D32",
-                    }}
-                  />
-                )}
+                  {pay.status === "paid" && (
+                    <Chip
+                      icon={<CheckCircle />}
+                      label="Completed"
+                      sx={{
+                        backgroundColor: "#E8F5E9",
+                        color: "#2E7D32",
+                      }}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          </Paper>
-        ))}
+            </Paper>
+          ))
+        )}
       </div>
+
+      {/* ================= REJECT MODAL ================= */}
+      <Dialog open={rejectOpen} onClose={() => setRejectOpen(false)}>
+        <DialogTitle>Reject Payout</DialogTitle>
+        <DialogContent>
+          <TextField
+            fullWidth
+            multiline
+            rows={3}
+            label="Reason"
+            value={rejectReason}
+            onChange={(e) => setRejectReason(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setRejectOpen(false)}>Cancel</Button>
+          <Button color="error" onClick={rejectPayout}>
+            Reject
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* ================= PAY MODAL ================= */}
+      <Dialog open={payOpen} onClose={() => setPayOpen(false)}>
+        <DialogTitle>Confirm Payout</DialogTitle>
+        <DialogContent>
+          <Typography>
+            Are you sure you want to mark this payout as paid?
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setPayOpen(false)}>Cancel</Button>
+          <Button color="success" onClick={markAsPaid}>
+            Confirm & Pay
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
