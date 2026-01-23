@@ -147,15 +147,17 @@ React.useEffect(() => {
     <div className="block lg:hidden relative mb-12">
       <div className="relative w-full h-[380px] rounded-3xl overflow-hidden">
         <AnimatePresence mode="wait">
-          <motion.img
-            key={activeImage}
-            src={heroImages[activeImage]}
-            className="absolute inset-0 w-full h-full object-cover"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-          />
+         <motion.img
+  key={activeImage}
+  src={heroImages[activeImage].src}
+  className="absolute inset-0 w-full h-full object-cover"
+  style={{ objectPosition: "center top" }}   // ✅ FIX
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{ opacity: 0 }}
+  transition={{ duration: 1.2, ease: "easeInOut" }}
+/>
+
         </AnimatePresence>
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
