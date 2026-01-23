@@ -21,7 +21,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { useNavigate } from "react-router-dom";
 
 
-import WeaverImage from "../../../assets/SK2.png";
+import WeaverImage from "../../../assets/C2.png";
 import ModelImage from "../../../assets/A1.png";
 
 
@@ -134,11 +134,8 @@ React.useEffect(() => {
         ⚠️ TEST MODE — Orders & payments are for demo purpose only
       </div>
 
-{/* ================= HERO SECTION ================= */}
-{/* ================= HERO SECTION ================= */}
 
-{/* ===== auto fade logic (hero section ke upar paste karo) ===== */}
-
+{/* ================= HERO SECTION ================= */}
 
 <section className="w-full border-b border-[#ECDCC2] bg-[#FBF7F2]">
   <div className="max-w-7xl mx-auto px-4 lg:px-20 py-12 lg:py-24">
@@ -147,30 +144,28 @@ React.useEffect(() => {
     <div className="block lg:hidden relative mb-12">
       <div className="relative w-full h-[380px] rounded-3xl overflow-hidden">
         <AnimatePresence mode="wait">
-         <motion.img
-  key={activeImage}
-  src={heroImages[activeImage].src}
-  className="absolute inset-0 w-full h-full object-cover"
-  style={{ objectPosition: "center top" }}   // ✅ FIX
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  exit={{ opacity: 0 }}
-  transition={{ duration: 1.2, ease: "easeInOut" }}
-/>
-
+          <motion.img
+            key={activeImage}
+            src={heroImages[activeImage].src}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: "center top" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+          />
         </AnimatePresence>
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
       </div>
 
       <div className="absolute bottom-6 left-6 right-6 text-white">
-        <h1 className="text-2xl font-semibold leading-snug mb-2">
+        <h1 className="font-royal text-3xl font-semibold leading-tight mb-2">
           Woven by Hands, <br /> Worn with Pride
         </h1>
 
-        <p className="text-sm text-white/90 mb-4">
-          Authentic Kosa & Tussar handloom sarees crafted by master weavers of
-          Chhattisgarh.
+        <p className="font-body text-sm font-light text-white/90 mb-4">
+          Authentic Kosa & Tussar handloom sarees crafted by master weavers of Chhattisgarh.
         </p>
 
         <PrimaryButton
@@ -193,13 +188,13 @@ React.useEffect(() => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h1 className="text-5xl font-semibold leading-[1.15] tracking-tight text-[#3B302A] mb-6">
+        <h1 className="font-royal text-6xl font-semibold leading-[1.05] tracking-royal text-[#3B302A] mb-6">
           Woven by Hands, <br /> Worn with Pride
         </h1>
 
-        <p className="text-xl text-[#5A4A3C] mb-8 max-w-xl">
-          Discover authentic Kosa & Tussar handloom sarees, crafted by master
-          artisans of Chhattisgarh. Each piece carries tradition, patience and pride.
+        <p className="font-body text-xl font-light leading-relaxed text-[#5A4A3C] mb-8 max-w-xl">
+          Discover authentic Kosa & Tussar handloom sarees, crafted by master artisans of
+          Chhattisgarh. Each piece carries tradition, patience and pride.
         </p>
 
         <div className="grid grid-cols-2 gap-4 mb-10">
@@ -215,20 +210,24 @@ React.useEffect(() => {
                          text-sm shadow-sm text-[#5A4A3C]"
             >
               {item.icon}
-              <span>{item.text}</span>
+              <span className="font-body font-medium tracking-wide">
+                {item.text}
+              </span>
             </div>
           ))}
         </div>
 
         <PrimaryButton
           onClick={() => navigate("/products")}
-          className="px-10 py-3 text-lg shadow-lg
-                     hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+          className="px-12 py-4 text-lg font-body font-semibold tracking-wider
+                     bg-[#C58A4A] text-white rounded-full
+                     hover:bg-[#B77A3A] hover:shadow-2xl hover:scale-[1.03]
+                     transition-all duration-300"
         >
           Discover Handloom Collection
         </PrimaryButton>
 
-        <p className="text-xs text-[#8A7A68] mt-3">
+        <p className="font-body text-xs tracking-[0.25em] uppercase text-[#8A7A68] mt-4">
           Limited artisan pieces • Made on traditional looms
         </p>
       </motion.div>
@@ -244,24 +243,23 @@ React.useEffect(() => {
           className="relative w-full max-w-lg h-[460px] rounded-3xl overflow-hidden shadow-2xl"
           style={{ border: "1px solid #E7D6BE" }}
         >
-         <AnimatePresence mode="wait">
-  <motion.img
-    key={activeImage}
-    src={heroImages[activeImage].src}
-    className="absolute inset-0 w-full h-full object-cover"
-    style={{
-      objectPosition:
-        heroImages[activeImage].position === "top"
-          ? "center top"
-          : "center center",
-    }}
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 1.2, ease: "easeInOut" }}
-  />
-</AnimatePresence>
-
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={activeImage}
+              src={heroImages[activeImage].src}
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{
+                objectPosition:
+                  heroImages[activeImage].position === "top"
+                    ? "center top"
+                    : "center center",
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+            />
+          </AnimatePresence>
 
           <div className="absolute inset-0 shadow-inner pointer-events-none" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
@@ -270,7 +268,6 @@ React.useEffect(() => {
     </div>
   </div>
 </section>
-
 
 
 

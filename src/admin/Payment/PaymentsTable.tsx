@@ -1,10 +1,10 @@
-
 import {
   Box,
   Paper,
   Typography,
   Chip,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import {
   Payments,
@@ -13,31 +13,10 @@ import {
   Cancel,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-
-/* ================= MOCK DATA ================= */
-
-const payments = [
-  {
-    id: "PAY1001",
-    orderId: "ORD12345",
-    customer: "Amit Sharma",
-    amount: 6499,
-    paymentMode: "ONLINE", // ONLINE | COD
-    status: "SUCCESS", // SUCCESS | FAILED | PENDING
-    gateway: "Razorpay",
-    date: "20 Jul 2025",
-  },
-  {
-    id: "PAY1002",
-    orderId: "ORD12346",
-    customer: "Priya Verma",
-    amount: 12499,
-    paymentMode: "COD",
-    status: "PENDING",
-    gateway: "-",
-    date: "21 Jul 2025",
-  },
-];
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, type RootState } from "../../Redux Toolkit/Store";
+import { fetchAdminPayments } from "../../Redux Toolkit/Features/Admin/PaymentsSlice";
 
 /* ================= STATUS STYLE ================= */
 
@@ -50,7 +29,7 @@ const statusStyle = (status: string) => {
     case "PENDING":
       return { bg: "#FFF3CD", color: "#856404", icon: <Payments /> };
     default:
-      return {};
+      return { bg: "#eee", color: "#555", icon: <Payments /> };
   }
 };
 
@@ -58,6 +37,41 @@ const statusStyle = (status: string) => {
 
 const PaymentTable = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const { payments, loading, error } = useSelector(
+    (state: RootState) => state.adminPayments
+  );
+
+  useEffect(() => {
+    dispatch(fetchAdminPayments());
+  }, [dispatch]);
+
+  /* ================= STATES ================= */
+
+  if (loading) {
+    return (
+      <Box className="flex justify-center items-center min-h-[300px]">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box className="text-center text-red-600 py-10">
+        {error}
+      </Box>
+    );
+  }
+
+  if (!payments.length) {
+    return (
+      <Box className="text-center py-10 text-gray-500">
+        No payments found
+      </Box>
+    );
+  }
 
   return (
     <Box className="bg-[#FFFDF9] min-h-screen">
@@ -75,7 +89,7 @@ const PaymentTable = () => {
       <div className="space-y-4">
         {payments.map((pay) => (
           <Paper
-            key={pay.id}
+            key={pay._id}
             elevation={0}
             className="rounded-2xl p-5"
             style={{
@@ -84,25 +98,27 @@ const PaymentTable = () => {
             }}
           >
             <div className="flex flex-col md:flex-row md:justify-between gap-4">
+
               {/* LEFT */}
               <div>
                 <Typography className="font-semibold text-[#4A1F2A]">
-                  Order ID: {pay.orderId}
+                  Order ID: {pay.order?.orderId || pay.order?._id}
                 </Typography>
                 <Typography variant="body2" className="text-[#7A6A58]">
-                  👤 {pay.customer}
+                  👤 {pay.customer?.name}
                 </Typography>
                 <Typography variant="body2" className="text-[#7A6A58]">
-                  Gateway: {pay.gateway}
+                  Gateway: {pay.gateway || "-"}
                 </Typography>
               </div>
 
               {/* MIDDLE */}
               <div className="flex flex-wrap gap-3 items-center">
                 <Chip
-                  label={`₹ ${pay.amount}`}
+                  label={`₹ ${pay.totalAmount}`}
                   sx={{ backgroundColor: "#FFF5E7" }}
                 />
+
                 <Chip
                   label={pay.paymentMode}
                   sx={{
@@ -116,6 +132,7 @@ const PaymentTable = () => {
                         : "#1565C0",
                   }}
                 />
+
                 <Chip
                   icon={statusStyle(pay.status).icon}
                   label={pay.status}
@@ -129,22 +146,22 @@ const PaymentTable = () => {
 
               {/* RIGHT */}
               <div className="flex items-center gap-3">
-                <Typography
-                  variant="body2"
-                  className="text-[#7A6A58]"
-                >
-                  {pay.date}
+                <Typography variant="body2" className="text-[#7A6A58]">
+                  {new Date(pay.createdAt).toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
                 </Typography>
 
                 <Button
                   size="small"
                   startIcon={<Visibility />}
-                  onClick={() =>
-                    navigate(`/admin/orders/${pay.orderId}`)
-                  }
+                  onClick={() => navigate(`/admin/payments/${pay._id}`)}
                 >
-                  View Order
+                  View Details
                 </Button>
+
               </div>
             </div>
           </Paper>

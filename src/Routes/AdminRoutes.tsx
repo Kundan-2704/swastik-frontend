@@ -29,6 +29,7 @@ import ShopByCategoryTable from "../admin/HomePage/ShopByCategoryTable";
 import SeedCategories from "../admin/Category/SeedCategories";
 import Settings from "../admin/Settings/Settings";
 import HomeCategoryTable from "../admin/HomePage/HomeCategoryTable";
+import AdminPaymentDetail from "../admin/Payment/AdminPaymentDetail";
 
 const AdminRoutes = () => {
   return (
@@ -63,6 +64,12 @@ const AdminRoutes = () => {
       {/* ===== PAYMENTS ===== */}
       <Route path="payments" element={<PaymentTable />} />
       <Route path="payouts" element={<PayoutTable />} />
+
+<Route
+  path="/payments/:id"
+  element={<AdminPaymentDetail />}
+/>
+
 
       {/* ===== REPORTS ===== */}
       <Route path="reports" element={<SalesReport />} />
