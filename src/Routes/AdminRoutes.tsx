@@ -30,6 +30,7 @@ import SeedCategories from "../admin/Category/SeedCategories";
 import Settings from "../admin/Settings/Settings";
 import HomeCategoryTable from "../admin/HomePage/HomeCategoryTable";
 import AdminPaymentDetail from "../admin/Payment/AdminPaymentDetail";
+import SellerDetails from "../admin/Seller/SellerDetails";
 
 const AdminRoutes = () => {
   return (
@@ -42,7 +43,14 @@ const AdminRoutes = () => {
 
       {/* ===== SELLERS ===== */}
       <Route path="sellers" element={<SellerTable />} />
+  
+
       <Route path="sellers/approval" element={<SellerApproval />} />
+
+    <Route
+  path="/sellers/:id"
+  element={<SellerDetails />}
+/>
 
       {/* ===== CATALOG ===== */}
       <Route path="homepage" element={<HomeCategoryTable />} />

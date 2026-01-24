@@ -1,205 +1,95 @@
-// import React, { use } from "react";
+// import React from "react";
 // import { Button, TextField } from "@mui/material";
+// import GoogleIcon from "@mui/icons-material/Google";
 // import { useFormik } from "formik";
-// import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
-// import { sendLoginSignupOtp, signin } from "../../Redux Toolkit/Features/Auth/AuthSlice";
-// import { useNavigate } from "react-router";
-
-
-// const LoginForm = () => {
-//   const { auth } = useAppSelector(store => store)
-//   const navigate=useNavigate();
-//   const formik = useFormik({
-//     initialValues: { email: "", otp: "" },
-//     onSubmit: (values) => {
-//       console.log("Customer login:", values);
-//       // TODO: replace with API call
-//       dispatch(signin({ ...values, navigate }));
-//     },
-//   });
-
-//   const dispatch=useAppDispatch();
-
-//   const fieldSx = {
-//     "& .MuiOutlinedInput-root": {
-//       borderRadius: "12px",
-//       backgroundColor: "#FFFDF9",
-//       "& fieldset": { borderColor: "#E3D4B6" },
-//       "&:hover fieldset": { borderColor: "#B9935A" },
-//       "&.Mui-focused fieldset": {
-//         borderColor: "#8B5E34",
-//         boxShadow: "0 0 0 1px rgba(139,94,52,0.18)",
-//       },
-//     },
-//     "& .MuiInputLabel-root": { color: "#7A6A58" },
-//     "& .MuiInputBase-input": {
-//       paddingTop: "12px",
-//       paddingBottom: "12px",
-//       color: "#3B302A",
-//     },
-//   };
-
-//   const handleSentOtp = () => {
-//     if (!formik.values.email) return;
-//     dispatch(sendLoginSignupOtp({ email: formik.values.email }));
-//   };
-
-
-//   return (
-//     <form onSubmit={formik.handleSubmit} className="space-y-6">
-//       <div className="bg-[#FFF8ED] border border-[#E3D4B6] rounded-2xl p-6 shadow-sm">
-//         <div className="space-y-4">
-//           <TextField
-//             fullWidth
-//             label="Email Address"
-//             id="email"
-//             name="email"
-//             value={formik.values.email}
-//             onChange={formik.handleChange}
-//             sx={fieldSx}
-//           />
-
-//           {auth.otpSent && <div>
-//             <TextField
-//               fullWidth
-//               label="Otp"
-//               id="otp"
-//               name="otp"
-//               type="otp"
-//               value={formik.values.otp}
-//               onChange={formik.handleChange}
-//               sx={fieldSx}
-//             />
-//           </div>}
-
-//           <div>
-//             <Button
-//               onClick={auth.otpSent ? formik.handleSubmit : handleSentOtp}
-//               fullWidth
-//               type="submit"
-//               variant="contained"
-//               sx={{
-//                 py: "12px",
-//                 borderRadius: "999px",
-//                 textTransform: "none",
-//                 fontWeight: 700,
-//                 background:
-//                   "linear-gradient(135deg, #8B5E34 0%, #C58B4E 40%, #E5B676 100%)",
-//                 "&:hover": {
-//                   background:
-//                     "linear-gradient(135deg, #6B4423 0%, #A86C34 40%, #D49A54 100%)",
-//                   boxShadow: "0 8px 24px rgba(139,94,52,0.28)",
-//                 },
-//               }}
-//             >
-//               Login
-//             </Button>
-//           </div>
-
-//         </div>
-//       </div>
-//     </form>
-//   );
-// };
-
-// export default LoginForm;
-
-
-
-
-
-// import { Button, TextField } from "@mui/material";
-// import { useFormik } from "formik";
-// import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
-// import { sendLoginSignupOtp, signin } from "../../Redux Toolkit/Features/Auth/AuthSlice";
 // import { useNavigate } from "react-router-dom";
-
 // import { signInWithPopup } from "firebase/auth";
-// import { auth as firebaseAuth, googleProvider } from "../../Config/firebase";
 
+// import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
+// import {
+//   sendLoginSignupOtp,
+//   signin,
+// } from "../../Redux Toolkit/Features/Auth/AuthSlice";
+
+// import { auth as firebaseAuth, googleProvider } from "../../Config/firebase";
 // import api from "../../Config/api.ts";
 
-
-// const LoginForm = () => {
+// const LoginForm: React.FC = () => {
 //   const dispatch = useAppDispatch();
 //   const navigate = useNavigate();
+//   const authState = useAppSelector((state) => state.auth);
 
-//   // const auth = useAppSelector(state => state.auth);
-//   const authState = useAppSelector(state => state.auth);
-
+//   // ============================
+//   // FORMIK
+//   // ============================
 //   const formik = useFormik({
-//     initialValues: { email: "", otp: "" },
+//     initialValues: {
+//       email: "",
+//       otp: "",
+//     },
 //     onSubmit: (values) => {
 //       dispatch(signin({ ...values, navigate }));
 //     },
 //   });
 
-//   const fieldSx = {
-//     "& .MuiOutlinedInput-root": {
-//       borderRadius: "12px",
-//       backgroundColor: "#FFFDF9",
-//       "& fieldset": { borderColor: "#E3D4B6" },
-//       "&:hover fieldset": { borderColor: "#B9935A" },
-//       "&.Mui-focused fieldset": {
-//         borderColor: "#8B5E34",
-//         boxShadow: "0 0 0 1px rgba(139,94,52,0.18)",
-//       },
-//     },
-//     "& .MuiInputLabel-root": { color: "#7A6A58" },
-//     "& .MuiInputBase-input": {
-//       paddingTop: "12px",
-//       paddingBottom: "12px",
-//       color: "#3B302A",
-//     },
-//   };
-
+//   // ============================
+//   // SEND OTP
+//   // ============================
 //   const handleSentOtp = () => {
 //     if (!formik.values.email) return;
 //     const email = "signin_" + formik.values.email;
 //     dispatch(sendLoginSignupOtp({ email }));
 //   };
 
+//   // ============================
+//   // GOOGLE LOGIN
+//   // ============================
+//   const handleGoogleLogin = async () => {
+//     try {
+//       const result = await signInWithPopup(firebaseAuth, googleProvider);
+//       const idToken = await result.user.getIdToken(true);
+//       const res = await api.post("/auth/google-login", { idToken });
 
-// const handleGoogleLogin = async () => {
-//   try {
-//     const result = await signInWithPopup(firebaseAuth, googleProvider);
+//       if (res.data?.token) {
+//         localStorage.setItem("jwt", res.data.token);
+//         window.location.href = "/";
+//         return;
+//       }
 
-//     const idToken = await result.user.getIdToken(true);
+//       alert("Login failed");
+//     } catch (error: any) {
+//       console.error("GOOGLE LOGIN ERROR →", error);
+//       alert("Google login failed");
+//     }
+//   };
 
-//     const res = await api.post("/auth/google-login", {
-//       idToken,
-//     });
-
-//     localStorage.setItem("jwt", res.data.token);
-
-//     alert("Login successful");
-//     // navigate("/");
-
-//     const role = res.data.user.role;
-
-// if (role === "customer") {
-//   navigate("/"); // homepage
-// } else if (role === "seller") {
-//   navigate("/seller/dashboard");
-// } else if (role === "admin") {
-//   navigate("/admin");
-// }
-
-
-//   } catch (error: any) {
-//     console.error("GOOGLE LOGIN ERROR →", error);
-//     alert(error?.response?.data?.message || "Google login failed");
-//   }
-// };
-
-
-
+//   // ============================
+//   // STYLES
+//   // ============================
+//   const fieldSx = {
+//     "& .MuiOutlinedInput-root": {
+//       borderRadius: "14px",
+//       backgroundColor: "#FFFDF9",
+//       "& fieldset": { borderColor: "#E3D4B6" },
+//       "&:hover fieldset": { borderColor: "#B9935A" },
+//       "&.Mui-focused fieldset": {
+//         borderColor: "#8B5E34",
+//         boxShadow: "0 0 0 1px rgba(139,94,52,0.18)",
+//       },
+//     },
+//     "& .MuiInputLabel-root": { color: "#7A6A58" },
+//     "& .MuiInputBase-input": {
+//       paddingTop: "14px",
+//       paddingBottom: "14px",
+//       color: "#3B302A",
+//     },
+//   };
 
 //   return (
-//     <form className="space-y-6">
-//       <div className="bg-[#FFF8ED] border border-[#E3D4B6] rounded-2xl p-6 shadow-sm">
-//         <div className="space-y-4">
-
+//     <form className="space-y-8">
+//       <div className="bg-[#FFF8ED] border border-[#E3D4B6] rounded-3xl p-8 shadow-md">
+//         <div className="space-y-6">
+//           {/* EMAIL */}
 //           <TextField
 //             fullWidth
 //             label="Email Address"
@@ -210,10 +100,11 @@
 //             sx={fieldSx}
 //           />
 
+//           {/* OTP */}
 //           {authState.otpSent && (
 //             <TextField
 //               fullWidth
-//               label="Otp"
+//               label="OTP"
 //               id="otp"
 //               name="otp"
 //               type="text"
@@ -223,41 +114,65 @@
 //             />
 //           )}
 
+//           {/* LOGIN BUTTON */}
+//           <div className="pt-2">
+//             <Button
+//               onClick={() =>
+//                 authState.otpSent ? formik.handleSubmit() : handleSentOtp()
+//               }
+//               fullWidth
+//               type="button"
+//               variant="contained"
+//               disabled={authState.loading}
+//               sx={{
+//                 py: "12px",
+//                 borderRadius: "999px",
+//                 textTransform: "none",
+//                 fontWeight: 700,
+//                 fontSize: "15px",
+//                 background:
+//                   "linear-gradient(135deg, #8B5E34 0%, #C58B4E 40%, #E5B676 100%)",
+//                 "&:hover": {
+//                   background:
+//                     "linear-gradient(135deg, #6B4423 0%, #A86C34 40%, #D49A54 100%)",
+//                   boxShadow: "0 10px 30px rgba(139,94,52,0.3)",
+//                 },
+//               }}
+//             >
+//               {authState.loading ? "Please wait..." : "Login"}
+//             </Button>
+//           </div>
+
+//           {/* DIVIDER */}
+//           <div className="flex items-center gap-3 py-1">
+//             <div className="flex-1 h-px bg-[#E3D4B6]" />
+//             <span className="text-xs text-[#8A7765] font-medium">OR</span>
+//             <div className="flex-1 h-px bg-[#E3D4B6]" />
+//           </div>
+
+//           {/* GOOGLE LOGIN */}
 //           <Button
-//             onClick={() =>
-//               authState.otpSent ? formik.handleSubmit() : handleSentOtp()
-//             }
+//             onClick={handleGoogleLogin}
 //             fullWidth
-//             type="button"
-//             variant="contained"
-//             disabled={authState.loading}
+//             variant="outlined"
+//             startIcon={<GoogleIcon sx={{ color: "#8B5E34", opacity: 0.9 }} />}s
 //             sx={{
 //               py: "12px",
 //               borderRadius: "999px",
 //               textTransform: "none",
-//               fontWeight: 700,
-//               background:
-//                 "linear-gradient(135deg, #8B5E34 0%, #C58B4E 40%, #E5B676 100%)",
+//               fontWeight: 600,
+//               fontSize: "14px",
+//               borderColor: "#E3D4B6",
+//               color: "#4A1F2A",
+//               backgroundColor: "#FFFDF9",
 //               "&:hover": {
-//                 background:
-//                   "linear-gradient(135deg, #6B4423 0%, #A86C34 40%, #D49A54 100%)",
-//                 boxShadow: "0 8px 24px rgba(139,94,52,0.28)",
+//                 backgroundColor: "rgba(217,168,108,0.08)",
+//                 borderColor: "#C58B4E",
 //               },
 //             }}
 //           >
-//             {authState.loading ? "Please wait..." : "Login"}
+//             Continue with Google
 //           </Button>
-
-//           <Button
-//   onClick={handleGoogleLogin}
-//   fullWidth
-//   variant="outlined"
-// >
-//   Login with Google
-// </Button>
-
-
-
 //         </div>
 //       </div>
 //     </form>
@@ -271,9 +186,14 @@
 
 
 
-
-import React, { useEffect } from "react";
-import { Button, TextField } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Button,
+  TextField,
+  Snackbar,
+  Alert,
+} from "@mui/material";
+import GoogleIcon from "@mui/icons-material/Google";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { signInWithPopup } from "firebase/auth";
@@ -287,17 +207,34 @@ import {
 import { auth as firebaseAuth, googleProvider } from "../../Config/firebase";
 import api from "../../Config/api.ts";
 
-// ======================================================
-// LOGIN FORM
-// ======================================================
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const authState = useAppSelector((state) => state.auth);
 
-  // ======================================================
+  // ============================
+  // SNACKBAR STATE
+  // ============================
+  const [snack, setSnack] = useState<{
+    open: boolean;
+    message: string;
+    type: "success" | "error" | "info";
+  }>({
+    open: false,
+    message: "",
+    type: "success",
+  });
+
+  const showSnack = (
+    message: string,
+    type: "success" | "error" | "info" = "success"
+  ) => {
+    setSnack({ open: true, message, type });
+  };
+
+  // ============================
   // FORMIK
-  // ======================================================
+  // ============================
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -308,63 +245,56 @@ const LoginForm: React.FC = () => {
     },
   });
 
-  // ======================================================
-  // AUTO REDIRECT IF ALREADY LOGGED IN
-  // ======================================================
-
-
-
-  // ======================================================
+  // ============================
   // SEND OTP
-  // ======================================================
-  const handleSentOtp = () => {
-    if (!formik.values.email) return;
-    const email = "signin_" + formik.values.email;
-    dispatch(sendLoginSignupOtp({ email }));
+  // ============================
+  const handleSentOtp = async () => {
+    if (!formik.values.email) {
+      showSnack("Please enter your email", "info");
+      return;
+    }
+
+    try {
+      const email = "signin_" + formik.values.email;
+      await dispatch(sendLoginSignupOtp({ email }));
+      showSnack("OTP sent successfully", "success");
+    } catch {
+      showSnack("Failed to send OTP", "error");
+    }
   };
 
-  // ======================================================
+  // ============================
   // GOOGLE LOGIN
-  // ======================================================
-const handleGoogleLogin = async () => {
-  try {
-    const result = await signInWithPopup(firebaseAuth, googleProvider);
-    const idToken = await result.user.getIdToken(true);
+  // ============================
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(firebaseAuth, googleProvider);
+      const idToken = await result.user.getIdToken(true);
+      const res = await api.post("/auth/google-login", { idToken });
 
-    const res = await api.post("/auth/google-login", { idToken });
+      if (res.data?.token) {
+        localStorage.setItem("jwt", res.data.token);
+        showSnack("Welcome back to Swastik", "success");
 
-    // 🔥 even if backend sends extra fields
-    if (res.data?.token) {
-      localStorage.setItem("jwt", res.data.token);
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1500);
+        return;
+      }
 
-      // FORCE customer homepage
-      window.location.href = "/";
-      return;
+      showSnack("Login failed", "error");
+    } catch (error: any) {
+      console.error("GOOGLE LOGIN ERROR →", error);
+      showSnack("Google login failed", "error");
     }
+  };
 
-    alert("Login failed");
-
-  } catch (error: any) {
-    console.error("GOOGLE LOGIN ERROR →", error);
-
-    // 🔥 TEMPORARY BYPASS (DEV ONLY)
-    if (error?.response?.status === 403) {
-      alert("Backend role issue – forcing login as customer");
-      window.location.href = "/";
-      return;
-    }
-
-    alert("Google login failed");
-  }
-};
-
-
-  // ======================================================
-  // UI
-  // ======================================================
+  // ============================
+  // STYLES
+  // ============================
   const fieldSx = {
     "& .MuiOutlinedInput-root": {
-      borderRadius: "12px",
+      borderRadius: "14px",
       backgroundColor: "#FFFDF9",
       "& fieldset": { borderColor: "#E3D4B6" },
       "&:hover fieldset": { borderColor: "#B9935A" },
@@ -375,79 +305,128 @@ const handleGoogleLogin = async () => {
     },
     "& .MuiInputLabel-root": { color: "#7A6A58" },
     "& .MuiInputBase-input": {
-      paddingTop: "12px",
-      paddingBottom: "12px",
+      paddingTop: "14px",
+      paddingBottom: "14px",
       color: "#3B302A",
     },
   };
 
   return (
-    <form className="space-y-6">
-      <div className="bg-[#FFF8ED] border border-[#E3D4B6] rounded-2xl p-6 shadow-sm">
-        <div className="space-y-4">
-          {/* EMAIL */}
-          <TextField
-            fullWidth
-            label="Email Address"
-            id="email"
-            name="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            sx={fieldSx}
-          />
-
-          {/* OTP */}
-          {authState.otpSent && (
+    <>
+      <form className="space-y-8">
+        <div className="bg-[#FFF8ED] border border-[#E3D4B6] rounded-3xl p-8 shadow-md">
+          <div className="space-y-6">
+            {/* EMAIL */}
             <TextField
               fullWidth
-              label="OTP"
-              id="otp"
-              name="otp"
-              type="text"
-              value={formik.values.otp}
+              label="Email Address"
+              id="email"
+              name="email"
+              value={formik.values.email}
               onChange={formik.handleChange}
               sx={fieldSx}
             />
-          )}
 
-          {/* LOGIN BUTTON */}
-          <Button
-            onClick={() =>
-              authState.otpSent ? formik.handleSubmit() : handleSentOtp()
-            }
-            fullWidth
-            type="button"
-            variant="contained"
-            disabled={authState.loading}
-            sx={{
-              py: "12px",
-              borderRadius: "999px",
-              textTransform: "none",
-              fontWeight: 700,
-              background:
-                "linear-gradient(135deg, #8B5E34 0%, #C58B4E 40%, #E5B676 100%)",
-              "&:hover": {
-                background:
-                  "linear-gradient(135deg, #6B4423 0%, #A86C34 40%, #D49A54 100%)",
-                boxShadow: "0 8px 24px rgba(139,94,52,0.28)",
-              },
-            }}
-          >
-            {authState.loading ? "Please wait..." : "Login"}
-          </Button>
+            {/* OTP */}
+            {authState.otpSent && (
+              <TextField
+                fullWidth
+                label="OTP"
+                id="otp"
+                name="otp"
+                type="text"
+                value={formik.values.otp}
+                onChange={formik.handleChange}
+                sx={fieldSx}
+              />
+            )}
 
-          {/* GOOGLE LOGIN */}
-          <Button
-            onClick={handleGoogleLogin}
-            fullWidth
-            variant="outlined"
-            sx={{ borderRadius: "999px" }}
-          >
-            Login with Google
-          </Button>
+            {/* LOGIN BUTTON */}
+            <div className="pt-2">
+              <Button
+                onClick={() =>
+                  authState.otpSent ? formik.handleSubmit() : handleSentOtp()
+                }
+                fullWidth
+                type="button"
+                variant="contained"
+                disabled={authState.loading}
+                sx={{
+                  py: "12px",
+                  borderRadius: "999px",
+                  textTransform: "none",
+                  fontWeight: 700,
+                  fontSize: "15px",
+                  background:
+                    "linear-gradient(135deg, #8B5E34 0%, #C58B4E 40%, #E5B676 100%)",
+                  "&:hover": {
+                    background:
+                      "linear-gradient(135deg, #6B4423 0%, #A86C34 40%, #D49A54 100%)",
+                    boxShadow: "0 10px 30px rgba(139,94,52,0.3)",
+                  },
+                }}
+              >
+                {authState.loading ? "Please wait..." : "Login"}
+              </Button>
+            </div>
+
+            {/* DIVIDER */}
+            <div className="flex items-center gap-3 py-1">
+              <div className="flex-1 h-px bg-[#E3D4B6]" />
+              <span className="text-xs text-[#8A7765] font-medium">OR</span>
+              <div className="flex-1 h-px bg-[#E3D4B6]" />
+            </div>
+
+            {/* GOOGLE LOGIN */}
+            <Button
+              onClick={handleGoogleLogin}
+              fullWidth
+              variant="outlined"
+              startIcon={<GoogleIcon sx={{ color: "#8B5E34", opacity: 0.9 }} />}
+              sx={{
+                py: "12px",
+                borderRadius: "999px",
+                textTransform: "none",
+                fontWeight: 600,
+                fontSize: "14px",
+                borderColor: "#E3D4B6",
+                color: "#4A1F2A",
+                backgroundColor: "#FFFDF9",
+                "&:hover": {
+                  backgroundColor: "rgba(217,168,108,0.08)",
+                  borderColor: "#C58B4E",
+                },
+              }}
+            >
+              Continue with Google
+            </Button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+
+      {/* ============================
+          SNACKBAR
+      ============================ */}
+      <Snackbar
+        open={snack.open}
+        autoHideDuration={2500}
+        onClose={() => setSnack({ ...snack, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          severity={snack.type}
+          sx={{
+            backgroundColor: "#FFF8ED",
+            color: "#4A1F2A",
+            border: "1px solid #E3D4B6",
+            borderRadius: "12px",
+            fontWeight: 500,
+          }}
+        >
+          {snack.message}
+        </Alert>
+      </Snackbar>
+    </>
   );
 };
 

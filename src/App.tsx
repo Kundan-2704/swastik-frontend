@@ -29,6 +29,7 @@ import SellerTable from "./admin/Seller/SellerTable";
 import SellerApproval from "./admin/Seller/SellerApproval";
 import OrdersTable from "./admin/Order/OrdersTable";
 import OrderDetails from "./admin/Order/OrderDetails";
+import PendingApproval from "./Auth/Become Seller/PendingApproval";
 // import { useNotificationSocket } from "./hooks/useNotificationSocket";
 
 function App() {
@@ -69,6 +70,11 @@ function App() {
         <Route path="/login" element={<Auth />} />
         <Route path="/become-seller" element={<BecomeSeller />} />
         <Route path="/seller/login" element={<SellerLogin />} />
+        <Route
+  path="/seller/pending-approval"
+  element={<PendingApproval />}
+/>
+    
 
         {/* ================= SELLER (PROTECTED) ================= */}
         <Route
