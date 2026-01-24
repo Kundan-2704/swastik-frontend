@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Sketch from "../../../assets/Sketch.png";
 import ProductSkeleton from "./ProductDetails/components/skeletons/ProductSkeleton";
 
-
 import {
   Divider,
   FormControl,
@@ -11,6 +10,7 @@ import {
   Pagination,
   Select,
   type SelectChangeEvent,
+  useMediaQuery,
 } from "@mui/material";
 
 import { useParams, useSearchParams } from "react-router-dom";
@@ -25,13 +25,13 @@ import { findCategoryTitle } from "../../../Util/findCategoryTitle";
 import { allCategories } from "../../../Data/Category/AllCategories";
 
 /* ================= TYPES ================= */
-
 interface RouteParams {
   categoryId?: string;
 }
 
 const Products: React.FC = () => {
   const dispatch = useAppDispatch();
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   const { categoryId } = useParams<RouteParams>();
   const [searchParams] = useSearchParams();
@@ -93,7 +93,7 @@ const Products: React.FC = () => {
   return (
     <div className="mt-14">
       {/* PAGE TITLE */}
-      <h1 className="text-center text-4xl font-bold tracking-[0.25em] text-[#4A1F2A] mb-4">
+      <h1 className="text-center text-3xl md:text-4xl font-bold tracking-[0.25em] text-[#4A1F2A] mb-3">
         {searchQuery
           ? `Search results for "${searchQuery}"`
           : pageTitle || "All Products"}
@@ -107,15 +107,19 @@ const Products: React.FC = () => {
       )}
 
       <div className="lg:flex">
-        {/* LEFT FILTER */}
+        {/* LEFT FILTER (DESKTOP ONLY) */}
         <aside className="hidden lg:block w-[22%] min-h-screen border-r border-[#E3D4B6] bg-[#F8F3E8]">
           <FilterSection />
         </aside>
 
         {/* MAIN CONTENT */}
-        <main className="w-full lg:w-[78%] px-6 lg:px-10 space-y-6">
-          {/* SORT BAR */}
-          <div className="flex justify-between items-center py-3 px-4 bg-[#FDF9F2] rounded-xl border border-[#E3D4B6]">
+        <main className="w-full lg:w-[78%] px-4 sm:px-6 lg:px-10 space-y-6">
+          {/* SORT BAR (STICKY ON MOBILE) */}
+          <div
+            className={`flex justify-between items-center py-3 px-4 bg-[#FDF9F2] rounded-xl border border-[#E3D4B6] ${
+              isMobile ? "sticky top-16 z-30" : ""
+            }`}
+          >
             <p className="text-[#6A5B4A] text-sm">
               Handpicked premium saree collections
             </p>
@@ -137,20 +141,19 @@ const Products: React.FC = () => {
           <Divider />
 
           {/* LOADING */}
-          {/* {loading && (
-            <div className="text-center py-20 text-[#6A5B4A] text-lg animate-pulse">
-              Loading premium collections...
-            </div>
-          )} */}
-
           {loading && (
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12 mt-8">
-              {Array.from({ length: 8 }).map((_, i) => (
+            <div
+              className={`grid ${
+                isMobile
+                  ? "grid-cols-1 gap-y-16"
+                  : "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12"
+              } mt-8`}
+            >
+              {Array.from({ length: isMobile ? 4 : 8 }).map((_, i) => (
                 <ProductSkeleton key={i} />
               ))}
             </div>
           )}
-
 
           {/* ERROR */}
           {error && (
@@ -199,15 +202,21 @@ const Products: React.FC = () => {
 
           {/* PRODUCT GRID */}
           {!loading && products?.length > 0 && (
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12 mt-8">
+            <div
+              className={`grid ${
+                isMobile
+                  ? "grid-cols-1 gap-y-16"
+                  : "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12"
+              } mt-8`}
+            >
               {products.map((item: any) => (
                 <ProductCard key={item._id} item={item} />
               ))}
             </div>
           )}
 
-          {/* PAGINATION */}
-          {totalPages > 1 && (
+          {/* PAGINATION (DESKTOP) */}
+          {!isMobile && totalPages > 1 && (
             <div className="flex justify-center py-10">
               <Pagination
                 count={totalPages}

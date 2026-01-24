@@ -31,7 +31,6 @@ import ProductTrustBadges from "./components/info/ProductTrustBadges";
 import DeliveryInfo from "./components/info/DeliveryInfo";
 
 import ColorSelector from "./components/selectors/ColorSelector";
-import SizeSelector from "./components/selectors/SizeSelector";
 import QuantitySelector from "./components/selectors/QuantitySelector";
 
 import ProductDescription from "./components/details/ProductDescription";
@@ -67,7 +66,6 @@ const ProductDetails: React.FC = () => {
 
   /* ================= STATE ================= */
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<Color | null>(null);
 
   const [cartOpen, setCartOpen] = useState(false);
@@ -100,7 +98,6 @@ const ProductDetails: React.FC = () => {
   /* ================= RESET ON PRODUCT CHANGE ================= */
   useEffect(() => {
     setQuantity(1);
-    setSelectedSize(null);
     setSelectedColor(null);
   }, [productId]);
 
@@ -173,7 +170,6 @@ const ProductDetails: React.FC = () => {
   const handleAddCartItem = useCallback(async () => {
     if (adding || added) return;
 
-    if (!selectedSize) return showToast("Please select size", "error");
     if (!jwt) return showToast("Please login first", "error");
     if (!product) return;
 
@@ -186,7 +182,6 @@ const ProductDetails: React.FC = () => {
           request: {
             productId: product._id,
             quantity,
-            size: selectedSize,
             color: selectedColor?.name,
           },
         })
@@ -208,7 +203,6 @@ const ProductDetails: React.FC = () => {
   }, [
     adding,
     added,
-    selectedSize,
     jwt,
     product,
     quantity,
@@ -234,82 +228,135 @@ const ProductDetails: React.FC = () => {
           product={product}
           gallery={gallery}
           imageRef={gallery.imageRef}
+          
         />
 
-        <section className="space-y-5">
-          <ProductHeader product={product} />
-          <ProductPrice product={product} />
-          <ProductStockStatus quantity={product.quantity} />
-          <ProductTrustBadges />
-          <DeliveryInfo />
+      <section className="space-y-6">
 
-          <ColorSelector
-            colors={product.colors}
-            color={selectedColor}
-            setColor={setSelectedColor}
-          />
+  {/* 1️⃣ PRODUCT HEADER */}
+  <ProductHeader product={product} />
 
-          <SizeSelector
-            sizes={product.sizes}
-            size={selectedSize}
-            setSize={setSelectedSize}
-          />
+  {/* 2️⃣ PRICE (decision trigger) */}
+  <ProductPrice product={product} />
 
-          <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
+  {/* 3️⃣ STOCK STATUS */}
+  <ProductStockStatus quantity={product.quantity} />
 
-          <div className="mt-8 flex flex-col md:flex-row items-center gap-4">
-            <Button
-              startIcon={
-                added ? (
-                  <CheckCircle />
-                ) : adding ? (
-                  <CircularProgress size={18} />
-                ) : (
-                  <AddShoppingCart />
-                )
-              }
-              variant="contained"
-              fullWidth
-              disabled={!selectedSize || adding || added}
-              onClick={handleAddCartItem}
-              sx={{
-                py: "0.9rem",
-                backgroundColor: added ? SUCCESS_COLOR : BRAND_COLOR,
-                borderRadius: "999px",
-                textTransform: "none",
-                fontWeight: 600,
-                "&:hover": {
-                  backgroundColor: added ? SUCCESS_COLOR : BRAND_COLOR,
-                },
-              }}
-            >
-              {added ? "Added to Cart" : adding ? "Adding..." : "Add to Bag"}
-            </Button>
+  {/* 4️⃣ DELIVERY (important but not blocking) */}
+ <div className="mt-4 border border-[#EADFCF] rounded-xl p-3">
+  <DeliveryInfo />
+</div>
 
-            <Button
-              startIcon={<Favorite />}
-              variant="outlined"
-              fullWidth
-              sx={{
-                py: "0.9rem",
-                borderRadius: "999px",
-                borderColor: "#B9935A",
-                color: BRAND_COLOR,
-                textTransform: "none",
-                fontWeight: 600,
-              }}
-            >
-              Wishlist
-            </Button>
-          </div>
+  
 
-          <ProductDescription description={product.description} />
-        </section>
+<div className="w-full">
+
+  {/* ================= COLOR + QUANTITY ================= */}
+  <div
+    className="
+      flex flex-col
+      gap-4
+      md:flex-row
+      md:items-end
+      md:gap-8
+    "
+  >
+    {/* COLOR */}
+    <div className="w-full md:flex-1">
+      <ColorSelector
+        colors={product.colors}
+        color={selectedColor}
+        setColor={setSelectedColor}
+      />
+    </div>
+
+    {/* QUANTITY */}
+    <div className="w-full md:flex-1">
+      <QuantitySelector
+        quantity={quantity}
+        setQuantity={setQuantity}
+      />
+    </div>
+  </div>
+
+</div>
+
+
+
+  {/* ================= CTA ZONE ================= */}
+  <div className="mt-8 flex flex-col md:flex-row gap-4">
+
+    {/* PRIMARY CTA */}
+    <Button
+      startIcon={
+        added ? (
+          <CheckCircle />
+        ) : adding ? (
+          <CircularProgress size={18} />
+        ) : (
+          <AddShoppingCart />
+        )
+      }
+      variant="contained"
+      fullWidth
+      disabled={adding || added}
+      onClick={handleAddCartItem}
+      sx={{
+        py: "0.95rem",
+        backgroundColor: added ? SUCCESS_COLOR : BRAND_COLOR,
+        borderRadius: "999px",
+        textTransform: "none",
+        fontWeight: 700,
+        fontSize: "1rem",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+        "&:hover": {
+          backgroundColor: added ? SUCCESS_COLOR : BRAND_COLOR,
+        },
+      }}
+    >
+      {added ? "Added to Bag" : adding ? "Adding..." : "Add to Bag"}
+    </Button>
+
+    {/* SECONDARY CTA */}
+    <Button
+      startIcon={<Favorite />}
+      variant="outlined"
+      fullWidth
+      sx={{
+        py: "0.95rem",
+        borderRadius: "999px",
+        borderColor: "#B9935A",
+        color: BRAND_COLOR,
+        textTransform: "none",
+        fontWeight: 600,
+        "&:hover": {
+          backgroundColor: "#FBF7F2",
+        },
+      }}
+    >
+      Wishlist
+    </Button>
+  </div>
+
+  {/* ================= DESCRIPTION ================= */}
+  <div className="pt-4">
+    <ProductDescription description={product.description} />
+  </div>
+
+  {/* ================= TRUST ================= */}
+  <div className="mt-4 border-t border-[#EADFCF] pt-4">
+  <ProductTrustBadges />
+</div>
+
+
+</section>
+
       </div>
 
       <Divider />
 
       <ProductSpecs details={product.details} />
+      
       <CraftStory story={product.craftStory} />
       <ReturnPolicy />
       <FAQ />
@@ -322,7 +369,7 @@ const ProductDetails: React.FC = () => {
         visible={showStickyCTA}
         price={product.sellingPrice}
         onAdd={handleAddCartItem}
-        disabled={!selectedSize || adding}
+        disabled={adding}
       />
 
 
