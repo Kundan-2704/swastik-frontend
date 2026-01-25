@@ -294,6 +294,7 @@ import Logo from "../../assets/swastik-logo.png";
 
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
+import NotificationBell from "../../Components/NotificationBell";
 
 const Navbar = () => {
   const theme = useTheme();
@@ -424,6 +425,10 @@ const Navbar = () => {
           <IconButton onClick={() => navigate("/cart")} id="cart-icon">
             <AddShoppingCart sx={{ color: "#B5933A" }} />
           </IconButton>
+
+          <div className="flex items-center gap-4">
+  <NotificationBell />
+</div>
 
           {isLarge &&
             (userState.user?.fullName ? (

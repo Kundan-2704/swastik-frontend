@@ -39,6 +39,7 @@ import adminPaymentsReducer from "./Features/Admin/PaymentsSlice";
 
 
 //Notification
+import notificationReducer from "./Features/Notification/notificationSlice";
 
 
 /* ================= ROOT REDUCER ================= */
@@ -74,7 +75,7 @@ const rootReducer = combineReducers({
 
 
   //Notification
-
+   notification: notificationReducer,
 });
 
 
