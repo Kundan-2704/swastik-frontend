@@ -14,6 +14,7 @@ import {
   Star,
   Settings,
   Edit,
+  FireTruck,
 } from "@mui/icons-material";
 import LocalOffer from "@mui/icons-material/LocalOffer";
 import { ListItemIcon, ListItemText } from "@mui/material";
@@ -47,6 +48,13 @@ const menu: MenuItem[] = [
     icon: <ShoppingBag />,
     activeIcon: <ShoppingBag className="text-white" />,
   },
+  {
+  name: "Shipping",
+  path: "/seller/shipping",
+  icon: <FireTruck />,
+  activeIcon: <FireTruck className="text-white" />,
+},
+
   {
     name: "Returns",
     path: "/seller/returns",

@@ -63,6 +63,43 @@ const OrderDetails = () => {
         <OrderStepper orderStatus={order?.orderStatus} />
       </section>
 
+  {/* SHIPPING INFO */}
+{order?.shipping && (
+  <section className="border border-[#E3D4B6] p-6 rounded-xl bg-[#FFFCF7] shadow-sm space-y-3">
+    <h3 className="font-semibold">Shipping Details</h3>
+
+    <div className="text-sm space-y-1">
+      <p>Courier: <b>{order.shipping.courier}</b></p>
+      <p>Tracking ID: <b>{order.shipping.awb || "Will be updated"}</b></p>
+      <p>Status: <b>{order.shipping.status.replaceAll("_", " ")}</b></p>
+
+      {/* 👇 YAHI ADD KARO */}
+     {order?.shipping?.status !== "DELIVERED" &&
+  order?.shipping?.pickupDate && (
+    <p className="text-xs text-[#7A6A58]">
+      Estimated delivery:{" "}
+      {new Date(
+        new Date(order.shipping.pickupDate).getTime() + 5 * 86400000
+      ).toDateString()}
+    </p>
+  )}
+
+
+      {order.shipping.awb && (
+        <a
+          href={`https://www.dtdc.in/tracking.asp?strCnno=${order.shipping.awb}`}
+          target="_blank"
+          className="text-blue-600 text-xs underline"
+        >
+          Track on DTDC
+        </a>
+      )}
+    </div>
+  </section>
+)}
+
+
+
       {/* DELIVERY ADDRESS */}
       <section className="border border-[#E3D4B6] p-6 rounded-xl bg-[#FFFCF7] shadow-sm">
         <div className="text-sm space-y-3">
@@ -107,7 +144,8 @@ const OrderDetails = () => {
             onClick={handleCancelOrder}
             disabled={
               order?.orderStatus === "CANCELLED" ||
-              order?.orderStatus === "DELIVERED"
+              order?.orderStatus === "DELIVERED" ||
+               order?.shipping?.status === "PICKED_UP"
             }
             sx={{
               py: "12px",

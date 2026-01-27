@@ -6,11 +6,14 @@ import {
   Divider,
   Chip,
   Button,
+  TextField,
+  MenuItem,
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
 import {
   fetchOrderById,
+  updateOrderShipping,
 } from "../../Redux Toolkit/Features/Admin/AdminOrderSlice";
 import {
   updateOrdersStatus,
@@ -39,6 +42,8 @@ const statusStyle = (status: OrderStatus) => {
   }
 };
 
+
+
 /* ================= COMPONENT ================= */
 const OrderDetails: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
@@ -52,6 +57,15 @@ const OrderDetails: React.FC = () => {
   );
 
   /* ================= LOCAL STATE ================= */
+  
+      const [shipping, setShipping] = useState({
+  courier: "DTDC",
+  awb: "",
+  status: "READY_TO_SHIP",
+  pickupDate: "",
+  deliveredDate: "",
+});
+
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] =
     useState<OrderStatus>("PENDING");
@@ -70,6 +84,25 @@ const OrderDetails: React.FC = () => {
     }
   }, [order]);
 
+  
+
+useEffect(() => {
+  if (order?.shipping) {
+    setShipping({
+      courier: order.shipping.courier || "DTDC",
+      awb: order.shipping.awb || "",
+      status: order.shipping.status || "READY_TO_SHIP",
+      pickupDate: order.shipping.pickupDate
+        ? order.shipping.pickupDate.slice(0, 10)
+        : "",
+      deliveredDate: order.shipping.deliveredDate
+        ? order.shipping.deliveredDate.slice(0, 10)
+        : "",
+    });
+  }
+}, [order]);
+
+
   /* ================= STATES ================= */
   if (loading) {
     return <p className="text-sm text-gray-500">Loading order...</p>;
@@ -85,7 +118,12 @@ const OrderDetails: React.FC = () => {
 
 
 
-  const shipping = order.shippingAddress;
+  const shippingAddress  = order.shippingAddress;
+
+
+
+  
+  
 
   return (
     <Box className="bg-[#FFFDF9] min-h-screen p-4">
@@ -152,12 +190,12 @@ const OrderDetails: React.FC = () => {
 
           <Divider className="my-3" />
 
-          <Typography>Name: {shipping?.name || "-"}</Typography>
-          <Typography>Mobile: {shipping?.mobile || "-"}</Typography>
+          <Typography>Name: {shippingAddress?.name || "-"}</Typography>
+          <Typography>Mobile: {shippingAddress?.mobile || "-"}</Typography>
           <Typography>
-            Address: {shipping?.address}, {shipping?.locality},{" "}
-            {shipping?.city}, {shipping?.state} -{" "}
-            {shipping?.pincode}
+            Address: {shippingAddress?.address}, {shippingAddress?.locality},{" "}
+            {shippingAddress?.city}, {shippingAddress?.state} -{" "}
+            {shippingAddress?.pincode}
           </Typography>
         </Paper>
 
@@ -222,6 +260,118 @@ const OrderDetails: React.FC = () => {
         <Typography>MRP Total: ₹{order.totalMrpPrice}</Typography>
         <Typography>Selling Price: ₹{order.totalSellingPrice}</Typography>
       </Paper>
+
+{/* ================= SHIPPING DETAILS ================= */}
+<Paper
+  elevation={0}
+  className="rounded-2xl p-5 mt-6"
+  style={{ background: "#FFFCF7", border: "1px solid #E3D4B6" }}
+>
+  <Typography variant="h6" className="font-semibold text-[#4A1F2A]">
+    📦 Shipping Details
+  </Typography>
+
+  <Divider className="my-3" />
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <TextField label="Courier" value={shipping.courier} size="small" disabled />
+
+    <TextField
+      label="AWB Number"
+      size="small"
+      value={shipping.awb}
+      onChange={(e) =>
+        setShipping({ ...shipping, awb: e.target.value })
+      }
+    />
+
+    <TextField
+      select
+      label="Shipping Status"
+      size="small"
+      value={shipping.status}
+      onChange={(e) =>
+        setShipping({ ...shipping, status: e.target.value })
+      }
+    >
+      <MenuItem value="READY_TO_SHIP">Ready to ship</MenuItem>
+      <MenuItem value="PICKED_UP">Picked up</MenuItem>
+      <MenuItem value="IN_TRANSIT">In transit</MenuItem>
+      <MenuItem value="DELIVERED">Delivered</MenuItem>
+    </TextField>
+
+    <TextField
+      type="date"
+      size="small"
+      label="Pickup Date"
+      InputLabelProps={{ shrink: true }}
+      value={shipping.pickupDate}
+      onChange={(e) =>
+        setShipping({ ...shipping, pickupDate: e.target.value })
+      }
+    />
+
+    <TextField
+      type="date"
+      size="small"
+      label="Delivered Date"
+      InputLabelProps={{ shrink: true }}
+      value={shipping.deliveredDate}
+      onChange={(e) =>
+        setShipping({ ...shipping, deliveredDate: e.target.value })
+      }
+    />
+  </div>
+
+  <div className="flex justify-end mt-4">
+    <Button
+      variant="contained"
+      sx={{ background: "#B9935A" }}
+      onClick={() =>
+        dispatch(
+          updateOrderShipping({
+            jwt,
+            orderId: order._id,
+            data: shipping,
+          })
+        )
+      }
+    >
+      Save Shipping
+    </Button>
+  </div>
+</Paper>
+
+
+{/* ================= SHIPPING TIMELINE ================= */}
+<Paper
+  elevation={0}
+  className="rounded-2xl p-5 mt-6"
+  style={{ background: "#FFFCF7", border: "1px solid #E3D4B6" }}
+>
+  <Typography variant="h6" className="font-semibold text-[#4A1F2A]">
+    🚚 Shipping Timeline
+  </Typography>
+
+  <Divider className="my-3" />
+
+  <div className="flex gap-3">
+    {[
+      "READY_TO_SHIP",
+      "PICKED_UP",
+      "IN_TRANSIT",
+      "DELIVERED",
+    ].map((s) => (
+      <Chip
+        key={s}
+        label={s.replaceAll("_", " ")}
+        color={shipping.status === s ? "success" : "default"}
+        variant={shipping.status === s ? "filled" : "outlined"}
+      />
+    ))}
+  </div>
+</Paper>
+
 
       {/* ===== ORDER ACTIONS (SAME AS Order.tsx) ===== */}
       <Paper

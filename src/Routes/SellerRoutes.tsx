@@ -16,6 +16,7 @@ import Payout from "../seller/Payout/Payout";
 import Reports from "../seller/Reports/Reports";
 import Reviews from "../seller/Reviews/Reviews";
 import Returns from "../seller/Returns/Returns";
+import Shipping from "../seller/Shipping/Shipping";
 
 
 const SellerRoutes: React.FC = () => {
@@ -27,6 +28,7 @@ const SellerRoutes: React.FC = () => {
       {/* /seller/orders */}
       <Route path="orders" element={<Order />} />
 
+<Route path="shipping" element={<Shipping />} />
 
       <Route path="returns" element={<Returns />} />
 

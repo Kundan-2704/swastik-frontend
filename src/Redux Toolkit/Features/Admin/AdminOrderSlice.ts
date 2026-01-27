@@ -49,6 +49,39 @@ export const fetchOrderById = createAsyncThunk<any, string>(
   }
 );
 
+export const updateOrderShipping = createAsyncThunk(
+  "adminOrders/updateShipping",
+  async (
+    {
+      jwt,
+      orderId,
+      data,
+    }: {
+      jwt: string;
+      orderId: string;
+      data: any;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+     const res = await apiAdmin.put(
+  `/admin/orders/${orderId}/shipping`, // ❗ /api hatao
+  data,
+  {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  }
+);
+
+      return res.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
+
 /* ================= SLICE ================= */
 const adminOrderSlice = createSlice({
   name: "adminOrders",
@@ -93,7 +126,13 @@ const adminOrderSlice = createSlice({
       .addCase(fetchOrderById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      })
+      .addCase(updateOrderShipping.fulfilled, (state, action) => {
+  if (state.order) {
+    state.order.shipping = action.payload.shipping;
+  }
+})
+      
   },
 });
 
