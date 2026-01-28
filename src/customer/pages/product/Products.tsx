@@ -216,15 +216,20 @@ const Products: React.FC = () => {
           )}
 
           {/* PAGINATION (DESKTOP) */}
-          {!isMobile && totalPages > 1 && (
-            <div className="flex justify-center py-10">
-              <Pagination
-                count={totalPages}
-                shape="rounded"
-                onChange={handlePageChange}
-              />
-            </div>
-          )}
+         {totalPages > 1 && (
+  <div
+    className={`flex justify-center py-8 ${
+      isMobile ? "sticky bottom-0 bg-white z-30 border-t" : ""
+    }`}
+  >
+    <Pagination
+      count={totalPages}
+      shape="rounded"
+      onChange={handlePageChange}
+    />
+  </div>
+)}
+
         </main>
       </div>
     </div>

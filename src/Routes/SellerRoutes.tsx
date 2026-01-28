@@ -32,6 +32,8 @@ const SellerRoutes: React.FC = () => {
 
       <Route path="returns" element={<Returns />} />
 
+      <Route path="returns/:returnId" element={<Returns />} />
+
       {/* /seller/products */}
       <Route path="products" element={<Products />} />
 

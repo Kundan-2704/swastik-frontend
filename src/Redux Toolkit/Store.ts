@@ -27,6 +27,7 @@ import sellerTransactionReducer from "./Features/Seller/transactionSlice";
 import sellerPaymentReducer from "./Features/Seller/paymentSlice";
 import sellerPayoutReducer from "./Features/Seller/SellerPayoutSlice";
 import sellerShippingReducer from "./Features/Seller/SellerShippingSlice";
+import sellerReturnReducer from "./Features/Seller/SellerReturnSlice";
 
 /* ================= ADMIN ================= */
 import adminHomeCategoryReducer from "./Features/Admin/AdminSlice";
@@ -65,6 +66,7 @@ const rootReducer = combineReducers({
   sellerPayments: sellerPaymentReducer,
   sellerPayout: sellerPayoutReducer,
   sellerShipping: sellerShippingReducer,
+  sellerReturns: sellerReturnReducer,
 
   // Admin
   adminHomeCategory: adminHomeCategoryReducer,
