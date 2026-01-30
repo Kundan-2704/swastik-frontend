@@ -16,6 +16,9 @@ import { printedLevelTwo } from "../../Data/Category/levelTwo/printedLevelTwo";
 import { printedLevelThree } from "../../Data/Category/levelThree/printedLevelThree";
 import { weddingLevelTwo } from "../../Data/Category/levelTwo/weddingLevelTwo";
 import { weddingLevelThree } from "../../Data/Category/levelThree/weddingLevelThree";
+import { menLevelTwo } from "../../Data/Category/levelTwo/menLevelTwo";
+import {  menLevelThree } from "../../Data/Category/levelThree/menLevelThree";
+
 
 const SeedCategories = () => {
   const [loading, setLoading] = useState(false);
@@ -48,9 +51,17 @@ const SeedCategories = () => {
 
         ...weddingLevelTwo,
         ...weddingLevelThree,
+
+        ...menLevelTwo,
+        ...menLevelThree,
       ];
 
-      await axios.post("/api/categories/seed", allCategories);
+      // await axios.post("/api/categories/seed", allCategories);
+      axios.post(
+  `${import.meta.env.VITE_API_BASE_URL}/api/categories/seed`,
+  allCategories
+);
+
 
       setSuccess("✅ Categories seeded / updated successfully");
     } catch (err: any) {

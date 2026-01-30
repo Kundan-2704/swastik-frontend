@@ -36,7 +36,8 @@ const MiniCartDrawer = ({ open, onClose, product, quantity }: Props) => {
 
         <Divider sx={{ my: 3, borderColor: "#E5D7C3" }} />
 
-        <div className="mt-auto space-y-3">
+       <div className="mt-auto flex flex-col gap-3">
+
           <Button
             variant="contained"
             fullWidth

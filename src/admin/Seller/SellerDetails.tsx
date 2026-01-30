@@ -108,6 +108,7 @@ const SellerDetails: React.FC = () => {
   const business = seller.businessDetails;
   const pickup = seller.pickupAddress;
   const bank = seller.bankDetails;
+  const pan = seller.panDetails;
 
   /* ================= ACTIONS ================= */
   const handleStatus = async (status: string) => {
@@ -252,7 +253,7 @@ const SellerDetails: React.FC = () => {
             <TextField
               fullWidth
               label="GST"
-              value={business?.GSTIN || ""}
+              value={seller?.GSTIN || ""}
               InputProps={{ readOnly: true }}
             />
           </Grid>
@@ -261,7 +262,15 @@ const SellerDetails: React.FC = () => {
             <TextField
               fullWidth
               label="PAN"
-              value={business?.PAN || ""}
+              value={pan?.panNumber || ""}
+              InputProps={{ readOnly: true }}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              label="PAN"
+              value={pan?.panHolderName || ""}
               InputProps={{ readOnly: true }}
             />
           </Grid>
@@ -302,7 +311,7 @@ const SellerDetails: React.FC = () => {
             <TextField
               fullWidth
               label="IFSC"
-              value={bank?.ifsc || ""}
+              value={bank?.ifscCode || ""}
               InputProps={{ readOnly: true }}
             />
           </Grid>

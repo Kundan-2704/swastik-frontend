@@ -117,7 +117,7 @@ const Products: React.FC = () => {
           {/* SORT BAR (STICKY ON MOBILE) */}
           <div
             className={`flex justify-between items-center py-3 px-4 bg-[#FDF9F2] rounded-xl border border-[#E3D4B6] ${
-              isMobile ? "sticky top-16 z-30" : ""
+              isMobile ? " z-30" : ""
             }`}
           >
             <p className="text-[#6A5B4A] text-sm">
@@ -219,7 +219,7 @@ const Products: React.FC = () => {
          {totalPages > 1 && (
   <div
     className={`flex justify-center py-8 ${
-      isMobile ? "sticky bottom-0 bg-white z-30 border-t" : ""
+      isMobile ? " bg-white z-30 border-t" : ""
     }`}
   >
     <Pagination

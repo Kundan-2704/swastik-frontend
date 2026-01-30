@@ -355,109 +355,128 @@ const Navbar = () => {
       )}
 
       {/* TOP BAR */}
-      <div className="flex items-center justify-between px-4 md:px-10 lg:px-20 h-[95px]">
-        {/* LEFT */}
-        <div className="flex items-center gap-3">
-          {!isLarge && (
-            <IconButton onClick={() => setMobileMenu(true)}>
-              <Menu sx={{ color: "#B5933A" }} />
-            </IconButton>
-          )}
+      {/* TOP BAR */}
+<div className="flex items-center justify-between px-4 md:px-10 lg:px-20 h-[95px]">
+  {/* LEFT */}
+  <div className="flex items-center gap-3">
+    {!isLarge && (
+      <IconButton onClick={() => setMobileMenu(true)}>
+        <Menu sx={{ color: "#B5933A" }} />
+      </IconButton>
+    )}
 
-          <div
-            className="flex items-center gap-3 cursor-pointer"
-            onClick={() => navigate("/")}
+    <div
+      className="flex items-center gap-3 cursor-pointer"
+      onClick={() => navigate("/")}
+    >
+      <img src={Logo} className="w-10 h-10 md:w-12 md:h-12" />
+      <div>
+        <h1 className="logo text-2xl md:text-3xl text-[#4A1F2A]">
+          Swastik
+        </h1>
+        <p className="text-[10px] tracking-widest text-[#A8824F]">
+          KOSA • HANDLOOM
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* CENTER */}
+  {isLarge && (
+    <div
+      className="relative"
+      onMouseLeave={() => setShowSheet(false)}
+    >
+      <ul className="flex gap-10 text-[15px] font-medium text-[#4A1F2A]">
+        {mainCategory.slice(0, 5).map((item) => (
+          <li
+            key={item.categoryId}
+            className="cursor-pointer hover:text-[#B5933A]"
+            onMouseEnter={() => {
+              setSelectedCategory(item.categoryId);
+              setShowSheet(true);
+            }}
+            onClick={() => navigate(`/products/${item.categoryId}`)}
           >
-            <img src={Logo} className="w-10 h-10 md:w-12 md:h-12" />
-            <div>
-              <h1 className="logo text-2xl md:text-3xl text-[#4A1F2A]">
-                Swastik
-              </h1>
-              <p className="text-[10px] tracking-widest text-[#A8824F]">
-                KOSA • HANDLOOM
-              </p>
-            </div>
-          </div>
+            {item.name}
+          </li>
+        ))}
+      </ul>
+
+      {showSheet && (
+        <div className="absolute left-0 top-full w-full">
+          <CategorySheet
+            selectedCategory={selectedCategory}
+            onClose={() => setShowSheet(false)}
+          />
         </div>
+      )}
+    </div>
+  )}
 
-        {/* CENTER (DESKTOP MEGA MENU) */}
-        {isLarge && (
-          <div
-            className="relative"
-            onMouseLeave={() => setShowSheet(false)}
-          >
-            <ul className="flex gap-10 text-[15px] font-medium text-[#4A1F2A]">
-              {mainCategory.slice(0, 5).map((item) => (
-                <li
-                  key={item.categoryId}
-                  className="cursor-pointer hover:text-[#B5933A]"
-                  onMouseEnter={() => {
-                    setSelectedCategory(item.categoryId);
-                    setShowSheet(true);
-                  }}
-                  onClick={() => navigate(`/products/${item.categoryId}`)}
-                >
-                  {item.name}
-                </li>
-              ))}
-            </ul>
+  {/* RIGHT */}
+  <div className="flex items-center gap-3">
+    <IconButton onClick={() => setShowSearch(!showSearch)}>
+      <Search sx={{ color: "#B5933A" }} />
+    </IconButton>
 
-            {showSheet && (
-              <div className="absolute left-0 top-full w-full">
-                <CategorySheet
-                  selectedCategory={selectedCategory}
-                  onClose={() => setShowSheet(false)}
-                />
-              </div>
-            )}
-          </div>
-        )}
+    {/* 🔥 CART ICON (ALWAYS IN DOM) */}
+    <IconButton
+      id="cart-icon"
+      onClick={() => navigate("/cart")}
+      sx={{
+        display: !isLarge && !userState.user?.fullName ? "none" : "flex",
+      }}
+    >
+      <AddShoppingCart sx={{ color: "#B5933A" }} />
+    </IconButton>
 
-        {/* RIGHT */}
-        <div className="flex items-center gap-3">
-          <IconButton onClick={() => setShowSearch(!showSearch)}>
-            <Search sx={{ color: "#B5933A" }} />
-          </IconButton>
+    {/* MOBILE LOGIN */}
+    {!isLarge && !userState.user?.fullName && (
+      <Button
+        onClick={() => navigate("/login")}
+        size="small"
+        variant="contained"
+        sx={{ backgroundColor: "#4A1F2A", borderRadius: "999px" }}
+      >
+        Login
+      </Button>
+    )}
 
+    {/* NOTIFICATION */}
+    {userState.user?.fullName && <NotificationBell />}
 
+    {/* DESKTOP USER */}
+    {isLarge &&
+      (userState.user?.fullName ? (
+        <Button onClick={() => navigate("/account")}>
+          <Avatar sx={{ width: 28, height: 28 }} />
+        </Button>
+      ) : (
+        <Button
+          onClick={() => navigate("/login")}
+          variant="contained"
+          sx={{ backgroundColor: "#4A1F2A" }}
+        >
+          Login
+        </Button>
+      ))}
 
-
-          <IconButton onClick={() => navigate("/cart")} id="cart-icon">
-            <AddShoppingCart sx={{ color: "#B5933A" }} />
-          </IconButton>
-
-          <div className="flex items-center gap-4">
-  <NotificationBell />
+    {/* SELLER */}
+    {isLarge && (
+      <Button
+        onClick={() =>
+          navigate(sellerAuth.jwt ? "/seller" : "/become-seller")
+        }
+        variant="outlined"
+        startIcon={<Storefront />}
+      >
+        {sellerAuth.jwt ? "Seller Dashboard" : "Become Seller"}
+      </Button>
+    )}
+  </div>
 </div>
 
-          {isLarge &&
-            (userState.user?.fullName ? (
-              <Button onClick={() => navigate("/account")}>
-                <Avatar sx={{ width: 28, height: 28 }} />
-              </Button>
-            ) : (
-              <Button
-                onClick={() => navigate("/login")}
-                variant="contained"
-                sx={{ backgroundColor: "#4A1F2A" }}
-              >
-                Login
-              </Button>
-            ))}
-
-          {isLarge && (
-            <Button
-              onClick={() =>
-                navigate(sellerAuth.jwt ? "/seller" : "/become-seller")
-              }
-              variant="outlined"
-              startIcon={<Storefront />}
-            >
-              {sellerAuth.jwt ? "Seller Dashboard" : "Become Seller"}
-            </Button>
-          )}
-        </div>
-      </div>
 
       {/* MOBILE DRAWER */}
       <Drawer

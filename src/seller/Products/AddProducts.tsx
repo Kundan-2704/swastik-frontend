@@ -16,6 +16,7 @@ import { handloomLevelTwo } from "../../Data/Category/levelTwo/handloomLevelTwo"
 import { weddingLevelTwo } from "../../Data/Category/levelTwo/weddingLevelTwo";
 import { dailyWearLevelTwo } from "../../Data/Category/levelTwo/dailyWearLevelTwo";
 import { printedLevelTwo } from "../../Data/Category/levelTwo/printedLevelTwo";
+import { menLevelTwo } from "../../Data/Category/levelTwo/menLevelTwo";
 
 // LEVEL 3
 import { kosaLevelThree } from "../../Data/Category/levelThree/kosaLevelThree";
@@ -24,6 +25,7 @@ import { handloomLevelThree } from "../../Data/Category/levelThree/handloomLevel
 import { weddingLevelThree } from "../../Data/Category/levelThree/weddingLevelThree";
 import { dailyWearLevelThree } from "../../Data/Category/levelThree/dailyWearLevelThree";
 import { printedLevelThree } from "../../Data/Category/levelThree/printedLevelThree";
+import { menLevelThree } from "../../Data/Category/levelThree/menLevelThree";
 
 /* ================= TYPES ================= */
 
@@ -55,6 +57,7 @@ const levelTwoMap: Record<string, SubCategory[]> = {
   wedding_sarees: weddingLevelTwo,
   daily_wear_sarees: dailyWearLevelTwo,
   printed_sarees: printedLevelTwo,
+  men: menLevelTwo,
 };
 
 const levelThreeMap: Record<string, SubCategory[]> = {
@@ -64,6 +67,7 @@ const levelThreeMap: Record<string, SubCategory[]> = {
   wedding_sarees: weddingLevelThree,
   daily_wear_sarees: dailyWearLevelThree,
   printed_sarees: printedLevelThree,
+  men: menLevelThree,
 };
 
 /* ================= COMPONENT ================= */

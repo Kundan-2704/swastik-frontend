@@ -14,10 +14,8 @@ import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
 import {
   fetchOrderById,
   updateOrderShipping,
+  updateOrderStatus,
 } from "../../Redux Toolkit/Features/Admin/AdminOrderSlice";
-import {
-  updateOrdersStatus,
-} from "../../Redux Toolkit/Features/Seller/SellerOrderSlice";
 
 /* ================= TYPES ================= */
 type OrderStatus =
@@ -195,7 +193,7 @@ useEffect(() => {
           <Typography>
             Address: {shippingAddress?.address}, {shippingAddress?.locality},{" "}
             {shippingAddress?.city}, {shippingAddress?.state} -{" "}
-            {shippingAddress?.pincode}
+            {shippingAddress?.pinCode}
           </Typography>
         </Paper>
 
@@ -451,13 +449,14 @@ useEffect(() => {
                 onClick={() => {
                   if (!jwt) return;
 
-                  dispatch(
-                    updateOrdersStatus({
-                      jwt,
-                      orderId: order._id,
-                      orderStatus: selectedStatus,
-                    })
-                  );
+                 dispatch(
+  updateOrderStatus({
+    jwt,
+    orderId: order._id,
+    status: selectedStatus,
+  })
+);
+
 
                   setIsStatusModalOpen(false);
                 }}

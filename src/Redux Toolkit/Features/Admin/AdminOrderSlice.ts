@@ -82,6 +82,40 @@ export const updateOrderShipping = createAsyncThunk(
 );
 
 
+export const updateOrderStatus = createAsyncThunk(
+  "adminOrders/updateStatus",
+  async (
+    {
+      jwt,
+      orderId,
+      status,
+    }: {
+      jwt: string;
+      orderId: string;
+      status: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await apiAdmin.patch(
+        `/admin/orders/${orderId}/status/${status}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (err: any) {
+      return rejectWithValue(
+        err.response?.data?.message || "Status update failed"
+      );
+    }
+  }
+);
+
+
 /* ================= SLICE ================= */
 const adminOrderSlice = createSlice({
   name: "adminOrders",
@@ -132,6 +166,21 @@ const adminOrderSlice = createSlice({
     state.order.shipping = action.payload.shipping;
   }
 })
+
+.addCase(updateOrderStatus.fulfilled, (state, action) => {
+  state.loading = false;
+  if (state.order) {
+    state.order.orderStatus = action.payload.orderStatus;
+  }
+})
+.addCase(updateOrderStatus.pending, (state) => {
+  state.loading = true;
+})
+.addCase(updateOrderStatus.rejected, (state, action) => {
+  state.loading = false;
+  state.error = action.payload as string;
+});
+
       
   },
 });

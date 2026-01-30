@@ -12,6 +12,7 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import HandshakeIcon from "@mui/icons-material/Handshake";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import AA from "../../../assets/SK2.png";
 import { useLocation } from "react-router-dom";
@@ -52,18 +53,25 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       variant="contained"
       className={className}
       sx={{
-        background:
-          "linear-gradient(135deg, #8B5E34 0%, #C58B4E 40%, #E5B676 100%)",
+        background: "linear-gradient(135deg, #8B4A0F 0%, #C58B4E 45%, #E5B676 100%)",
         borderRadius: "999px",
-        px: "34px",
-        py: "12px",
-        fontSize: "15px",
-        fontWeight: 600,
-        boxShadow: "0 12px 28px rgba(139, 94, 52, 0.35)",
+        px: "40px",
+        py: "14px",
+        fontSize: "16px",
+        fontWeight: 700,
+        letterSpacing: "0.04em",
+        boxShadow: "0 14px 32px rgba(139, 74, 15, 0.45)",
         textTransform: "none",
+        transition: "all .35s ease",
+
         "&:hover": {
-          background:
-            "linear-gradient(135deg, #6B4423 0%, #A86C34 40%, #D49A54 100%)",
+          background: "linear-gradient(135deg, #6E3608 0%, #A86C34 45%, #D49A54 100%)",
+          boxShadow: "0 18px 40px rgba(139, 74, 15, 0.55)",
+          transform: "translateY(-2px) scale(1.02)",
+        },
+
+        "&:active": {
+          transform: "scale(0.98)",
         },
       }}
     >
@@ -137,12 +145,13 @@ React.useEffect(() => {
 
 {/* ================= HERO SECTION ================= */}
 
-<section className="w-full border-b border-[#ECDCC2] bg-[#FBF7F2]">
-  <div className="max-w-7xl mx-auto px-4 lg:px-20 py-12 lg:py-24">
+<section className="w-full border-b border-[#ECDCC2] bg-[#FBF7F2] overflow-hidden">
+  <div className="max-w-7xl mx-auto px-4 lg:px-20 py-12 lg:pt-16 lg:pb-20">
 
     {/* ================= MOBILE HERO ================= */}
     <div className="block lg:hidden relative mb-12">
-      <div className="relative w-full h-[380px] rounded-3xl overflow-hidden">
+
+      <div className="relative w-full h-[400px] rounded-3xl overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.img
             key={activeImage}
@@ -152,34 +161,38 @@ React.useEffect(() => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
+            transition={{ duration: 1.2 }}
           />
         </AnimatePresence>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent" />
       </div>
 
       <div className="absolute bottom-6 left-6 right-6 text-white">
         <h1 className="font-royal text-3xl font-semibold leading-tight mb-2">
-          Woven by Hands, <br /> Worn with Pride
+          Authentic Kosa & Tussar Sarees
         </h1>
 
-        <p className="font-body text-sm font-light text-white/90 mb-4">
-          Authentic Kosa & Tussar handloom sarees crafted by master weavers of Chhattisgarh.
+        <p className="text-sm text-white/90 mb-4">
+          Handwoven by master artisans of Chhattisgarh
         </p>
 
         <PrimaryButton
-          className="w-full text-base py-3 bg-[#C58A4A] text-white font-semibold
-                     hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+          startIcon={<ArrowForwardIcon />}
           onClick={() => navigate("/products")}
+          className="w-full py-3.5 text-base font-semibold shadow-xl"
         >
-          Explore Collection
+          Shop Handloom Collection
         </PrimaryButton>
+
+        <p className="text-xs text-white/80 mt-2 text-center">
+          ⭐ 4.9 Rated by 2,000+ customers
+        </p>
       </div>
     </div>
 
     {/* ================= DESKTOP HERO ================= */}
-    <div className="hidden lg:flex items-center gap-16">
+    <div className="hidden lg:flex items-center gap-20">
 
       {/* LEFT CONTENT */}
       <motion.div
@@ -188,61 +201,60 @@ React.useEffect(() => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h1 className="font-royal text-6xl font-semibold leading-[1.05] tracking-royal text-[#3B302A] mb-6">
-          Woven by Hands, <br /> Worn with Pride
+        <h1 className="font-royal text-6xl font-semibold leading-[1.05] text-[#3B302A] mb-6">
+          Authentic Kosa & Tussar <br />
+          Handloom Sarees
         </h1>
 
-        <p className="font-body text-xl font-light leading-relaxed text-[#5A4A3C] mb-8 max-w-xl">
-          Discover authentic Kosa & Tussar handloom sarees, crafted by master artisans of
-          Chhattisgarh. Each piece carries tradition, patience and pride.
+        <p className="text-xl font-light text-[#5A4A3C] mb-4 max-w-xl">
+          Directly from the weavers of Chhattisgarh — each piece handwoven with
+          tradition, patience and pride.
         </p>
 
-        <div className="grid grid-cols-2 gap-4 mb-10">
+        <p className="text-sm text-[#8A7A68] mb-8">
+          ⭐ 4.9 Rated by 2,000+ handloom lovers
+        </p>
+
+        {/* TRUST PILLS */}
+        <div className="flex flex-wrap gap-3 mb-10">
           {[
-            { icon: <VerifiedIcon fontSize="small" />, text: "100% Handloom Certified" },
-            { icon: <HandshakeIcon fontSize="small" />, text: "Direct From Weavers" },
-            { icon: <CurrencyRupeeIcon fontSize="small" />, text: "Cash on Delivery" },
-            { icon: <LocalShippingIcon fontSize="small" />, text: "Pan India Delivery" },
-          ].map((item, i) => (
+            "100% Handloom Certified",
+            "Direct From Weavers",
+            "GI Tagged Kosa Silk",
+            "Pan India Delivery",
+          ].map((text, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 bg-[#F7F1E8] px-4 py-3 rounded-xl
-                         text-sm shadow-sm text-[#5A4A3C]"
+              className="px-4 py-2 bg-white/70 backdrop-blur-md border border-white/50
+                         rounded-full text-sm text-[#5A4A3C] shadow-sm"
             >
-              {item.icon}
-              <span className="font-body font-medium tracking-wide">
-                {item.text}
-              </span>
+              {text}
             </div>
           ))}
         </div>
 
         <PrimaryButton
+          startIcon={<ArrowForwardIcon />}
           onClick={() => navigate("/products")}
-          className="px-12 py-4 text-lg font-body font-semibold tracking-wider
-                     bg-[#C58A4A] text-white rounded-full
-                     hover:bg-[#B77A3A] hover:shadow-2xl hover:scale-[1.03]
-                     transition-all duration-300"
+          className="px-16 py-4 text-lg font-semibold shadow-2xl hover:scale-[1.05]"
         >
-          Discover Handloom Collection
+          Shop Handloom Sarees
         </PrimaryButton>
 
-        <p className="font-body text-xs tracking-[0.25em] uppercase text-[#8A7A68] mt-4">
-          Limited artisan pieces • Made on traditional looms
+        <p className="text-xs tracking-[0.3em] uppercase text-[#8A7A68] mt-4">
+          Limited artisan pieces • Small batch weaving
         </p>
       </motion.div>
 
-      {/* RIGHT IMAGE (AUTO FADE) */}
+      {/* RIGHT IMAGE (EDGE BLEED + STORYTELLING) */}
       <motion.div
-        className="w-1/2 flex justify-center"
+        className="w-1/2 relative"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.9, delay: 0.2 }}
+        transition={{ duration: 1 }}
       >
-        <div
-          className="relative w-full max-w-lg h-[460px] rounded-3xl overflow-hidden shadow-2xl"
-          style={{ border: "1px solid #E7D6BE" }}
-        >
+        <div className="relative w-[120%] h-[520px] -mr-32 rounded-l-3xl overflow-hidden shadow-2xl border border-[#E7D6BE]">
+
           <AnimatePresence mode="wait">
             <motion.img
               key={activeImage}
@@ -257,17 +269,29 @@ React.useEffect(() => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: "easeInOut" }}
+              transition={{ duration: 1.2 }}
             />
           </AnimatePresence>
 
-          <div className="absolute inset-0 shadow-inner pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+          {/* STORY TEXT */}
+          <motion.div
+            key={activeImage + "-text"}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="absolute bottom-10 left-6 text-white/90  tracking-[0.35em] uppercase text-xs opacity-90
+"
+          >
+            {activeImage === 0 ? "Woven by Hands" : "Worn with Pride"}
+          </motion.div>
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
         </div>
       </motion.div>
+
     </div>
   </div>
 </section>
+
 
 
 
