@@ -8,6 +8,7 @@ import {
   Button,
   TextField,
   MenuItem,
+  CircularProgress,
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
@@ -16,6 +17,7 @@ import {
   updateOrderShipping,
   updateOrderStatus,
 } from "../../Redux Toolkit/Features/Admin/AdminOrderSlice";
+import { adminDownloadInvoice } from "../../Redux Toolkit/Features/Admin/AdminInvoiceSlice";
 
 /* ================= TYPES ================= */
 type OrderStatus =
@@ -172,6 +174,15 @@ useEffect(() => {
             sx={{ backgroundColor: "#FFF5E7" }}
           />
         </div>
+
+  <Button
+      variant="outlined"
+      disabled={loading}
+      onClick={() => dispatch(adminDownloadInvoice(orderId))}
+    >
+      {loading ? <CircularProgress size={18} /> : "Download Invoice"}
+    </Button>
+
       </Paper>
 
       {/* ===== CUSTOMER & SELLER ===== */}

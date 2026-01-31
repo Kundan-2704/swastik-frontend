@@ -257,6 +257,7 @@ import {
   fetchSellrOrders,
   updateOrdersStatus,
 } from "../../Redux Toolkit/Features/Seller/SellerOrderSlice";
+import { downloadPackingSlip } from "../../Redux Toolkit/Features/Seller/packingSlipSlice";
 
 type OrderStatus = "PENDING" | "SHIPPED" | "DELIVERED" | "CANCELLED";
 
@@ -403,6 +404,15 @@ const Order = () => {
                     </td>
 
                     <td className="px-4 py-4 text-right">
+
+  {/* PACKING SLIP DOWNLOAD */}
+  <button
+    onClick={() => dispatch(downloadPackingSlip(order._id))}
+    className="block w-full text-xs px-3 py-1 rounded-full border border-blue-500 text-blue-600 cursor-pointer"
+  >
+    Download Slip
+  </button>
+
                       <button
                         onClick={() => {
                           setSelectedOrderId(order._id);
@@ -501,6 +511,15 @@ const Order = () => {
                 >
                   Update Status
                 </button>
+
+<button
+  onClick={() => dispatch(downloadPackingSlip(order._id))}
+  className="mt-2 w-full py-2 text-xs rounded-xl border border-blue-500 text-blue-600"
+>
+  Download Packing Slip
+</button>
+
+
               </div>
             );
           })}

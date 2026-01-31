@@ -4,6 +4,7 @@ import {  useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
 import { fetchAllOrders } from "../../Redux Toolkit/Features/Admin/AdminOrderSlice";
 import { useNavigate } from "react-router-dom";
+import AdminBulkInvoiceDownload from "./AdminBulkInvoiceDownload";
 
 const OrderTable = () => {
   const dispatch = useAppDispatch();
@@ -46,6 +47,8 @@ const OrderTable = () => {
         <p className="text-xs text-gray-500 mt-1">
           View and track all orders from sellers.
         </p>
+
+          <AdminBulkInvoiceDownload />
       </div>
 
       {/* ===== TABLE ===== */}

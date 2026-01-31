@@ -8,6 +8,7 @@ import {
   fetchOrderItemById,
 } from "../../../Redux Toolkit/Features/Customer/OrderSlice";
 import { useParams } from "react-router-dom";
+import { downloadInvoice } from "../../../Redux Toolkit/Features/Customer/invoiceSlice";
 
 const OrderDetails = () => {
   const dispatch = useAppDispatch();
@@ -95,6 +96,14 @@ const OrderDetails = () => {
         </a>
       )}
     </div>
+
+    <Button
+      variant="outlined"
+      onClick={() => dispatch(downloadInvoice(orderId))}
+    >
+      {orderItem?.invoiceLoading ? "Downloading..." : "Download Invoice"}
+    </Button>
+
   </section>
 )}
 
