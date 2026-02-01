@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import store, { useAppDispatch, useAppSelector } from '../Redux Toolkit/Store';
-import NotificationBell from '../Components/NotificationBell';
+import NotificationBell from '../components/NotificationBell';
 
 const Navbar = ({ DrawerList }: any) => {
   const [open, setOpen] = React.useState(false);

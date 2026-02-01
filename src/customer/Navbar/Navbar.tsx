@@ -294,7 +294,7 @@ import Logo from "../../assets/swastik-logo.png";
 
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
-import NotificationBell from "../../Components/NotificationBell";
+import NotificationBell from "../../components/NotificationBell";
 
 const Navbar = () => {
   const theme = useTheme();
