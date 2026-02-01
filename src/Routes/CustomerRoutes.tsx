@@ -13,6 +13,13 @@ import "../customer/style/customer-scroll.css";
 import OrderSuccess from "../customer/pages/Checkout/OrderSuccess";
 import { useAppDispatch, useAppSelector } from "../Redux Toolkit/Store";
 import Policies from "../pages/Policies";
+import PrivacyPolicy from "../pages/privacy-policy";
+import Terms from "../pages/terms-conditions";
+import RefundReplacement from "../pages/refund-replacement";
+import Shipping from "../pages/shipping-policy";
+import Contact from "../pages/contact-us";
+import SellerPolicy from "../pages/seller-policy";
+import Authenticity from "../pages/product-authenticity";
 
 const CustomerRoutes = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -49,6 +56,15 @@ const CustomerRoutes = () => {
         <Route path="/account/*" element={<Profile />} />
 
         <Route path="/policies" element={<Policies />} />
+
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+<Route path="/terms-conditions" element={<Terms />} />
+<Route path="/refund-replacement" element={<RefundReplacement />} />
+<Route path="/shipping-policy" element={<Shipping />} />
+<Route path="/contact-us" element={<Contact />} />
+<Route path="/seller-policy" element={<SellerPolicy />} />
+<Route path="/product-authenticity" element={<Authenticity />} />
+
 
       </Routes>
 

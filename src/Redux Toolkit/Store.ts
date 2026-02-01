@@ -17,6 +17,7 @@ import couponReducer from "./Features/Customer/CouponSlice";
 import homeCategoryReducer from "./Features/Customer/HomeCategorySlice";
 import addressReducer from "./Features/Customer/AddressSlice";
 import customerDealReducer from "./Features/Customer/CustomerDealSlice";
+import replacementCustomerReducer from "./Features/Customer/ReplacementCustomerSlice";
 
 /* ================= SELLER ================= */
 import sellerReducer from "./Features/Seller/SellerAuthenticationSlice";
@@ -30,6 +31,7 @@ import sellerShippingReducer from "./Features/Seller/SellerShippingSlice";
 import sellerReturnReducer from "./Features/Seller/SellerReturnSlice";
 import packingSlipReducer from "./Features/Seller/packingSlipSlice";
 import invoiceReducer from "./Features/Customer/invoiceSlice";
+import replacementSellerReducer from "./Features/Seller/ReplacementSellerSlice";
 
 
 /* ================= ADMIN ================= */
@@ -43,6 +45,7 @@ import adminPayoutReducer from "./Features/Admin/AdminPayoutSlice";
 import adminPaymentsReducer from "./Features/Admin/PaymentsSlice";
 import adminInvoiceReducer from "./Features/Admin/AdminInvoiceSlice";
 import adminInvoiceBulkReducer from "./Features/Admin/AdminInvoiceBulkSlice";
+import replacementAdminReducer from "./Features/Admin/ReplacementAdminSlice";
 
 
 //Notification
@@ -61,6 +64,7 @@ const rootReducer = combineReducers({
   address: addressReducer,
   customerDeal: customerDealReducer,
    invoice: invoiceReducer,
+   replacementCustomer: replacementCustomerReducer,
 
   // Seller
   seller: sellerReducer,
@@ -73,6 +77,7 @@ const rootReducer = combineReducers({
   sellerShipping: sellerShippingReducer,
   sellerReturns: sellerReturnReducer,
   packingSlip: packingSlipReducer,
+  replacementSeller: replacementSellerReducer,
 
   // Admin
   adminHomeCategory: adminHomeCategoryReducer,
@@ -85,6 +90,7 @@ const rootReducer = combineReducers({
   adminPayments: adminPaymentsReducer,
   adminInvoice: adminInvoiceReducer,
   adminInvoiceBulk: adminInvoiceBulkReducer,
+  replacementAdmin: replacementAdminReducer,
 
 
 

@@ -258,6 +258,7 @@ import {
   updateOrdersStatus,
 } from "../../Redux Toolkit/Features/Seller/SellerOrderSlice";
 import { downloadPackingSlip } from "../../Redux Toolkit/Features/Seller/packingSlipSlice";
+import { approveReplacement, pickupReplacement, rejectReplacement, shipReplacement } from "../../Redux Toolkit/Features/Seller/ReplacementSellerSlice";
 
 type OrderStatus = "PENDING" | "SHIPPED" | "DELIVERED" | "CANCELLED";
 
@@ -289,6 +290,12 @@ const Order = () => {
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [selectedStatus, setSelectedStatus] =
     useState<OrderStatus>("PENDING");
+
+    const [pickupOrderId, setPickupOrderId] = useState<string | null>(null);
+const [shipOrderId, setShipOrderId] = useState<string | null>(null);
+const [awb, setAwb] = useState("");
+const [courier, setCourier] = useState("");
+
 
   useEffect(() => {
     if (jwt) dispatch(fetchSellrOrders(jwt));
@@ -365,6 +372,14 @@ const Order = () => {
                           <p className="text-xs text-gray-600">
                             Qty: {item?.quantity}
                           </p>
+
+{order.replacement?.reason && (
+  <p className="mt-1 text-xs text-orange-700 bg-orange-50 px-2 py-1 rounded">
+    <b>Reason:</b> {order.replacement.reason}
+  </p>
+)}
+
+
                         </div>
                       </div>
                     </td>
@@ -413,6 +428,48 @@ const Order = () => {
     Download Slip
   </button>
 
+  {/* ========== REPLACEMENT ACTIONS ========== */}
+{order.replacement?.status === "REQUESTED" && (
+  <div className="flex flex-col gap-1 mb-2">
+    <button
+      onClick={() => dispatch(approveReplacement({ orderId: order._id }))}
+      className="text-xs px-3 py-1 rounded-full bg-green-600 text-white"
+    >
+      Approve Replacement
+    </button>
+
+    <button
+      onClick={() => {
+        const note = prompt("Reject reason?");
+        if (!note) return;
+        dispatch(rejectReplacement({ orderId: order._id, note }));
+      }}
+      className="text-xs px-3 py-1 rounded-full bg-red-500 text-white"
+    >
+      Reject
+    </button>
+  </div>
+)}
+
+{order.replacement?.status === "APPROVED" && (
+  <button
+    onClick={() => setPickupOrderId(order._id)}
+    className="block w-full text-xs px-3 py-1 rounded-full border border-orange-500 text-orange-600 mb-2"
+  >
+    Pickup Old Saree
+  </button>
+)}
+
+{order.replacement?.status === "PICKED_UP" && (
+  <button
+    onClick={() => setShipOrderId(order._id)}
+    className="block w-full text-xs px-3 py-1 rounded-full border border-blue-500 text-blue-600 mb-2"
+  >
+    Ship Replacement
+  </button>
+)}
+
+
                       <button
                         onClick={() => {
                           setSelectedOrderId(order._id);
@@ -457,6 +514,14 @@ const Order = () => {
                     <p className="text-xs text-gray-500">
                       ₹{item?.sellingPrice} · Qty {item?.quantity}
                     </p>
+
+                    {order.replacement?.reason && (
+  <p className="mt-1 text-xs text-orange-700 bg-orange-50 px-2 py-1 rounded">
+    <b>Reason:</b> {order.replacement.reason}
+  </p>
+)}
+
+
                   </div>
                 </div>
 
@@ -511,6 +576,47 @@ const Order = () => {
                 >
                   Update Status
                 </button>
+
+                {/* ========== REPLACEMENT ACTIONS (MOBILE) ========== */}
+{order.replacement?.status === "REQUESTED" && (
+  <div className="flex gap-2 mt-2">
+    <button
+      onClick={() => dispatch(approveReplacement({ orderId: order._id }))}
+      className="flex-1 py-2 text-xs rounded-xl bg-green-600 text-white"
+    >
+      Approve
+    </button>
+    <button
+      onClick={() => {
+        const note = prompt("Reject reason?");
+        if (!note) return;
+        dispatch(rejectReplacement({ orderId: order._id, note }));
+      }}
+      className="flex-1 py-2 text-xs rounded-xl bg-red-500 text-white"
+    >
+      Reject
+    </button>
+  </div>
+)}
+
+{order.replacement?.status === "APPROVED" && (
+  <button
+    onClick={() => setPickupOrderId(order._id)}
+    className="mt-2 w-full py-2 text-xs rounded-xl border border-orange-500 text-orange-600"
+  >
+    Pickup Old Saree
+  </button>
+)}
+
+{order.replacement?.status === "PICKED_UP" && (
+  <button
+    onClick={() => setShipOrderId(order._id)}
+    className="mt-2 w-full py-2 text-xs rounded-xl border border-blue-500 text-blue-600"
+  >
+    Ship Replacement
+  </button>
+)}
+
 
 <button
   onClick={() => dispatch(downloadPackingSlip(order._id))}
@@ -576,6 +682,97 @@ const Order = () => {
           </div>
         </div>
       )}
+
+{pickupOrderId && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+    <div className="bg-white rounded-2xl p-5 w-full max-w-sm">
+      <h3 className="text-sm font-semibold mb-3">Pickup Old Saree</h3>
+
+      <input
+        placeholder="AWB"
+        value={awb}
+        onChange={(e) => setAwb(e.target.value)}
+        className="w-full border px-3 py-2 rounded-xl mb-2 text-sm"
+      />
+
+      <input
+        placeholder="Courier"
+        value={courier}
+        onChange={(e) => setCourier(e.target.value)}
+        className="w-full border px-3 py-2 rounded-xl text-sm"
+      />
+
+      <div className="flex justify-end gap-2 mt-4">
+        <button
+          onClick={() => setPickupOrderId(null)}
+          className="px-3 py-1 text-xs border rounded-full"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={() => {
+            dispatch(
+              pickupReplacement({ orderId: pickupOrderId, awb, courier })
+            );
+            setPickupOrderId(null);
+            setAwb("");
+            setCourier("");
+          }}
+          className="px-4 py-1 text-xs rounded-full bg-[#B9935A] text-white"
+        >
+          Confirm Pickup
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
+{shipOrderId && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+    <div className="bg-white rounded-2xl p-5 w-full max-w-sm">
+      <h3 className="text-sm font-semibold mb-3">Ship Replacement</h3>
+
+      <input
+        placeholder="AWB"
+        value={awb}
+        onChange={(e) => setAwb(e.target.value)}
+        className="w-full border px-3 py-2 rounded-xl mb-2 text-sm"
+      />
+
+      <input
+        placeholder="Courier"
+        value={courier}
+        onChange={(e) => setCourier(e.target.value)}
+        className="w-full border px-3 py-2 rounded-xl text-sm"
+      />
+
+      <div className="flex justify-end gap-2 mt-4">
+        <button
+          onClick={() => setShipOrderId(null)}
+          className="px-3 py-1 text-xs border rounded-full"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={() => {
+            dispatch(
+              shipReplacement({ orderId: shipOrderId, awb, courier })
+            );
+            setShipOrderId(null);
+            setAwb("");
+            setCourier("");
+          }}
+          className="px-4 py-1 text-xs rounded-full bg-[#B9935A] text-white"
+        >
+          Ship
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 };

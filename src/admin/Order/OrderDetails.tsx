@@ -270,6 +270,41 @@ useEffect(() => {
         <Typography>Selling Price: ₹{order.totalSellingPrice}</Typography>
       </Paper>
 
+      {/* ================= REPLACEMENT DETAILS ================= */}
+{order.replacement && (
+  <Paper
+    elevation={0}
+    className="rounded-2xl p-5 mt-6"
+    style={{ background: "#FFFCF7", border: "1px solid #E3D4B6" }}
+  >
+    <Typography variant="h6" className="font-semibold text-[#4A1F2A]">
+      🔁 Replacement Details
+    </Typography>
+
+    <Divider className="my-3" />
+
+    <Typography><b>Status:</b> {order.replacement.status}</Typography>
+    <Typography><b>Reason:</b> {order.replacement.reason}</Typography>
+    <Typography>
+      <b>Requested:</b>{" "}
+      {new Date(order.replacement.requestedAt).toLocaleDateString()}
+    </Typography>
+
+    {order.replacement.pickup && (
+      <Typography>
+        <b>Pickup AWB:</b> {order.replacement.pickup.awb}
+      </Typography>
+    )}
+
+    {order.replacement.replacementShipment && (
+      <Typography>
+        <b>Ship AWB:</b> {order.replacement.replacementShipment.awb}
+      </Typography>
+    )}
+  </Paper>
+)}
+
+
 {/* ================= SHIPPING DETAILS ================= */}
 <Paper
   elevation={0}
@@ -418,6 +453,68 @@ useEffect(() => {
           </Button>
         </div>
       </Paper>
+
+      {/* ================= REPLACEMENT ADMIN ACTIONS ================= */}
+{order.replacement && (
+  <div className="mt-4 flex gap-3 flex-wrap">
+    {order.replacement.status === "SHIPPED" && (
+      <Button
+        variant="contained"
+        color="info"
+        onClick={() =>
+          dispatch(
+            updateOrderStatus({
+              jwt,
+              orderId: order._id,
+              status: "DELIVERED",
+            })
+          )
+        }
+      >
+        Mark Replacement Delivered
+      </Button>
+    )}
+
+    {order.replacement.status === "DELIVERED" && (
+      <Button
+        variant="contained"
+        color="success"
+        onClick={() =>
+          dispatch(
+            updateOrderStatus({
+              jwt,
+              orderId: order._id,
+              status: "COMPLETED",
+            })
+          )
+        }
+      >
+        Complete Replacement
+      </Button>
+    )}
+
+    <Button
+      variant="outlined"
+      color="error"
+      onClick={() => {
+        const ok = window.confirm(
+          "Force close replacement? (use only in dispute)"
+        );
+        if (!ok) return;
+        dispatch(
+          updateOrderStatus({
+            jwt,
+            orderId: order._id,
+            status: "CANCELLED",
+          })
+        );
+      }}
+    >
+      Force Close
+    </Button>
+  </div>
+)}
+
 
       {/* ===== STATUS UPDATE MODAL ===== */}
       {isStatusModalOpen && (

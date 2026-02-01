@@ -1,4 +1,4 @@
-import { Box, Button, Divider } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import OrderStepper from "./OrderStepper";
 import { Payment } from "@mui/icons-material";
@@ -9,10 +9,15 @@ import {
 } from "../../../Redux Toolkit/Features/Customer/OrderSlice";
 import { useParams } from "react-router-dom";
 import { downloadInvoice } from "../../../Redux Toolkit/Features/Customer/invoiceSlice";
+import { requestReplacement } from "../../../Redux Toolkit/Features/Customer/ReplacementCustomerSlice";
 
 const OrderDetails = () => {
   const dispatch = useAppDispatch();
   const { orderItemId } = useParams<{ orderItemId: string }>();
+
+  const [openReplacement, setOpenReplacement] = React.useState(false);
+const [reason, setReason] = React.useState("");
+
 
   const { orderItem } = useAppSelector((state) => state.orders);
 
@@ -38,6 +43,32 @@ const OrderDetails = () => {
 
     dispatch(cancelOrder({ jwt, orderId }));
   };
+
+const isReplacementAllowedUI = () => {
+  if (order?.orderStatus !== "DELIVERED") return false;
+
+  // fallback date (guaranteed)
+  const deliveredAt =
+    order.shipping?.deliveredDate ||
+    order.shipping?.updatedAt ||
+    order.updatedAt;
+
+  if (!deliveredAt) return true; // allow if missing
+
+  const delivered = new Date(deliveredAt);
+  delivered.setHours(0, 0, 0, 0);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const diffDays =
+    (today.getTime() - delivered.getTime()) /
+    (1000 * 60 * 60 * 24);
+
+  return diffDays <= 7;
+};
+
+
 
   return (
     <Box className="space-y-6 text-[#4A1F2A]">
@@ -146,6 +177,58 @@ const OrderDetails = () => {
 
         <Divider sx={{ borderColor: "#E3D4B6" }} />
 
+        {/* ================= REPLACEMENT ================= */}
+{order?.orderStatus === "DELIVERED" && !order?.replacement && isReplacementAllowedUI() && (
+  <section className="border border-[#E3D4B6] p-6 rounded-xl bg-[#FFFCF7] shadow-sm space-y-4">
+    <h3 className="font-semibold">Need Replacement?</h3>
+
+    <Button
+      fullWidth
+      variant="outlined"
+      sx={{
+        py: "12px",
+        borderColor: "#B9935A",
+        color: "#4A1F2A",
+        borderWidth: "2px",
+        fontWeight: 600,
+      }}
+      onClick={() => setOpenReplacement(true)}
+    >
+      Request Replacement
+    </Button>
+{order?.orderStatus === "DELIVERED" &&
+  !order?.replacement &&
+  !isReplacementAllowedUI() && (
+    <p className="text-xs text-red-500">
+      Replacement window expired (7 days)
+    </p>
+)}
+
+
+  </section>
+)}
+
+{/* ================= REPLACEMENT STATUS ================= */}
+{order?.replacement && (
+  <section className="border border-[#E3D4B6] p-6 rounded-xl bg-[#FFFDF8] shadow-sm space-y-2 mt-4">
+    <h3 className="font-semibold">Replacement Status</h3>
+
+    <p className="text-sm">
+      Status:{" "}
+      <b className="text-[#8B5E34]">
+        {order.replacement.status.replaceAll("_", " ")}
+      </b>
+    </p>
+
+    <p className="text-xs text-[#7A6A58]">
+      Requested on:{" "}
+      {new Date(order.replacement.requestedAt).toDateString()}
+    </p>
+  </section>
+)}
+
+
+
         <div className="px-10 py-8">
           <Button
             fullWidth
@@ -168,6 +251,41 @@ const OrderDetails = () => {
           </Button>
         </div>
       </section>
+{/* ================= REPLACEMENT MODAL ================= */}
+<Dialog
+  open={openReplacement}
+  onClose={() => setOpenReplacement(false)}
+  fullWidth
+>
+  <DialogTitle>Request Replacement</DialogTitle>
+
+  <DialogContent>
+    <TextField
+      multiline
+      rows={4}
+      fullWidth
+      value={reason}
+      onChange={(e) => setReason(e.target.value)}
+      placeholder="Explain the issue (color, defect, damage...)"
+    />
+  </DialogContent>
+
+  <DialogActions>
+    <Button onClick={() => setOpenReplacement(false)}>Cancel</Button>
+    <Button
+      variant="contained"
+      disabled={!reason}
+      onClick={() => {
+        dispatch(requestReplacement({ orderId, reason }));
+        setOpenReplacement(false);
+      }}
+    >
+      Submit
+    </Button>
+  </DialogActions>
+</Dialog>
+
+
     </Box>
   );
 };
