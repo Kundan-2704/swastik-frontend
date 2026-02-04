@@ -15,7 +15,9 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useAppDispatch, useAppSelector } from "../Redux Toolkit/Store";
 import {
+  clearAllNotifications,
   fetchNotifications,
+  markAllNotificationsRead,
   markNotificationRead,
 } from "../Redux Toolkit/Features/Notification/notificationSlice";
 const NotificationBell = () => {
@@ -54,13 +56,48 @@ const NotificationBell = () => {
     }
   };
 
+  const handleMarkAllRead = () => {
+  dispatch(markAllNotificationsRead());
+};
+
+const handleClearAll = () => {
+  dispatch(clearAllNotifications());
+  handleClose();
+};
+
+
   return (
     <>
-      <IconButton onClick={handleOpen}>
-        <Badge badgeContent={unreadCount} color="error">
-          <NotificationsIcon />
-        </Badge>
-      </IconButton>
+      <IconButton
+  onClick={handleOpen}
+  size="small"
+  sx={{
+    padding: { xs: 0.5, sm: 1 },
+  }}
+>
+  <Badge
+  badgeContent={unreadCount}
+  overlap="circular"
+  sx={{
+    "& .MuiBadge-badge": {
+      backgroundColor: "#7A1F2B",
+      color: "#fff",
+      fontSize: "10px",
+      height: 16,
+      minWidth: 16,
+    },
+  }}
+>
+  <NotificationsIcon
+    sx={{
+      color: "#B5933A",
+      fontSize: { xs: 20, sm: 24 },
+    }}
+  />
+</Badge>
+
+</IconButton>
+
 
       <Menu
         anchorEl={anchorEl}
@@ -70,11 +107,43 @@ const NotificationBell = () => {
           sx: { width: 360, maxHeight: 420 },
         }}
       >
-        <Box px={2} py={1}>
+        {/* <Box px={2} py={1}>
           <Typography variant="subtitle1" fontWeight={600}>
             Notifications
           </Typography>
-        </Box>
+        </Box> */}
+
+
+        <Box
+  px={2}
+  py={1}
+  display="flex"
+  alignItems="center"
+  justifyContent="space-between"
+>
+  <Typography variant="subtitle1" fontWeight={600}>
+    Notifications
+  </Typography>
+
+  <Box display="flex" gap={1}>
+    <Typography
+      variant="caption"
+      sx={{ cursor: "pointer", color: "primary.main" }}
+      onClick={handleMarkAllRead}
+    >
+      Mark all read
+    </Typography>
+
+    <Typography
+      variant="caption"
+      sx={{ cursor: "pointer", color: "error.main" }}
+      onClick={handleClearAll}
+    >
+      Clear all
+    </Typography>
+  </Box>
+</Box>
+
 
         <Divider />
 

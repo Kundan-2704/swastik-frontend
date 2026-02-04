@@ -1,93 +1,120 @@
 export const womenLevelThree = [
-  // ---------- KURTIS ----------
+  // ---------- HANDLOOM KURTIS ----------
   {
-    name: "Anarkali Kurtis",
-    categoryId: "women_anarkali_kurtis",
-    parentCategoryName: "Kurtis",
-    parentCategoryId: "women-kurtis", // ✅ same as womenLevelTwo
+    name: "Kosa Silk Kurtis",
+    categoryId: "women_kosa_silk_kurtis",
+    parentCategoryName: "Handloom Kurtis",
+    parentCategoryId: "women-handloom-kurtis",
     level: 3
   },
   {
-    name: "A-Line Kurtis",
-    categoryId: "women_aline_kurtis",
-    parentCategoryName: "Kurtis",
-    parentCategoryId: "women-kurtis", // ✅
+    name: "Tussar Silk Kurtis",
+    categoryId: "women_tussar_silk_kurtis",
+    parentCategoryName: "Handloom Kurtis",
+    parentCategoryId: "women-handloom-kurtis",
     level: 3
   },
   {
-    name: "Straight Kurtis",
-    categoryId: "women_straight_kurtis",
-    parentCategoryName: "Kurtis",
-    parentCategoryId: "women-kurtis", // ✅
-    level: 3
-  },
-
-  // ---------- DRESSES ----------
-  {
-    name: "Maxi Dresses",
-    categoryId: "women_maxi_dresses",
-    parentCategoryName: "Dresses",
-    parentCategoryId: "women-dresses", // ✅
-    level: 3
-  },
-  {
-    name: "A-Line Dresses",
-    categoryId: "women_aline_dresses",
-    parentCategoryName: "Dresses",
-    parentCategoryId: "women-dresses", // ✅
-    level: 3
-  },
-  {
-    name: "Bodycon Dresses",
-    categoryId: "women_bodycon_dresses",
-    parentCategoryName: "Dresses",
-    parentCategoryId: "women-dresses", // ✅
+    name: "Handloom Straight Kurtis",
+    categoryId: "women_handloom_straight_kurtis",
+    parentCategoryName: "Handloom Kurtis",
+    parentCategoryId: "women-handloom-kurtis",
     level: 3
   },
 
-  // ---------- TOPS ----------
+  // ---------- HANDLOOM ETHNIC SETS ----------
   {
-    name: "Crop Tops",
-    categoryId: "women_crop_tops",
-    parentCategoryName: "Tops & Tees",
-    parentCategoryId: "women-tops", // ✅
+    name: "Kosa Silk Kurta Sets",
+    categoryId: "women_kosa_silk_kurta_sets",
+    parentCategoryName: "Handloom Ethnic Sets",
+    parentCategoryId: "women-handloom-ethnic-sets",
     level: 3
   },
   {
-    name: "Blouses",
-    categoryId: "women_blouses",
-    parentCategoryName: "Tops & Tees",
-    parentCategoryId: "women-tops", // ✅
-    level: 3
-  },
-  {
-    name: "Casual Tops",
-    categoryId: "women_casual_tops",
-    parentCategoryName: "Tops & Tees",
-    parentCategoryId: "women-tops", // ✅
+    name: "Tussar Silk Kurta Sets",
+    categoryId: "women_tussar_silk_kurta_sets",
+    parentCategoryName: "Handloom Ethnic Sets",
+    parentCategoryId: "women-handloom-ethnic-sets",
     level: 3
   },
 
-  // ---------- BOTTOMWEAR ----------
+  // ---------- HANDLOOM DRESSES ----------
   {
-    name: "Palazzos",
-    categoryId: "women_palazzos",
-    parentCategoryName: "Bottom Wear",
-    parentCategoryId: "women-bottomwear", // ✅
+    name: "Kosa Silk Dresses",
+    categoryId: "women_kosa_silk_dresses",
+    parentCategoryName: "Handloom Dresses",
+    parentCategoryId: "women-handloom-dresses",
     level: 3
   },
   {
-    name: "Leggings",
-    categoryId: "women_leggings",
-    parentCategoryName: "Bottom Wear",
-    parentCategoryId: "women-bottomwear", // ✅
+    name: "Tussar Silk Dresses",
+    categoryId: "women_tussar_silk_dresses",
+    parentCategoryName: "Handloom Dresses",
+    parentCategoryId: "women-handloom-dresses",
+    level: 3
+  },
+
+  // ---------- HANDLOOM TOPS ----------
+  {
+    name: "Kosa Silk Tops",
+    categoryId: "women_kosa_silk_tops",
+    parentCategoryName: "Handloom Tops",
+    parentCategoryId: "women-handloom-tops",
     level: 3
   },
   {
-    name: "Skirts",
-    categoryId: "women_skirts",
-    parentCategoryName: "Bottom Wear",
-    parentCategoryId: "women-bottomwear", // ✅
+    name: "Tussar Silk Tops",
+    categoryId: "women_tussar_silk_tops",
+    parentCategoryName: "Handloom Tops",
+    parentCategoryId: "women-handloom-tops",
+    level: 3
+  },
+
+  // ---------- HANDLOOM BOTTOM WEAR ----------
+  {
+    name: "Handloom Palazzos",
+    categoryId: "women_handloom_palazzos",
+    parentCategoryName: "Handloom Bottom Wear",
+    parentCategoryId: "women-handloom-bottomwear",
+    level: 3
+  },
+  {
+    name: "Handloom Skirts",
+    categoryId: "women_handloom_skirts",
+    parentCategoryName: "Handloom Bottom Wear",
+    parentCategoryId: "women-handloom-bottomwear",
+    level: 3
+  },
+
+  // ---------- KOSA SILK COLLECTION ----------
+  {
+    name: "Kosa Silk Kurtis",
+    categoryId: "women_kosa_silk_kurtis_collection",
+    parentCategoryName: "Kosa Silk Collection",
+    parentCategoryId: "women-kosa-silk",
+    level: 3
+  },
+  {
+    name: "Kosa Silk Dresses",
+    categoryId: "women_kosa_silk_dresses_collection",
+    parentCategoryName: "Kosa Silk Collection",
+    parentCategoryId: "women-kosa-silk",
+    level: 3
+  },
+
+  // ---------- TUSSAR SILK COLLECTION ----------
+  {
+    name: "Tussar Silk Kurtis",
+    categoryId: "women_tussar_silk_kurtis_collection",
+    parentCategoryName: "Tussar Silk Collection",
+    parentCategoryId: "women-tussar-silk",
+    level: 3
+  },
+  {
+    name: "Tussar Silk Dresses",
+    categoryId: "women_tussar_silk_dresses_collection",
+    parentCategoryName: "Tussar Silk Collection",
+    parentCategoryId: "women-tussar-silk",
     level: 3
   }
 ];

@@ -221,7 +221,7 @@ const QuickViewModal: React.FC<QuickViewModalProps> = ({
                             <p>✔ Authentic Indian handloom</p>
                         </div>
 
-                        <div className="border-t border-[#E3D4B6] pt-4 space-y-3">
+                        <div className="border-t border-[#E3D4B6] pt-4  flex gap-3 ">
                             <Button
                                 fullWidth
                                 startIcon={

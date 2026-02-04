@@ -18,6 +18,8 @@ import { weddingLevelTwo } from "../../Data/Category/levelTwo/weddingLevelTwo";
 import { weddingLevelThree } from "../../Data/Category/levelThree/weddingLevelThree";
 import { menLevelTwo } from "../../Data/Category/levelTwo/menLevelTwo";
 import {  menLevelThree } from "../../Data/Category/levelThree/menLevelThree";
+import { womenLevelTwo } from "../../Data/Category/levelTwo/womenLevelTwo";
+import { womenLevelThree } from "../../Data/Category/levelThree/womenLevelThree";
 
 
 const SeedCategories = () => {
@@ -54,6 +56,12 @@ const SeedCategories = () => {
 
         ...menLevelTwo,
         ...menLevelThree,
+
+        ...womenLevelTwo,
+        ...womenLevelThree,
+
+        
+
       ];
 
       // await axios.post("/api/categories/seed", allCategories);

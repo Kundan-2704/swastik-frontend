@@ -26,6 +26,11 @@ import { weddingLevelThree } from "../../Data/Category/levelThree/weddingLevelTh
 import { dailyWearLevelThree } from "../../Data/Category/levelThree/dailyWearLevelThree";
 import { printedLevelThree } from "../../Data/Category/levelThree/printedLevelThree";
 import { menLevelThree } from "../../Data/Category/levelThree/menLevelThree";
+import { womenLevelTwo } from "../../Data/Category/levelTwo/womenLevelTwo";
+import { womenLevelThree } from "../../Data/Category/levelThree/womenLevelThree";
+import { Snackbar, type AlertColor } from "@mui/material";
+
+import MuiAlert from "@mui/material/Alert";
 
 /* ================= TYPES ================= */
 
@@ -58,6 +63,7 @@ const levelTwoMap: Record<string, SubCategory[]> = {
   daily_wear_sarees: dailyWearLevelTwo,
   printed_sarees: printedLevelTwo,
   men: menLevelTwo,
+  women: womenLevelTwo,
 };
 
 const levelThreeMap: Record<string, SubCategory[]> = {
@@ -68,6 +74,7 @@ const levelThreeMap: Record<string, SubCategory[]> = {
   daily_wear_sarees: dailyWearLevelThree,
   printed_sarees: printedLevelThree,
   men: menLevelThree,
+  women: womenLevelThree,
 };
 
 /* ================= COMPONENT ================= */
@@ -79,6 +86,22 @@ const AddProducts: React.FC = () => {
   const [previews, setPreviews] = useState<string[]>([]);
   const [levelTwoOptions, setLevelTwoOptions] = useState<SubCategory[]>([]);
   const [levelThreeOptions, setLevelThreeOptions] = useState<SubCategory[]>([]);
+
+  const [snackbar, setSnackbar] = useState<{
+  open: boolean;
+  message: string;
+  severity: AlertColor;
+}>({
+  open: false,
+  message: "",
+  severity: "success",
+});
+
+const showSnackbar = (message: string, severity: AlertColor) => {
+  setSnackbar({ open: true, message, severity });
+};
+
+
 
   /* ================= FORMIK ================= */
 
@@ -120,7 +143,9 @@ const AddProducts: React.FC = () => {
 
     onSubmit: async (values) => {
       if (!values.category || !values.category2 || !values.category3) {
-        alert("Please select all category levels");
+        // alert("Please select all category levels");
+        showSnackbar("Please select all category levels", "warning");
+
         return;
       }
 
@@ -154,13 +179,17 @@ const AddProducts: React.FC = () => {
 
         const jwt = localStorage.getItem("jwt");
         if (!jwt) {
-          alert("Login expired");
+          // alert("Login expired");
+          showSnackbar("Login expired. Please login again.", "error");
+
           return;
         }
 
         await dispatch(createProduct({ jwt, request: payload })).unwrap();
 
-        alert("Product Added Successfully");
+        // alert("Product Added Successfully");
+        showSnackbar("Product added successfully", "success");
+
         formik.resetForm();
         setImages([]);
         setPreviews([]);
@@ -168,7 +197,9 @@ const AddProducts: React.FC = () => {
         setLevelThreeOptions([]);
       } catch (err) {
         console.error(err);
-        alert("Failed to add product");
+        // alert("Failed to add product");
+        showSnackbar("Failed to add product", "error");
+
       }
     },
   });
@@ -407,6 +438,25 @@ const AddProducts: React.FC = () => {
           Add Product
         </button>
       </form>
+
+<Snackbar
+
+  open={snackbar.open}
+  autoHideDuration={3000}
+  onClose={() => setSnackbar({ ...snackbar, open: false })}
+  anchorOrigin={{ vertical: "top", horizontal: "right" }}
+>
+  <MuiAlert
+    elevation={6}
+    variant="filled"
+    severity={snackbar.severity}
+    onClose={() => setSnackbar({ ...snackbar, open: false })}
+  >
+    {snackbar.message}
+  </MuiAlert>
+</Snackbar>
+
+
     </div>
   );
 };

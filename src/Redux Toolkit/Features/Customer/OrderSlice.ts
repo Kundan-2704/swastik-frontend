@@ -92,7 +92,7 @@ export const cancelOrder = createAsyncThunk<any, any>(
   "orders/cancelOrder",
   async ({ jwt, orderId }, { rejectWithValue }) => {
     try {
-      const response = await apiCustomer.patch(
+      const response = await apiCustomer.post(
         `${API_URL}/${orderId}/cancel`,
         {},
         {

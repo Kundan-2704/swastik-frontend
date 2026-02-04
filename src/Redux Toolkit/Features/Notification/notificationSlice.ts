@@ -75,6 +75,40 @@ export const markNotificationRead = createAsyncThunk<
   }
 });
 
+
+// MARK ALL AS READ
+export const markAllNotificationsRead = createAsyncThunk<
+  void,
+  void,
+  { rejectValue: string }
+>("notification/markAllRead", async (_, { rejectWithValue }) => {
+  try {
+    const api = getApi();
+    await api.patch("/notifications/read-all");
+  } catch (err: any) {
+    return rejectWithValue(
+      err.response?.data?.message || "Failed to mark all notifications read"
+    );
+  }
+});
+
+export const clearAllNotifications = createAsyncThunk<
+  void,
+  void,
+  { rejectValue: string }
+>("notification/clearAll", async (_, { rejectWithValue }) => {
+  try {
+    const api = getApi();
+    await api.delete("/notifications");
+  } catch (err: any) {
+    return rejectWithValue(
+      err.response?.data?.message || "Failed to clear notifications"
+    );
+  }
+});
+
+
+
 /* ================= SLICE ================= */
 
 const notificationSlice = createSlice({
@@ -112,6 +146,22 @@ const notificationSlice = createSlice({
         const n = state.items.find((i) => i._id === id);
         if (n) n.isRead = true;
         state.unreadCount = state.items.filter((n) => !n.isRead).length;
+      })
+      .addCase(markAllNotificationsRead.fulfilled, (state) => {
+        state.items.forEach((n) => {
+          n.isRead = true;
+        });
+        state.unreadCount = 0;
+      })
+      .addCase(markNotificationRead.rejected, (state, action) => {
+        state.error = action.payload || "Error marking notification read";
+      })
+      .addCase(clearAllNotifications.fulfilled, (state) => {
+        state.items = [];
+        state.unreadCount = 0;
+      })
+      .addCase(clearAllNotifications.rejected, (state, action) => {
+        state.error = action.payload || "Error clearing notifications";
       });
   },
 });
