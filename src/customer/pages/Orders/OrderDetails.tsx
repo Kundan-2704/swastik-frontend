@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, TextField } from "@mui/material";
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Snackbar, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import OrderStepper from "./OrderStepper";
 import { Payment } from "@mui/icons-material";
@@ -17,6 +17,14 @@ const OrderDetails = () => {
 
   const [openReplacement, setOpenReplacement] = React.useState(false);
 const [reason, setReason] = React.useState("");
+const [openCancelDialog, setOpenCancelDialog] = React.useState(false);
+const [snackbar, setSnackbar] = React.useState({
+  open: false,
+  message: "",
+  severity: "success"
+});
+
+
 
 
   const { orderItem } = useAppSelector((state) => state.orders);
@@ -67,6 +75,25 @@ const isReplacementAllowedUI = () => {
 
   return diffDays <= 7;
 };
+
+
+useEffect(() => {
+  if (orderItem?.invoiceSuccess) {
+    setSnackbar({
+      open: true,
+      message: "Invoice downloaded successfully",
+      severity: "success"
+    });
+  }
+
+  if (orderItem?.invoiceError) {
+    setSnackbar({
+      open: true,
+      message: "Failed to download invoice",
+      severity: "error"
+    });
+  }
+}, [orderItem?.invoiceSuccess, orderItem?.invoiceError]);
 
 
 
@@ -233,7 +260,9 @@ const isReplacementAllowedUI = () => {
           <Button
             fullWidth
             variant="outlined"
-            onClick={handleCancelOrder}
+            // onClick={handleCancelOrder}
+            
+  onClick={() => setOpenCancelDialog(true)}
             disabled={
               order?.orderStatus === "CANCELLED" ||
               order?.orderStatus === "DELIVERED" ||
@@ -284,6 +313,42 @@ const isReplacementAllowedUI = () => {
     </Button>
   </DialogActions>
 </Dialog>
+
+
+<Dialog open={openCancelDialog} onClose={() => setOpenCancelDialog(false)}>
+  <DialogTitle>Cancel Order?</DialogTitle>
+
+  <DialogContent>
+    <p>
+      If you cancel this order, refund will be initiated to your original payment method.
+    </p>
+  </DialogContent>
+
+  <DialogActions>
+    <Button onClick={() => setOpenCancelDialog(false)}>No</Button>
+
+    <Button
+      color="error"
+      variant="contained"
+      onClick={() => {
+        handleCancelOrder();
+        setOpenCancelDialog(false);
+      }}
+    >
+      Yes Cancel Order
+    </Button>
+  </DialogActions>
+</Dialog>
+
+<Snackbar
+  open={snackbar.open}
+  autoHideDuration={3000}
+  onClose={() => setSnackbar({ ...snackbar, open: false })}
+>
+  <Alert severity={snackbar.severity}>
+    {snackbar.message}
+  </Alert>
+</Snackbar>
 
 
     </Box>

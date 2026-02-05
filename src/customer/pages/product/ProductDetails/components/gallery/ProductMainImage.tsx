@@ -1,181 +1,65 @@
-
-// const ProductMainImage = ({ product, gallery, imageRef, onOpen }: any) => {
-//     if (!gallery) return null;
-
-//     const {
-//         zoomPos,
-//         showLens,
-//         setShowLens,
-//         handleMouseMove,
-//         handleTouchStart,
-//         handleTouchEnd,
-//     } = gallery;
-
-//     return (
-//         <div
-//             className="w-full lg:w-[82%]"
-//             onTouchStart={handleTouchStart}
-//             onTouchEnd={handleTouchEnd}
-//         >
-//             <div
-//                 className="relative rounded-2xl overflow-hidden bg-[#F8F3E8]
-//         shadow-[0_10px_28px_rgba(0,0,0,0.18)]
-//         aspect-[3/4] max-h-[620px] p-3"
-//                 onMouseMove={handleMouseMove}
-//                 onMouseEnter={() => setShowLens(true)}
-//                 onMouseLeave={() => setShowLens(false)}
-//             >
-//                 <img
-//                     ref={imageRef}
-//                     src={product.images?.[gallery.current]}
-//                     key={product.images?.[gallery.current]}   // 🔥 ADD THIS
-//                     loading="eager"
-//                     alt={product.title}
-//                     className="w-full h-full object-contain cursor-zoom-in"
-//                     onClick={onOpen}
-//                     style={{
-//                         transform: showLens ? "scale(1.6)" : "scale(1)",
-//                         transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
-//                         transition: "transform 0.25s ease-out",
-//                     }}
-//                 />
-
-//                 {showLens && (
-//                     <div
-//                         className="absolute pointer-events-none border border-[#B9935A]
-//             rounded-full w-32 h-32"
-//                         style={{
-//                             top: `${zoomPos.y}%`,
-//                             left: `${zoomPos.x}%`,
-//                             transform: "translate(-50%, -50%)",
-//                             background: "rgba(255,255,255,0.2)",
-//                             backdropFilter: "blur(2px)",
-//                         }}
-//                     />
-//                 )}
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default ProductMainImage;
-
-
-
-
-
-// import React, { useState } from "react";
-// import DrapeViewer from "./DrapeViewer";
-
-// const ProductMainImage = ({ product, gallery, imageRef, onOpen }: any) => {
-//   if (!gallery) return null;
-
-//   const {
-//     zoomPos,
-//     showLens,
-//     handleMouseMove,
-//     handleMouseEnter,
-//     handleMouseLeave,
-//     handleTouchStart,
-//     handleTouchEnd,
-//   } = gallery;
-
-//   const [showDrape, setShowDrape] = useState(false);
-
-//   return (
-//     <div
-//       className="w-full lg:w-[82%]"
-//       onTouchStart={handleTouchStart}
-//       onTouchEnd={handleTouchEnd}
-//     >
-//       <div
-//         ref={imageRef}
-//         className="relative rounded-2xl overflow-hidden bg-[#F8F3E8]
-//           shadow-[0_10px_28px_rgba(0,0,0,0.18)]
-//           aspect-[3/4] max-h-[620px] p-3"
-//         onMouseMove={!showDrape ? handleMouseMove : undefined}
-//         onMouseEnter={!showDrape ? handleMouseEnter : undefined}
-//         onMouseLeave={!showDrape ? handleMouseLeave : undefined}
-//       >
-//         {/* Toggle Button */}
-//         {product.drapeImages?.length > 0 && (
-//           <button
-//             onClick={() => setShowDrape((p) => !p)}
-//             className="absolute top-4 right-4 z-20 bg-white/90 backdrop-blur
-//               px-4 py-1.5 rounded-full text-sm font-medium shadow"
-//           >
-//             {showDrape ? "Close Drape" : "View Drape"}
-//           </button>
-//         )}
-
-//         {/* MAIN VIEW */}
-//         {showDrape ? (
-//           <DrapeViewer images={product.drapeImages} />
-//         ) : (
-//           <>
-//             <img
-//               src={product.images?.[gallery.current]}
-//               key={product.images?.[gallery.current]}
-//               loading="eager"
-//               alt={product.title}
-//               className="w-full h-full object-contain cursor-zoom-in"
-//               onClick={onOpen}
-//               style={{
-//                 transform: showLens ? "scale(1.6)" : "scale(1)",
-//                 transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
-//                 transition: "transform 0.25s ease-out",
-//               }}
-//             />
-
-//             {/* Lens (desktop only) */}
-//             {showLens && (
-//               <div
-//                 className="hidden lg:block absolute pointer-events-none border border-[#B9935A]
-//                   rounded-full w-32 h-32"
-//                 style={{
-//                   top: `${zoomPos.y}%`,
-//                   left: `${zoomPos.x}%`,
-//                   transform: "translate(-50%, -50%)",
-//                   background: "rgba(255,255,255,0.2)",
-//                   backdropFilter: "blur(2px)",
-//                 }}
-//               />
-//             )}
-//           </>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProductMainImage;
-
-
-
 // import React from "react";
 
-// const ProductMainImage = ({ product, gallery }: any) => {
-//   if (!product) return null;
+// const ProductMainImage = ({
+//   product,
+//   gallery,
+//   onOpen,
+//   onHoverChange,
+// }: any) => {
+//   if (!product?.images?.length) return null;
 
-//   const imageSrc = product.images[gallery.current];
+//   const src = product.images[gallery.current];
 
 //   return (
-//     <div className="w-full lg:w-[82%]">
+//     <div className="w-full lg:w-[75%]">
 //       <div
-//         className="relative h-[600px] overflow-hidden rounded-xl border"
-//         onMouseEnter={gallery.handleMouseEnter}
-//         onMouseLeave={gallery.handleMouseLeave}
+//         className="
+//           relative
+//           aspect-[4/5]
+//           max-h-[600px]
+//           overflow-hidden
+//           rounded-2xl
+//           bg-[#f6f4f1]
+//           cursor-zoom-in
+//         "
+//         onClick={onOpen}
+//         onMouseEnter={() => {
+//           gallery.handleMouseEnter();
+//           onHoverChange(true);
+//         }}
+//         onMouseLeave={() => {
+//           gallery.handleMouseLeave();
+//           onHoverChange(false);
+//         }}
 //         onMouseMove={gallery.handleMouseMove}
+
+
+//   onTouchStart={gallery.handleTouchStart}
+//   onTouchMove={gallery.handleTouchMove}
+//   onTouchEnd={gallery.handleTouchEnd}
 //       >
-//         <div
-//           className="absolute inset-0 bg-no-repeat"
-//           style={{
-//             backgroundImage: `url(${imageSrc})`,
-//             backgroundSize: gallery.isZooming ? "200%" : "contain",
-//             backgroundPosition: `${gallery.zoomPos.x}% ${gallery.zoomPos.y}%`,
-//             cursor: "zoom-in",
-//           }}
+//         <img
+//           src={src}
+//           alt="product"
+//           className="w-full h-full object-cover transition-transform duration-300"
+//           style={
+//             gallery.isZooming
+//               ? {
+//                   /* 🔍 ZOOM STATE */
+//                   transform: "scale(2)",
+//                   transformOrigin: `${gallery.zoomPos.x}% ${gallery.zoomPos.y}%`,
+//                 }
+//               : {
+//                   /* 🧍 NORMAL STATE (HEAD SAFE) */
+//                   transform: "none",          // ❗ important
+//                   objectPosition: "50% 8%",   // ❗ top-focused crop
+//                 }
+//           }
 //         />
+
+//         <span className="absolute bottom-4 right-4 bg-black/70 text-white text-xs px-3 py-1 rounded-full pointer-events-none">
+//           Click to zoom
+//         </span>
 //       </div>
 //     </div>
 //   );
@@ -189,12 +73,21 @@
 
 import React from "react";
 
-const ProductMainImage = ({
+interface Props {
+  product: {
+    images: string[];
+  };
+  gallery: any;
+  onOpen: () => void;
+  onHoverChange: (state: boolean) => void;
+}
+
+const ProductMainImage: React.FC<Props> = ({
   product,
   gallery,
   onOpen,
   onHoverChange,
-}: any) => {
+}) => {
   if (!product?.images?.length) return null;
 
   const src = product.images[gallery.current];
@@ -202,15 +95,18 @@ const ProductMainImage = ({
   return (
     <div className="w-full lg:w-[75%]">
       <div
-        className="
-          relative
-          aspect-[4/5]
-          max-h-[600px]
-          overflow-hidden
-          rounded-2xl
-          bg-[#f6f4f1]
-          cursor-zoom-in
-        "
+       className="
+  relative
+  w-full
+  h-[520px]
+  lg:h-[680px]
+  overflow-hidden
+  rounded-2xl
+  bg-[#f6f4f1]
+  cursor-zoom-in
+  touch-none
+  select-none
+"
         onClick={onOpen}
         onMouseEnter={() => {
           gallery.handleMouseEnter();
@@ -221,31 +117,38 @@ const ProductMainImage = ({
           onHoverChange(false);
         }}
         onMouseMove={gallery.handleMouseMove}
-
-        
-  onTouchStart={gallery.handleTouchStart}
-  onTouchMove={gallery.handleTouchMove}
-  onTouchEnd={gallery.handleTouchEnd}
+        onTouchStart={gallery.handleTouchStart}
+        onTouchMove={gallery.handleTouchMove}
+        onTouchEnd={gallery.handleTouchEnd}
       >
         <img
           src={src}
           alt="product"
-          className="w-full h-full object-cover transition-transform duration-300"
+          draggable={false}
+          className="
+            w-full
+            h-full
+            object-cover
+            will-change-transform
+            transition-transform
+            duration-300
+            md:duration-300
+            duration-0
+          "
           style={
             gallery.isZooming
               ? {
-                  /* 🔍 ZOOM STATE */
-                  transform: "scale(2)",
-                  transformOrigin: `${gallery.zoomPos.x}% ${gallery.zoomPos.y}%`,
-                }
+                transform: "scale(2)",
+                transformOrigin: `${gallery.zoomPos.x}% ${gallery.zoomPos.y}%`,
+              }
               : {
-                  /* 🧍 NORMAL STATE (HEAD SAFE) */
-                  transform: "none",          // ❗ important
-                  objectPosition: "50% 8%",   // ❗ top-focused crop
-                }
+                transform: "none",
+                objectPosition: "50% 8%",
+              }
           }
         />
 
+        {/* Zoom label */}
         <span className="absolute bottom-4 right-4 bg-black/70 text-white text-xs px-3 py-1 rounded-full pointer-events-none">
           Click to zoom
         </span>
