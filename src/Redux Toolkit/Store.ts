@@ -18,6 +18,7 @@ import homeCategoryReducer from "./Features/Customer/HomeCategorySlice";
 import addressReducer from "./Features/Customer/AddressSlice";
 import customerDealReducer from "./Features/Customer/CustomerDealSlice";
 import replacementCustomerReducer from "./Features/Customer/ReplacementCustomerSlice";
+import reviewReducer from "./Features/Customer/ReviewSlice";
 
 /* ================= SELLER ================= */
 import sellerReducer from "./Features/Seller/SellerAuthenticationSlice";
@@ -65,6 +66,8 @@ const rootReducer = combineReducers({
   customerDeal: customerDealReducer,
    invoice: invoiceReducer,
    replacementCustomer: replacementCustomerReducer,
+       reviews: reviewReducer,
+
 
   // Seller
   seller: sellerReducer,

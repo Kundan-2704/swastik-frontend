@@ -1,75 +1,3 @@
-// import React, { useEffect } from "react";
-// import Slider from "react-slick";
-// import DealCard from "./DealCard";
-// import { useAppDispatch, useAppSelector } from "../../../../Redux Toolkit/Store";
-// import { getActiveDeals } from "../../../../Redux Toolkit/Features/Customer/CustomerDealSlice";
-// import { useNavigate } from "react-router-dom";
-
-// const Deal = () => {
-//   const dispatch = useAppDispatch();
-//   const navigate = useNavigate();
-
-//   const { deals } = useAppSelector((state) => state.customerDeal);
-
-//   useEffect(() => {
-//     dispatch(getActiveDeals());
-//   }, [dispatch]);
-
-
-
-
-//   const settings = {
-//     dots: true,
-//     infinite: deals.length > 5,
-//     speed: 700,
-//     slidesToShow: 5,
-//     autoplay: true,
-//     autoplaySpeed: 2500,
-//     responsive: [
-//       { breakpoint: 1280, settings: { slidesToShow: 4 } },
-//       { breakpoint: 1024, settings: { slidesToShow: 3 } },
-//       { breakpoint: 768, settings: { slidesToShow: 2 } },
-//       { breakpoint: 480, settings: { slidesToShow: 1 } },
-//     ],
-//   };
-
-//   return (
-//     <div className="py-5 px-4 md:px-8 lg:px-16">
-//       <Slider {...settings}>
-//         {deals.flatMap((deal) =>
-//           deal.products?.map((product: any) => (
-//             <div key={product._id} className="px-2">
-
-//               {/* ✅ BUTTON FIX */}
-//               <button
-//                 type="button"
-//                 className="w-full text-left"
-//                 onMouseDown={(e) => e.stopPropagation()} // 🔥 KEY LINE
-//                 onClick={() => {
-//                   navigate(
-//                     `/product-details/${product.categoryId}/${product.title}/${product._id}`
-//                   );
-
-//                 }}
-//               >
-//                 <DealCard
-//                   deal={{
-//                     image: product.image || product.images?.[0],
-//                     discount: deal.discountValue,
-//                   }}
-//                 />
-//               </button>
-
-//             </div>
-//           ))
-//         )}
-//       </Slider>
-//     </div>
-//   );
-// };
-
-// export default Deal;
-
 
 
 
@@ -184,7 +112,12 @@ const Deal: React.FC = () => {
                   <DealCard
                     deal={{
                       image,
-                      discount: deal.discountValue,
+                      // discount: deal.discountValue,
+                         discount: deal.discountValue,
+    dealName: deal.name,
+    title: product.title,
+    price: product.sellingPrice, // 👈 yahin se price
+    endDate: deal.endDate,
                     }}
                   />
                 </button>
