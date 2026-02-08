@@ -29,6 +29,10 @@ const [snackbar, setSnackbar] = React.useState({
 
   const { orderItem } = useAppSelector((state) => state.orders);
 
+  const {success, error} = useAppSelector((state)=> state.replacementCustomer)
+
+  const {success: invoiceSuccess, error:invoiceError} = useAppSelector((state)=> state.invoice)
+
   const order = orderItem?.order;
   const orderId = order?._id;
 
@@ -78,7 +82,26 @@ const isReplacementAllowedUI = () => {
 
 
 useEffect(() => {
-  if (orderItem?.invoiceSuccess) {
+  if(success){
+setSnackbar({
+  open: true,
+  message: "Replacement request submitted successfully",
+  severity: "success"
+});
+  }
+
+if(error){
+  setSnackbar({
+    open:true,
+    message: error,
+    severity: "error"
+  })
+}
+}, [success, error])
+
+
+useEffect(() => {
+  if (invoiceSuccess) {
     setSnackbar({
       open: true,
       message: "Invoice downloaded successfully",
@@ -86,14 +109,16 @@ useEffect(() => {
     });
   }
 
-  if (orderItem?.invoiceError) {
+  if (invoiceError) {
     setSnackbar({
       open: true,
       message: "Failed to download invoice",
       severity: "error"
     });
   }
-}, [orderItem?.invoiceSuccess, orderItem?.invoiceError]);
+}, [invoiceSuccess, invoiceError]);
+
+
 
 
 
@@ -307,6 +332,7 @@ useEffect(() => {
       onClick={() => {
         dispatch(requestReplacement({ orderId, reason }));
         setOpenReplacement(false);
+        setReason("");
       }}
     >
       Submit

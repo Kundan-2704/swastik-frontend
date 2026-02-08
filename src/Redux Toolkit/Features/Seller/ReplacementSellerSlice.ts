@@ -3,12 +3,14 @@ import { apiSeller } from "../../../Config/apiSeller";
 
 interface SellerReplacementState {
   loading: boolean;
+  success: boolean;
   error: string | null;
   order: any | null;
 }
 
 const initialState: SellerReplacementState = {
   loading: false,
+  success: false,
   error: null,
   order: null,
 };
@@ -91,6 +93,7 @@ const sellerReplacementSlice = createSlice({
   reducers: {
     clearSellerReplacement: (state) => {
       state.loading = false;
+      state.success = false;
       state.error = null;
     },
   },
@@ -98,15 +101,27 @@ const sellerReplacementSlice = createSlice({
     builder
       .addCase(approveReplacement.fulfilled, (state, action) => {
         state.order = action.payload;
+        state.loading = true;
+        state.success = true;
+        state.error = null;
       })
       .addCase(rejectReplacement.fulfilled, (state, action) => {
         state.order = action.payload;
+         state.loading = true;
+        state.success = true;
+        state.error = null;
       })
       .addCase(pickupReplacement.fulfilled, (state, action) => {
         state.order = action.payload;
+         state.loading = true;
+        state.success = true;
+        state.error = null;
       })
       .addCase(shipReplacement.fulfilled, (state, action) => {
         state.order = action.payload;
+         state.loading = true;
+        state.success = true;
+        state.error = null;
       });
   },
 });

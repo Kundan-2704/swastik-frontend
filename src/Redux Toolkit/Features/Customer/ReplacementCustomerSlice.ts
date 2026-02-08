@@ -3,12 +3,14 @@ import { apiCustomer } from "../../../Config/apiCustomer";
 
 interface ReplacementState {
   loading: boolean;
+  success: boolean;
   error: string | null;
   order: any | null;
 }
 
 const initialState: ReplacementState = {
   loading: false,
+  success: false,
   error: null,
   order: null,
 };
@@ -37,6 +39,7 @@ const customerReplacementSlice = createSlice({
   reducers: {
     clearCustomerReplacement: (state) => {
       state.loading = false;
+      state.success = false;
       state.error = null;
     },
   },
@@ -44,14 +47,17 @@ const customerReplacementSlice = createSlice({
     builder
       .addCase(requestReplacement.pending, (state) => {
         state.loading = true;
+        state.success = false;
+        state.error = null;
       })
       .addCase(requestReplacement.fulfilled, (state, action) => {
         state.loading = false;
+        state.success = true;
         state.order = action.payload;
       })
       .addCase(requestReplacement.rejected, (state, action: any) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload || "Replacment Request failed";
       });
   },
 });

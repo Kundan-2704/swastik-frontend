@@ -1,6 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { apiCustomer } from "../../../Config/apiCustomer";
 
+
+interface invoice{
+  loading : boolean,
+  success: boolean,
+  error: string | null
+}
+
+const initialState : invoice ={
+  loading: false,
+  success: false,
+  error: null ,
+}
+
 export const downloadInvoice = createAsyncThunk(
   "invoice/download",
   async (orderId: string, { rejectWithValue }) => {
@@ -28,19 +41,24 @@ export const downloadInvoice = createAsyncThunk(
 
 const invoiceSlice = createSlice({
   name: "invoice",
-  initialState: {
-    loading: false,
-    error: null as string | null,
+  initialState,
+  reducers:{
+clearInvoice:(state)=>{
+state.loading = false,
+state.success = false,
+state.error = null
+},
   },
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(downloadInvoice.pending, (state) => {
         state.loading = true;
+        state.success = false;
         state.error = null;
       })
       .addCase(downloadInvoice.fulfilled, (state) => {
         state.loading = false;
+        state
       })
       .addCase(downloadInvoice.rejected, (state, action) => {
         state.loading = false;

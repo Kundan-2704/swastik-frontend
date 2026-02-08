@@ -5,11 +5,13 @@ import { apiSeller } from "../../../Config/apiSeller";
 
 interface PackingSlipState {
   loading: boolean;
+  success: boolean;
   error: string | null;
 }
 
 const initialState: PackingSlipState = {
   loading: false,
+  success:false,
   error: null,
 };
 
@@ -54,6 +56,7 @@ const packingSlipSlice = createSlice({
   reducers: {
     resetPackingSlipState: (state) => {
       state.loading = false;
+      state.success = false;
       state.error = null;
     },
   },
@@ -61,13 +64,16 @@ const packingSlipSlice = createSlice({
     builder
       .addCase(downloadPackingSlip.pending, (state) => {
         state.loading = true;
+        state.success = false;
         state.error = null;
       })
       .addCase(downloadPackingSlip.fulfilled, (state) => {
         state.loading = false;
+        state.success = true;
       })
       .addCase(downloadPackingSlip.rejected, (state, action) => {
         state.loading = false;
+        state.success = false;
         state.error = action.payload || "Something went wrong";
       });
   },
