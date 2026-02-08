@@ -76,25 +76,57 @@ const SellerLogin: React.FC<Props> = ({ embedded = false }) => {
   };
 
   /* ================= GOOGLE LOGIN ================= */
-  const handleGoogleLogin = async () => {
+//   const handleGoogleLogin = async () => {
+//   try {
+//     const result = await signInWithPopup(auth, googleProvider);
+//     const idToken = await result.user.getIdToken(true);
+
+//     const res = await api.post("/auth/google-login", { idToken });
+
+//     // 🔥 ONLY THIS MATTERS
+//     dispatch(setSellerJwt(res.data.token)); // redux
+//     localStorage.setItem("seller_jwt", res.data.token); // persist
+
+//     // ❌ navigate mat karo yaha
+//     // useEffect auto karega
+
+//   } catch (error: any) {
+//     console.error("SELLER GOOGLE LOGIN ERROR →", error);
+//     alert(error?.response?.data?.message || "Google login failed");
+//   }
+// };
+
+
+const handleGoogleLogin = async () => {
   try {
+    // 1️⃣ Google popup
     const result = await signInWithPopup(auth, googleProvider);
+
+    // 2️⃣ Firebase ID token
     const idToken = await result.user.getIdToken(true);
 
-    const res = await api.post("/auth/google-login", { idToken });
+    // 3️⃣ BACKEND CALL (EXISTING ROUTE)
+    const res = await api.post("/auth/google-login", {
+      idToken,
+      role: "seller", // 🔥 THIS IS THE KEY
+    });
 
-    // 🔥 ONLY THIS MATTERS
-    dispatch(setSellerJwt(res.data.token)); // redux
-    localStorage.setItem("seller_jwt", res.data.token); // persist
+    // 4️⃣ SAVE TOKEN (SAME AS OTP / INTERCEPTOR EXPECTS)
+    dispatch(setSellerJwt(res.data.token));
+    localStorage.setItem("seller_jwt", res.data.token);
 
-    // ❌ navigate mat karo yaha
-    // useEffect auto karega
+    // ❌ navigate yahin mat karo
+    // ✅ useEffect auto-redirect karega
 
   } catch (error: any) {
     console.error("SELLER GOOGLE LOGIN ERROR →", error);
-    alert(error?.response?.data?.message || "Google login failed");
+    alert(
+      error?.response?.data?.message ||
+      "Google login failed"
+    );
   }
 };
+
 
   /* ================= WRAPPER ================= */
   const Wrapper = embedded ? React.Fragment : "div";

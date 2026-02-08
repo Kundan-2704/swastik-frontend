@@ -169,7 +169,7 @@ const BecomeSeller: React.FC = () => {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert severity="success" variant="filled">
-          Seller account created successfully! Please login to continue.
+          🎉 Seller account created successfully! Please login to continue.
         </Alert>
       </Snackbar>
     </div>

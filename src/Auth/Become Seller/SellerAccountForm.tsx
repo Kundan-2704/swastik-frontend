@@ -204,6 +204,8 @@ interface Props {
 
 const SellerAccountForm: React.FC<Props> = ({ onSuccess }) => {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [acceptedSellerTerms, setAcceptedSellerTerms] = React.useState(false);
+
   const dispatch = useAppDispatch();
 
   const formik = useFormik({
@@ -306,7 +308,7 @@ const SellerAccountForm: React.FC<Props> = ({ onSuccess }) => {
       {/* FORM BODY */}
       <div className="bg-[#FFF8ED] border border-[#E3D4B6] shadow-sm rounded-2xl p-6">
         {{
-          0: <BecomeSellerStep1 formik={formik} />,
+          0: <BecomeSellerStep1 formik={formik}  acceptedSellerTerms={acceptedSellerTerms} setAcceptedSellerTerms={setAcceptedSellerTerms}/>,
           1: <BecomeSellerStep2 formik={formik} />,
           2: <BecomeSellerStep3 formik={formik} />,
           3: <BecomeSellerStep4 formik={formik} />,
@@ -333,7 +335,11 @@ const SellerAccountForm: React.FC<Props> = ({ onSuccess }) => {
 
         <Button
           variant="contained"
-          disabled={formik.isSubmitting}
+          // disabled={formik.isSubmitting}
+           disabled={
+    formik.isSubmitting ||
+    (activeStep === 0 && !acceptedSellerTerms)
+  }
           onClick={
             activeStep === steps.length - 1
               ? formik.handleSubmit

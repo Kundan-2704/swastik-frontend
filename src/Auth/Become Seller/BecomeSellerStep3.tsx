@@ -101,6 +101,8 @@ const BecomeSellerStep3 = ({ formik }: any) => {
         />
 
         <TextField fullWidth label="IFSC Code" {...formik.getFieldProps("bankDetails.ifscCode")} />
+        <TextField fullWidth label="Bank Name" {...formik.getFieldProps("bankDetails.bankName")} />
+        <TextField fullWidth label="Branch Name" {...formik.getFieldProps("bankDetails.branchName")} />
       </div>
     </Box>
   );

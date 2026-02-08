@@ -9,7 +9,7 @@ export const apiSeller = axios.create({
 
 apiSeller.interceptors.request.use(
   (config) => {
-    const sellerToken = localStorage.getItem("jwt"); // ✅ FIX HERE
+    const sellerToken = localStorage.getItem("seller_jwt"); // ✅ FIX HERE
 
     if (sellerToken) {
       config.headers.Authorization = `Bearer ${sellerToken}`;

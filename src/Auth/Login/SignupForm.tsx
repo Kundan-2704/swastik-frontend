@@ -23,6 +23,9 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../Config/firebase";
 import api from "../../Config/apiBase";
 
+import { Checkbox, FormControlLabel } from "@mui/material";
+
+
 const SignupForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -40,6 +43,9 @@ const SignupForm = () => {
     message: "",
     type: "success",
   });
+
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+
 
   const showSnack = (
     message: string,
@@ -74,6 +80,12 @@ const SignupForm = () => {
   // SEND OTP
   // ============================
   const handleSentOtp = async () => {
+
+      if (!acceptedTerms) {
+    showSnack("Please accept Terms & Conditions to continue", "info");
+    return;
+  }
+
     if (!formik.values.email) {
       showSnack("Please enter your email", "info");
       return;
@@ -91,6 +103,13 @@ const SignupForm = () => {
   // GOOGLE SIGNUP
   // ============================
   const handleGoogleSignup = async () => {
+
+     if (!acceptedTerms) {
+    showSnack("Please accept Terms & Conditions to continue", "info");
+    return;
+  }
+
+
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const idToken = await result.user.getIdToken(true);
@@ -179,13 +198,65 @@ const SignupForm = () => {
               />
             )}
 
+
+            {/* TERMS & CONDITIONS */}
+<FormControlLabel
+  sx={{
+    marginLeft: 0,
+    alignItems: "center",
+    "& .MuiCheckbox-root": {
+      padding: "2px",
+      marginRight: "6px",
+    },
+    "& .MuiFormControlLabel-label": {
+      fontSize: "12.5px",
+      color: "#6B5A4A",
+      lineHeight: 1.4,
+      marginTop: "2px",
+    },
+  }}
+  control={
+    <Checkbox
+      checked={acceptedTerms}
+      onChange={(e) => setAcceptedTerms(e.target.checked)}
+      sx={{
+        color: "#C58B4E",
+        "&.Mui-checked": {
+          color: "#8B5E34",
+        },
+      }}
+    />
+  }
+  label={
+    <span>
+      I agree to the{" "}
+      <a
+        href="/terms-and-conditions"
+        target="_blank"
+        className="underline text-[#8B5E34] hover:text-[#6B4423]"
+      >
+        Terms & Conditions
+      </a>{" "}
+      and{" "}
+      <a
+        href="/privacy-policy"
+        target="_blank"
+        className="underline text-[#8B5E34] hover:text-[#6B4423]"
+      >
+        Privacy Policy
+      </a>
+    </span>
+  }
+/>
+
+
             {/* CREATE ACCOUNT BUTTON */}
             <div className="pt-2">
               <Button
                 onClick={authState.otpSent ? formik.handleSubmit : handleSentOtp}
                 fullWidth
                 type="button"
-                disabled={authState.loading}
+                disabled={authState.loading || !acceptedTerms}
                 variant="contained"
                 sx={{
                   py: "12px",
@@ -216,6 +287,7 @@ const SignupForm = () => {
             {/* GOOGLE SIGNUP */}
             <Button
               onClick={handleGoogleSignup}
+              disabled={!acceptedTerms}
               fullWidth
               variant="outlined"
               startIcon={<GoogleIcon sx={{ color: "#8B5E34", opacity: 0.9 }} />}
