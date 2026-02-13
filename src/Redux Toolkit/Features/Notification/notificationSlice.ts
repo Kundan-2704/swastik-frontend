@@ -35,7 +35,7 @@ const initialState: NotificationState = {
 // role based axios selector
 const getApi = () => {
   if (localStorage.getItem("admin_jwt")) return apiAdmin;
-  if (localStorage.getItem("jwt")) return apiSeller; // seller / customer
+  if (localStorage.getItem("seller_jwt")) return apiSeller; // seller / customer
   return apiCustomer;
 };
 

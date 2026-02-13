@@ -35,10 +35,19 @@ const API_URL = "/api/coupon";
 
 // ===================== INITIAL STATE =====================
 
+// const initialState = {
+//   coupon: null as any,
+//   discountAmount: 0,
+//   finalAmount: 0,
+
+//   loading: false,
+//   success: false,
+//   error: "" as string
+// };
+
+
 const initialState = {
   coupon: null as any,
-  discountAmount: 0,
-  finalAmount: 0,
 
   loading: false,
   success: false,
@@ -98,14 +107,10 @@ const couponSlice = createSlice({
         state.success = false;
       })
       .addCase(applyCoupon.fulfilled, (state, action) => {
-        state.loading = false;
-        state.success = true;
-
-        // backend response ke hisaab se adjust kar sakte ho
-        state.coupon = action.payload;
-        state.discountAmount = action.payload?.discountAmount || 0;
-        state.finalAmount = action.payload?.finalAmount || 0;
-      })
+  state.loading = false;
+  state.success = true;
+  state.coupon = action.payload;
+})
       .addCase(applyCoupon.rejected, (state, action: any) => {
         state.loading = false;
         state.success = false;

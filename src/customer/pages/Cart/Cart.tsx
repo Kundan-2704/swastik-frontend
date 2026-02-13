@@ -11,7 +11,7 @@ import PricingCard from "./PricingCard";
 import {
   fetchCart,
   applyCoupon,
-  removeCoupon,
+  removeCouponFromCart,
 } from "../../../Redux Toolkit/Features/Customer/CartSlice";
 import { useAppDispatch, useAppSelector } from "../../../Redux Toolkit/Store";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +22,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { cart, loading, appliedCoupon, couponError } = useAppSelector(
+  const { cart, loading, couponError } = useAppSelector(
     (state) => state.cart
   );
 
@@ -40,19 +40,38 @@ const Cart = () => {
   const hasItems = cart?.cartItems?.length > 0;
 
   /* ===================== COUPON HANDLERS ===================== */
+  // const handleApplyCoupon = () => {
+  //   if (!couponCode || !cart) return;
+  //   dispatch(
+  //     applyCoupon({
+  //       code: couponCode.trim(),
+  //       cartTotal: cart.totalSellingPrice,
+  //       jwt,
+  //     })
+  //   );
+  // };
+
+
+
   const handleApplyCoupon = () => {
-    if (!couponCode || !cart) return;
-    dispatch(
-      applyCoupon({
-        code: couponCode.trim(),
-        cartTotal: cart.totalSellingPrice,
-      })
-    );
-  };
+  console.log("BUTTON CLICKED ✅");
+
+  dispatch(applyCoupon({ code: couponCode.trim(), jwt }))
+     .unwrap()
+     .then(res => {
+        console.log("COUPON SUCCESS ✅", res);
+        dispatch(fetchCart(jwt));
+     })
+     .catch(err => {
+        console.log("COUPON ERROR ❌", err);
+     });
+};
 
   const handleRemoveCoupon = () => {
     setCouponCode("");
-    dispatch(removeCoupon());
+    dispatch(removeCouponFromCart(jwt))
+  .unwrap()
+  .then(() => dispatch(fetchCart(jwt)));
   };
 
   const handleBuyNow = () => {
@@ -101,10 +120,10 @@ const Cart = () => {
                 <span className="font-medium">Apply Coupons</span>
               </div>
 
-              {appliedCoupon ? (
+              {cart?.couponCode ? (
                 <div className="flex justify-between items-center bg-[#EDE3CF] px-3 py-2 rounded-lg">
                   <span className="text-[#4A1F2A] font-medium">
-                    {appliedCoupon} applied
+                    {cart?.couponCode} applied
                   </span>
                   <button
                     className="text-xs text-red-600 font-semibold"

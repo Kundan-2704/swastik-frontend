@@ -212,7 +212,8 @@ useEffect(() => {
                     </td>
 
                     <td className="px-4 py-4 font-medium">
-                      ₹{order.totalSellingPrice}
+                      {/* ₹{order.totalSellingPrice} */}
+                      ₹{order.finalAmount ?? order.totalSellingPrice}
                     </td>
 
                     <td className="px-4 py-4">
@@ -343,6 +344,7 @@ useEffect(() => {
                     <p className="text-gray-400">Amount</p>
                     <p className="font-semibold">
                       ₹{order.totalSellingPrice}
+                      {/* ₹{order.finalAmount ?? order.totalSellingPrice} */}
                     </p>
                   </div>
                   <div>

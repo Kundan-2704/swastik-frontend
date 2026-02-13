@@ -114,7 +114,7 @@ const OrderTable = () => {
 
                   {/* AMOUNT */}
                   <td className="px-4 py-4 font-medium">
-                    ₹{order.totalSellingPrice}
+                     ₹{order.finalAmount ?? order.totalSellingPrice}
                   </td>
 
                   {/* STATUS */}

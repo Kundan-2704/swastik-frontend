@@ -170,7 +170,7 @@ useEffect(() => {
           />
 
           <Chip
-            label={`Total: ₹${order.totalSellingPrice}`}
+            label={`Total: ₹${order.finalAmount ?? order.totalSellingPrice}`} // ₹{order.finalAmount ?? order.totalSellingPrice}
             sx={{ backgroundColor: "#FFF5E7" }}
           />
         </div>

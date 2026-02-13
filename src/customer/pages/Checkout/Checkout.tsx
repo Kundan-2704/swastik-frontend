@@ -80,102 +80,6 @@ const Checkout = () => {
 
   /* ================= CHECKOUT ================= */
 
-
-  // const handleCheckout = async () => {
-  //   if (!selectedAddress || cart.totalSellingPrice === 0 || loading) return;
-
-  //   try {
-  //     setLoading(true);
-
-  //     const orderRes = await dispatch(
-  //       createOrder({
-  //         addressId: selectedAddress,
-  //         paymentGateway: "RAZORPAY",
-  //         jwt: localStorage.getItem("jwt") || "",
-  //       })
-  //     ).unwrap();
-
-  //     const orderId = orderRes?.orders?.[0]?._id;
-  //     if (!orderId) throw new Error("Order not created");
-
-  //     const { data } = await axios.post(
-  //       `${import.meta.env.VITE_API_BASE_URL}/api/payment/razorpay/create-order`,
-  //       { orderId },
-  //       {
-  //         headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
-  //       }
-  //     );
-
-  //     const options = {
-  //       key: import.meta.env.VITE_RAZORPAY_KEY,
-  //       order_id: data.razorpayOrderId,
-  //       amount: data.amount,
-  //       currency: data.currency,
-  //       name: "Swastik",
-  //       description: "Order Payment",
-  //       handler: () => {
-  //         navigate("/order-success");
-  //       },
-  //       modal: {
-  //         ondismiss: () => setLoading(false),
-  //       },
-  //     };
-
-  //     new window.Razorpay(options).open();
-
-  //   } catch (err) {
-  //     console.error("Checkout error:", err);
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const handleCheckout = async () => {
-  //   if (loading) return;
-  //   if (!selectedAddress) return alert("Select address");
-
-  //   setLoading(true);
-
-  //   try {
-  //     // 1️⃣ create DB order
-  //     const orderRes = await dispatch(
-  //       createOrder({
-  //         addressId: selectedAddress,
-  //         paymentGateway: "RAZORPAY",
-  //         jwt: localStorage.getItem("jwt") || "",
-  //       })
-  //     ).unwrap();
-
-  //     const orderId = orderRes.orders[0]._id;
-
-  //     // 2️⃣ create razorpay order
-  //     const { data } = await axios.post(
-  //       `${import.meta.env.VITE_API_BASE_URL}/api/payment/razorpay/create-order`,
-  //       { orderId },
-  //       { headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` } }
-  //     );
-
-  //     // 3️⃣ open popup
-  //     new window.Razorpay({
-  //       key: import.meta.env.VITE_RAZORPAY_KEY,
-  //       order_id: data.razorpayOrderId,
-  //       amount: data.amount,
-  //       currency: "INR",
-  //       name: "Swastik",
-  //       handler: () => {
-  //         navigate("/order-success");
-  //       },
-  //       modal: {
-  //         ondismiss: () => setLoading(false),
-  //       },
-  //       theme: { color: "#4A1F2A" },
-  //     }).open();
-
-  //   } catch (e) {
-  //     setLoading(false);
-  //     alert("Checkout failed");
-  //   }
-  // };
-
   const handleCheckout = async () => {
     if (loading) return;
     if (!selectedAddress) return alert("Select address");
@@ -298,7 +202,7 @@ const Checkout = () => {
             <Button
               fullWidth
               variant="contained"
-              disabled={!selectedAddress || cart.totalSellingPrice === 0 || loading}
+              disabled={!selectedAddress || cart.cart?.finalAmount === 0 || loading}
               onClick={handleCheckout}
               sx={{
                 mt: 2,

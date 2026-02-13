@@ -233,6 +233,10 @@ interface Cart {
   totalMrpPrice: number;
   totalSellingPrice: number;
   discount: number;
+
+  couponDiscount : number;
+  couponCode: string | null;
+  finalAmount: number;
 }
 
 interface CartState {
@@ -241,8 +245,6 @@ interface CartState {
   error: string;
 
   // 👇 coupon related
-  appliedCoupon?: string;
-  couponDiscount: number;
   couponError?: string;
 }
 
@@ -252,7 +254,6 @@ const initialState: CartState = {
   cart: null,
   loading: false,
   error: "",
-  couponDiscount: 0,
 };
 
 /* ===================== THUNKS ===================== */
@@ -335,21 +336,74 @@ export const deleteCartItem = createAsyncThunk<
 );
 
 // ================= APPLY COUPON =================
+// export const applyCoupon = createAsyncThunk<
+//   { code: string; discount: number },
+//   { code: string; cartTotal: number },
+//   { rejectValue: string }
+// >(
+//   "cart/applyCoupon",
+//   async ({ code, cartTotal }, { rejectWithValue }) => {
+//     try {
+//       const response = await apiCustomer.post("/api/coupons/apply", {
+//         code,
+//         cartTotal,
+//       });
+//       return response.data;
+//     } catch (error: any) {
+//       return rejectWithValue(error.response?.data?.message);
+//     }
+//   }
+// );
+
 export const applyCoupon = createAsyncThunk<
-  { code: string; discount: number },
-  { code: string; cartTotal: number },
+  any,
+  { code: string; jwt: string },
   { rejectValue: string }
 >(
   "cart/applyCoupon",
-  async ({ code, cartTotal }, { rejectWithValue }) => {
+  async ({ code, jwt }, { rejectWithValue }) => {
     try {
-      const response = await apiCustomer.post("/api/coupons/apply", {
-        code,
-        cartTotal,
-      });
+      const response = await apiCustomer.post(
+        "/api/coupons/apply",
+        { code },
+        {
+          headers: { Authorization: `Bearer ${jwt}` },
+        }
+      );
+
       return response.data;
+
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message);
+      return rejectWithValue(
+        error.response?.data?.message || "Coupon apply failed"
+      );
+    }
+  }
+);
+
+
+export const removeCouponFromCart = createAsyncThunk<
+  any,
+  string,
+  { rejectValue: string }
+>(
+  "cart/removeCoupon",
+  async (jwt, { rejectWithValue }) => {
+    try {
+      const response = await apiCustomer.put(
+        "/api/coupons/remove",
+        {},
+        {
+          headers: { Authorization: `Bearer ${jwt}` },
+        }
+      );
+
+      return response.data;
+
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Remove coupon failed"
+      );
     }
   }
 );
@@ -365,13 +419,6 @@ const cartSlice = createSlice({
     },
     resetCart: (state) => {
       state.cart = null;
-      state.couponDiscount = 0;
-      state.appliedCoupon = undefined;
-      state.couponError = undefined;
-    },
-    removeCoupon: (state) => {
-      state.couponDiscount = 0;
-      state.appliedCoupon = undefined;
       state.couponError = undefined;
     },
   },
@@ -380,12 +427,18 @@ const cartSlice = createSlice({
 
       /* ===== FETCH CART ===== */
       .addCase(fetchCart.pending, (state) => {
+        
         state.loading = true;
         state.error = "";
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
+          console.log("CART API RESPONSE", action.payload);
         state.loading = false;
-        state.cart = action.payload;
+         state.cart = {
+    ...action.payload,
+    couponDiscount: action.payload.couponDiscount || 0,
+    couponCode: action.payload.couponCode || null,
+  };
       })
       .addCase(fetchCart.rejected, (state, action: any) => {
         state.loading = false;
@@ -430,13 +483,17 @@ const cartSlice = createSlice({
 
       /* ===== APPLY COUPON ===== */
       .addCase(applyCoupon.fulfilled, (state, action) => {
-        state.appliedCoupon = action.payload.code;
-        state.couponDiscount = action.payload.discount;
         state.couponError = undefined;
+        state.cart = action.payload; 
       })
       .addCase(applyCoupon.rejected, (state, action) => {
         state.couponError = action.payload;
-      });
+      })
+
+      .addCase(removeCouponFromCart.fulfilled, (state, action) => {
+   state.cart = action.payload;   
+   state.couponError = undefined;
+})
   },
 });
 
@@ -445,7 +502,6 @@ const cartSlice = createSlice({
 export const {
   clearCartError,
   resetCart,
-  removeCoupon,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
