@@ -109,8 +109,6 @@
 
 
 
-
-
 import React from "react";
 import { useCountdown } from "../../../../hooks/useCountDown";
 
@@ -129,7 +127,6 @@ const DealCard: React.FC<DealCardProps> = ({ deal }) => {
   const imageSrc = deal.image || "/placeholder.jpg";
 
   const originalPrice = deal.price ?? 0;
-
   const discountedPrice =
     originalPrice > 0
       ? Math.round(originalPrice - (originalPrice * deal.discount) / 100)
@@ -142,16 +139,17 @@ const DealCard: React.FC<DealCardProps> = ({ deal }) => {
     <div
       className="
         w-full
-        h-full
+        min-w-0     /* ✅ CRITICAL FIX */
         rounded-2xl
         overflow-hidden
         bg-[#FFF8F2]
         shadow-md
         flex flex-col
+        cursor-pointer
       "
     >
       {/* IMAGE */}
-      <div className="relative w-full aspect-[4/5] overflow-hidden">
+      <div className="relative w-full h-[220px] sm:h-[240px] lg:h-[260px]">
         <img
           src={imageSrc}
           alt={deal.title || "Deal product"}
@@ -159,10 +157,9 @@ const DealCard: React.FC<DealCardProps> = ({ deal }) => {
           onError={(e) => {
             e.currentTarget.src = "/placeholder.jpg";
           }}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top"
         />
 
-        {/* DISCOUNT BADGE */}
         <div className="absolute top-2 right-2 bg-[#C6A35B] text-white text-[11px] font-semibold px-2 py-1 rounded-full">
           {deal.discount}% OFF
         </div>
@@ -177,7 +174,7 @@ const DealCard: React.FC<DealCardProps> = ({ deal }) => {
         )}
 
         {deal.title && (
-          <h3 className="text-[12px] font-medium text-[#2B1B1B] line-clamp-2">
+          <h3 className="text-[11px] sm:text-[12px] font-medium text-[#2B1B1B] line-clamp-2">
             {deal.title}
           </h3>
         )}

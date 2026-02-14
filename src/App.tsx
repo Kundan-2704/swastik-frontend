@@ -33,6 +33,9 @@ import PendingApproval from "./Auth/Become Seller/PendingApproval";
 import { GlobalAIAgent } from "./ai-agent/GlobalAIAgent";
 // import { useNotificationSocket } from "./hooks/useNotificationSocket";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 function App() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);

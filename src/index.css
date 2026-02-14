@@ -29,3 +29,8 @@
 
 
 
+/* Fix react-slick height issues */
+/* ✅ React Slick Width Stabilization Fix */
+.slick-slide > div {
+  width: 100%;
+}
