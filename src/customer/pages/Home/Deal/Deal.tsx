@@ -2,6 +2,144 @@
 
 
 
+// import React, { useEffect } from "react";
+// import Slider, { Settings } from "react-slick";
+// import { motion } from "framer-motion";
+// import { useNavigate } from "react-router-dom";
+
+// import DealCard from "./DealCard";
+// import { useAppDispatch, useAppSelector } from "../../../../Redux Toolkit/Store";
+// import { getActiveDeals } from "../../../../Redux Toolkit/Features/Customer/CustomerDealSlice";
+
+// /* ================= TYPES ================= */
+// interface Product {
+//   _id: string;
+//   title: string;
+//   categoryId: string;
+//   image?: string;
+//   images?: string[];
+// }
+
+// interface DealItem {
+//   discountValue: number;
+//   products: Product[];
+// }
+
+// const Deal: React.FC = () => {
+//   const dispatch = useAppDispatch();
+//   const navigate = useNavigate();
+
+//   const { deals, loading } = useAppSelector(
+//     (state) => state.customerDeal
+//   );
+
+//   useEffect(() => {
+//     dispatch(getActiveDeals());
+//   }, [dispatch]);
+
+//   /* ================= SLIDER SETTINGS ================= */
+//   const settings: Settings = {
+//     dots: true,
+//     infinite: deals.length > 5,
+//     speed: 600,
+//     slidesToShow: 5,
+//     slidesToScroll: 1,
+//     autoplay: deals.length > 1,
+//     autoplaySpeed: 2500,
+//     arrows: false,
+//     responsive: [
+//       { breakpoint: 1280, settings: { slidesToShow: 4 } },
+//       { breakpoint: 1024, settings: { slidesToShow: 3 } },
+//       { breakpoint: 768, settings: { slidesToShow: 2 } },
+//       { breakpoint: 480, settings: { slidesToShow: 1 } },
+//     ],
+//   };
+
+//   /* ================= LOADING STATE ================= */
+//   if (loading) {
+//     return (
+//       <div className="px-4 lg:px-16 py-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+//         {[...Array(5)].map((_, i) => (
+//           <div
+//             key={i}
+//             className="h-[280px] rounded-2xl bg-[#EADDC4] animate-pulse"
+//           />
+//         ))}
+//       </div>
+//     );
+//   }
+
+//   /* ================= EMPTY STATE ================= */
+//   if (!deals.length) {
+//     return (
+//       <div className="py-12 text-center text-[#8B7A63]">
+//         <p className="text-lg font-medium">
+//           No active deals right now ✨
+//         </p>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <motion.div
+//       className="py-5 px-4 md:px-8 lg:px-16"
+//       initial={{ opacity: 0, y: 40 }}
+//       whileInView={{ opacity: 1, y: 0 }}
+//       viewport={{ once: true }}
+//       transition={{ duration: 0.6 }}
+//     >
+//       <Slider {...settings}>
+//         {deals.flatMap((deal) =>
+//           deal.products?.map((product) => {
+//             const image =
+//               product.image ||
+//               product.images?.[0] ||
+//               "/placeholder.jpg";
+
+//             return (
+//               <div key={product._id} className="px-2">
+//                 <button
+//                   type="button"
+//                   aria-label={`View deal for ${product.title}`}
+//                   className="w-full text-left focus:outline-none"
+//                   onMouseDown={(e) => e.stopPropagation()}
+//                   onClick={() =>
+//                     navigate(
+//                       `/product-details/${product.categoryId}/${product.title}/${product._id}`
+//                     )
+//                   }
+//                 >
+//                   <DealCard
+//                     deal={{
+//                       image,
+//                       // discount: deal.discountValue,
+//                          discount: deal.discountValue,
+//     dealName: deal.name,
+//     title: product.title,
+//     price: product.sellingPrice, // 👈 yahin se price
+//     endDate: deal.endDate,
+//                     }}
+//                   />
+//                 </button>
+//               </div>
+//             );
+//           })
+//         )}
+//       </Slider>
+//     </motion.div>
+//   );
+// };
+
+// export default Deal;
+
+
+
+
+
+
+
+
+
 import React, { useEffect } from "react";
 import Slider, { Settings } from "react-slick";
 import { motion } from "framer-motion";
@@ -12,24 +150,26 @@ import { useAppDispatch, useAppSelector } from "../../../../Redux Toolkit/Store"
 import { getActiveDeals } from "../../../../Redux Toolkit/Features/Customer/CustomerDealSlice";
 
 /* ================= TYPES ================= */
+
 interface Product {
   _id: string;
   title: string;
   categoryId: string;
   image?: string;
   images?: string[];
+  sellingPrice?: number;
 }
 
-interface DealItem {
+interface DealProduct extends Product {
   discountValue: number;
-  products: Product[];
+  dealName?: string;
+  endDate?: string;
 }
-
 const Deal: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { deals, loading } = useAppSelector(
+  const { deals = [], loading } = useAppSelector(
     (state) => state.customerDeal
   );
 
@@ -38,6 +178,7 @@ const Deal: React.FC = () => {
   }, [dispatch]);
 
   /* ================= SLIDER SETTINGS ================= */
+
   const settings: Settings = {
     dots: true,
     infinite: deals.length > 5,
@@ -55,7 +196,8 @@ const Deal: React.FC = () => {
     ],
   };
 
-  /* ================= LOADING STATE ================= */
+  /* ================= LOADING ================= */
+
   if (loading) {
     return (
       <div className="px-4 lg:px-16 py-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -69,7 +211,8 @@ const Deal: React.FC = () => {
     );
   }
 
-  /* ================= EMPTY STATE ================= */
+  /* ================= EMPTY ================= */
+
   if (!deals.length) {
     return (
       <div className="py-12 text-center text-[#8B7A63]">
@@ -80,6 +223,22 @@ const Deal: React.FC = () => {
     );
   }
 
+  /* ================= SAFE PRODUCT LIST ================= */
+
+  const allProducts = deals.reduce<DealProduct[]>((acc, deal) => {
+  if (deal.products?.length) {
+    acc.push(
+      ...deal.products.map((product) => ({
+        ...product,
+        discountValue: deal.discountValue,
+        dealName: deal.name,
+        endDate: deal.endDate,
+      }))
+    );
+  }
+  return acc;
+}, []);
+
   return (
     <motion.div
       className="py-5 px-4 md:px-8 lg:px-16"
@@ -89,42 +248,39 @@ const Deal: React.FC = () => {
       transition={{ duration: 0.6 }}
     >
       <Slider {...settings}>
-        {deals.flatMap((deal) =>
-          deal.products?.map((product) => {
-            const image =
-              product.image ||
-              product.images?.[0] ||
-              "/placeholder.jpg";
+        {allProducts.map((product: any) => {
+          const image =
+            product.image ||
+            product.images?.[0] ||
+            "/placeholder.jpg";
 
-            return (
-              <div key={product._id} className="px-2">
-                <button
-                  type="button"
-                  aria-label={`View deal for ${product.title}`}
-                  className="w-full text-left focus:outline-none"
-                  onMouseDown={(e) => e.stopPropagation()}
-                  onClick={() =>
-                    navigate(
-                      `/product-details/${product.categoryId}/${product.title}/${product._id}`
-                    )
-                  }
-                >
-                  <DealCard
-                    deal={{
-                      image,
-                      // discount: deal.discountValue,
-                         discount: deal.discountValue,
-    dealName: deal.name,
-    title: product.title,
-    price: product.sellingPrice, // 👈 yahin se price
-    endDate: deal.endDate,
-                    }}
-                  />
-                </button>
-              </div>
-            );
-          })
-        )}
+          return (
+            <div key={product._id} className="px-2 h-full">
+              <button
+                type="button"
+                aria-label={`View deal for ${product.title}`}
+                className="w-full text-left focus:outline-none"
+                onMouseDown={(e) => e.stopPropagation()}
+                onClick={() =>
+                  navigate(
+                    `/product-details/${product.categoryId}/${product.title}/${product._id}`
+                  )
+                }
+              >
+                <DealCard
+                  deal={{
+                    image,
+                    discount: product.discountValue,
+                    dealName: product.dealName,
+                    title: product.title,
+                    price: product.sellingPrice,
+                    endDate: product.endDate,
+                  }}
+                />
+              </button>
+            </div>
+          );
+        })}
       </Slider>
     </motion.div>
   );
