@@ -20,7 +20,6 @@ export const fetchTransactionsBySeller = createAsyncThunk<any, any>(
           Authorization: `Bearer ${jwt}`
         }
       });
-      console.log("fetch transactions by seller", response.data);
       return response.data;
     } catch (error: any) {
       console.log("error", error);

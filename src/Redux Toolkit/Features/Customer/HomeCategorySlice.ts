@@ -53,20 +53,7 @@ export const fetchHomeCategories = createAsyncThunk<
 });
 
 /* 🔹 CREATE */
-// export const createHomeCategory = createAsyncThunk<
-//   HomeCategory,
-//   Partial<HomeCategory>,
-//   { rejectValue: string }
-// >("homeCategory/createHomeCategory", async (data, { rejectWithValue }) => {
-//   try {
-//     const response = await apiCustomer.post(CREATE_API, data);
-//     return response.data;
-//   } catch (error: any) {
-//     return rejectWithValue(
-//       error.response?.data?.message || "Failed to create home category"
-//     );
-//   }
-// });
+
 
 
 export const createHomeCategory = createAsyncThunk<

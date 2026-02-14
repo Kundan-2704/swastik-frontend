@@ -13,15 +13,7 @@ const ProductGallery = ({ product }: any) => {
 
   const zoom = useImageZoom();
 
-  // useEffect(() => {
-  //   if (pauseSlide || !product?.images?.length) return;
 
-  //   const id = setInterval(() => {
-  //     setCurrent((prev) => (prev + 1) % product.images.length);
-  //   }, SLIDE_INTERVAL);
-
-  //   return () => clearInterval(id);
-  // }, [pauseSlide, product]);
 
   const gallery = {
     current,
@@ -64,45 +56,3 @@ export default ProductGallery;
 
 
 
-
-
-
-// import React, { useState } from "react";
-// import ProductThumbnails from "./ProductThumbnails";
-// import ProductImageLightbox from "../../ProductImageLightbox";
-// import LensProductImage from "./LensProductImage";
-
-// const ProductGallery = ({ product }: any) => {
-//   const [current, setCurrent] = useState(0);
-//   const [openLightbox, setOpenLightbox] = useState(false);
-
-//   if (!product?.images?.length) return null;
-
-//   return (
-//     <section className="flex flex-col lg:flex-row gap-10">
-//       {/* Thumbnails */}
-//       <ProductThumbnails
-//         images={product.images}
-//         current={current}
-//         setCurrent={setCurrent}
-//       />
-
-//       {/* 🔍 Lens Zoom Main Image */}
-//       <div onClick={() => setOpenLightbox(true)}>
-//         <LensProductImage src={product.images[current]} />
-//       </div>
-
-//       {/* Lightbox */}
-//       {openLightbox && (
-//         <ProductImageLightbox
-//           images={product.images}
-//           open={openLightbox}
-//           index={current}
-//           onClose={() => setOpenLightbox(false)}
-//         />
-//       )}
-//     </section>
-//   );
-// };
-
-// export default ProductGallery;

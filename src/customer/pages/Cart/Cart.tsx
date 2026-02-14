@@ -40,26 +40,13 @@ const Cart = () => {
   const hasItems = cart?.cartItems?.length > 0;
 
   /* ===================== COUPON HANDLERS ===================== */
-  // const handleApplyCoupon = () => {
-  //   if (!couponCode || !cart) return;
-  //   dispatch(
-  //     applyCoupon({
-  //       code: couponCode.trim(),
-  //       cartTotal: cart.totalSellingPrice,
-  //       jwt,
-  //     })
-  //   );
-  // };
-
 
 
   const handleApplyCoupon = () => {
-  console.log("BUTTON CLICKED ✅");
 
   dispatch(applyCoupon({ code: couponCode.trim(), jwt }))
      .unwrap()
      .then(res => {
-        console.log("COUPON SUCCESS ✅", res);
         dispatch(fetchCart(jwt));
      })
      .catch(err => {
@@ -177,20 +164,7 @@ const Cart = () => {
             <section className="border border-[#E3D4B6] rounded-xl bg-white shadow-sm">
               <PricingCard />
               <div className="p-5">
-                {/* <Button
-                  fullWidth
-                  variant="contained"
-                  sx={{
-                    py: "12px",
-                    backgroundColor: "#4A1F2A",
-                    borderRadius: "999px",
-                    fontWeight: 600,
-                    "&:hover": { backgroundColor: "#34121C" },
-                  }}
-                  onClick={() => navigate("/checkout/address")}
-                >
-                  BUY NOW
-                </Button> */}
+              
 
                 <Button
                   className="buy-now"

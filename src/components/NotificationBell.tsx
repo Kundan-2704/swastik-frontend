@@ -47,18 +47,7 @@ const NotificationBell = () => {
 
   const handleClose = () => setAnchorEl(null);
 
-  // const handleClickNotification = (n: any) => {
-  //   console.log("Notification:", n);   // 👈 ADD THIS
-  //    console.log("Full Notification:", n);
-  // console.log("DATA:", n.data);   // 👈 ADD THIS
-  //   dispatch(markNotificationRead(n._id));
-  //   handleClose();
-
-  //   if (n.type === "ORDER" && n.data?.orderId) {
-  //     navigate(`/orders/${n.data.orderId}`);
-  //   }
-  // };
-
+ 
   const handleClickNotification = (n: any) => {
   handleClose();
 
@@ -124,11 +113,7 @@ const handleClearAll = () => {
           sx: { width: 360, maxHeight: 420 },
         }}
       >
-        {/* <Box px={2} py={1}>
-          <Typography variant="subtitle1" fontWeight={600}>
-            Notifications
-          </Typography>
-        </Box> */}
+        
 
 
         <Box

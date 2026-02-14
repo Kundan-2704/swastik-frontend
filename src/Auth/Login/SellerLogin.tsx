@@ -27,11 +27,7 @@ const SellerLogin: React.FC<Props> = ({ embedded = false }) => {
   const sellerAuth = useAppSelector((state) => state.seller.sellerAuth);
 
   /* ✅ AUTO REDIRECT (same for OTP + Google) */
-  // useEffect(() => {
-  //   if (sellerAuth.jwt) {
-  //     navigate("/seller", { replace: true });
-  //   }
-  // }, [sellerAuth.jwt, navigate]);
+  
 
 
   useEffect(() => {
@@ -76,25 +72,7 @@ const SellerLogin: React.FC<Props> = ({ embedded = false }) => {
   };
 
   /* ================= GOOGLE LOGIN ================= */
-//   const handleGoogleLogin = async () => {
-//   try {
-//     const result = await signInWithPopup(auth, googleProvider);
-//     const idToken = await result.user.getIdToken(true);
 
-//     const res = await api.post("/auth/google-login", { idToken });
-
-//     // 🔥 ONLY THIS MATTERS
-//     dispatch(setSellerJwt(res.data.token)); // redux
-//     localStorage.setItem("seller_jwt", res.data.token); // persist
-
-//     // ❌ navigate mat karo yaha
-//     // useEffect auto karega
-
-//   } catch (error: any) {
-//     console.error("SELLER GOOGLE LOGIN ERROR →", error);
-//     alert(error?.response?.data?.message || "Google login failed");
-//   }
-// };
 
 
 const handleGoogleLogin = async () => {

@@ -1,24 +1,4 @@
-// export const sumCartItemSellingPrice = (cartItems: any[] = []) => {
-//   return cartItems.reduce(
-//     (total, item) =>
-//       total + item.product.sellingPrice * item.quantity,
-//     0
-//   );
-// };
 
-
-
-
-// export const sumCartItemMrpPrice = (cartItems: any[] = []) => {
-//   return cartItems.reduce(
-//     (total, item) =>
-//       total + item.product.mrpPrice * item.quantity,
-//     0
-//   );
-// };
-
-
-// sumCartItem.ts
 
 export const sumCartItemSellingPrice = (cartItems: any[] = []) => {
   return cartItems.reduce((total, item) => {

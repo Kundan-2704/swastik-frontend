@@ -1,60 +1,3 @@
-// import { createAsyncThunk } from "@reduxjs/toolkit";
-// import { api } from "../../../Config/api";
-
-
-
-// const initialState = {
-//     orders: [],
-//     loading: false,
-//     error: ""
-// }
-
-
-
-// export const fetchSellrOrders = createAsyncThunk<any, any>(
-//     "sellerOrders/fetchSellrOrders",
-//     async (jwt, { rejectWithValue }) => {
-//         try {
-//             const response = await api.get(
-//                 `/api/seller/orders`, {
-//                 headers: {
-//                     Authorization: `Bearer ${jwt}`
-//                 }
-//             }
-
-//             );
-//             return response.data;
-//         } catch (error: any) {
-//             return rejectWithValue({
-//                 message: error.response?.data?.message || "OTP failed",
-//                 status: error.response?.status || 500
-//             });
-//         }
-//     }
-// );
-
-
-// export const updateOrdersStatus = createAsyncThunk<any, any>(
-//     "sellerOrders/updateOrdersStatus",
-//     async ({ jwt, orderId, orderStatus }, { rejectWithValue }) => {
-//         try {
-//             const response = await api.patch(
-//                 `/api/seller/orders/${orderId}/status/${orderStatus}`, {}, {
-//                 headers: {
-//                     Authorization: `Bearer ${jwt}`
-//                 }
-//             }
-
-//             );
-//             return response.data;
-//         } catch (error: any) {
-//             return rejectWithValue({
-//                 message: error.response?.data?.message || "OTP failed",
-//                 status: error.response?.status || 500
-//             });
-//         }
-//     }
-// );
 
 
 
@@ -81,7 +24,6 @@ export const fetchSellrOrders = createAsyncThunk<any, any>(
                     Authorization: `Bearer ${jwt}`
                 }
             });
-            console.log("Fetched Seller Orders:", response.data);
             return response.data;
         } catch (error: any) {
             return rejectWithValue({
@@ -107,7 +49,6 @@ export const updateOrdersStatus = createAsyncThunk<any, any>(
                     },
                 }
             );
-            console.log("Updated Order Status:", response.data);
             return response.data;
         } catch (error: any) {
             return rejectWithValue({

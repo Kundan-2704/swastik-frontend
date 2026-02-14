@@ -115,26 +115,7 @@ export const updateProduct = createAsyncThunk<any, any>(
 
 
 /* 🔥 UPDATE PRODUCT STOCK */
-// export const updateProductStock = createAsyncThunk<any, any>(
-//   "sellerProduct/updateProductStock",
-//   async ({ jwt, productId, quantity }, { rejectWithValue }) => {
-//     try {
-//       const response = await apiSeller.patch(
-//         `${API_URL}/${productId}`,
-//         { quantity },
-//         {
-//           headers: { Authorization: `Bearer ${jwt}` },
-//         }
-//       );
-//       return response.data;
-//     } catch (error: any) {
-//       return rejectWithValue(
-//         error.response?.data?.error ||
-//         "Failed to update stock"
-//       );
-//     }
-//   }
-// );
+
 
 
 export const updateProductStock = createAsyncThunk<any, any>(

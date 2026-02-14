@@ -460,57 +460,7 @@ React.useEffect(() => {
 
 
       {/* ================= SELL WITH US ================= */}
-      {/* <section className="px-4 lg:px-20 py-20">
-
-        {loading ? (
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-            <Skeleton
-              variant="rounded"
-              height={420}
-              sx={{
-                borderRadius: "24px",
-                bgcolor: "#EFE6D8",
-              }}
-            />
-
-            <div className="absolute inset-0 flex items-center">
-              <div className="pl-6 lg:pl-24 max-w-xl space-y-4">
-                <Skeleton variant="text" width="80%" height={40} sx={{ bgcolor: "#E6DAC8" }} />
-                <Skeleton variant="text" width="90%" height={30} sx={{ bgcolor: "#E6DAC8" }} />
-                <Skeleton variant="rounded" width={200} height={48} sx={{ borderRadius: 999, bgcolor: "#E6DAC8" }} />
-              </div>
-            </div>
-          </div>
-        ) : (
-         
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-            <img
-              src={AA}
-              alt="Sell Handcrafted Products"
-              loading="lazy"
-              className="w-full h-[280px] md:h-[380px] lg:h-[420px] object-cover brightness-75"
-            />
-
-            <div className="absolute inset-0 flex items-center">
-              <div className="pl-6 lg:pl-24 max-w-xl">
-                <h3 className="text-2xl md:text-4xl font-semibold text-[#FFF8ED] mb-4">
-                  Sell Your Handcrafted Products
-                </h3>
-
-                <p className="text-lg md:text-xl text-[#FDEFD6] mb-8">
-                  Join <span className="font-bold text-[#FBE3B0]">Swastik</span> and
-                  reach customers across India.
-                </p>
-
-                <PrimaryButton startIcon={<StoreIcon />}>
-                  Become a Seller
-                </PrimaryButton>
-              </div>
-            </div>
-          </div>
-        )}
-
-      </section> */}
+     
 
       <section className="px-4 lg:px-20 py-20">
         {loading ? (

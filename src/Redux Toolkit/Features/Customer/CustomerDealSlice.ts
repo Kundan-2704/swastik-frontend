@@ -34,11 +34,7 @@ const initialState: CustomerDealState = {
 };
 
 /* ================= GET ACTIVE DEALS ================= */
-/**
- * ⚠️ Backend me /deals/active route nahi hai
- * 👉 Isliye /admin/deals se data laa ke
- * 👉 frontend pe active + date filter kar rahe hain
- */
+
 export const getActiveDeals = createAsyncThunk(
     "customerDeal/getActiveDeals",
     async (_, { rejectWithValue }) => {

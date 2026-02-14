@@ -35,7 +35,6 @@ const DealForm: React.FC<DealFormProps> = ({ deal, onClose }) => {
     const { products, loading } = useAppSelector(
         (state) => state.sellerProduct
     );
-    console.log("Seller products =>", products);
 
     useEffect(() => {
         const jwt = localStorage.getItem("jwt");

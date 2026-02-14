@@ -15,7 +15,6 @@ export const fetchHomeCategory = createAsyncThunk<any, any>(
           Authorization: `Bearer ${jwt}`
         }
       });
-      console.log("fetch home category", response.data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(

@@ -1,24 +1,3 @@
-// import React from 'react';
-// import ProfileFieldCard from './ProfileFieldCard';
-// import { useAppSelector } from '../../../Redux Toolkit/Store';
-
-// const UserDetails = () => {
-//   const userState = useAppSelector((state) => state.user);
-//   return (
-//      <div className='space-y-5'>
-//       <ProfileFieldCard keys={"Name"} value={userState.user?.fullName}/>
-//       <ProfileFieldCard keys={"Email"} value={userState.user?.email}/>
-//       <ProfileFieldCard keys={"Mobile"} value={userState.user?.mobile || "Not Provided"}/>
-//     </div>
-//   );
-// }
-
-// export default UserDetails;
-
-
-
-
-
 import ProfileFieldCard from "./ProfileFieldCard";
 import { useAppSelector } from "../../../Redux Toolkit/Store";
 

@@ -55,15 +55,11 @@ export const fetchSellerAccount = createAsyncThunk<
   { rejectValue: string }
 >("seller/fetchSellerAccount", async (_, { rejectWithValue }) => {
   try {
-    console.log("🚀 fetchSellerAccount → API CALL START");
 
     const token = localStorage.getItem("seller_jwt"); // ✅ FINAL FIX
-    console.log("🔑 SELLER TOKEN FROM STORAGE →", token);
 
     const { data } = await apiSeller.get("/sellers/profile");
 
-    console.log("✅ fetchSellerAccount → API SUCCESS");
-    console.log("📦 SELLER DATA FROM API →", data);
 
     return data;
   } catch (error: any) {
@@ -107,7 +103,6 @@ export const fetchSellers = createAsyncThunk<any, string | undefined>(
       const { data } = await apiSeller.get(API_URL, {
         params: status ? { status } : {},
       });
-      console.log("Fetched sellers:", data);
       return data;
     } catch (error: any) {
       return rejectWithValue(

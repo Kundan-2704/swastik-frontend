@@ -59,7 +59,6 @@ export const fetchOrderById = createAsyncThunk<any, any>(
       const response = await apiCustomer.get(`${API_URL}/${orderId}`, {
         headers: { Authorization: `Bearer ${jwt}` }
       });
-      console.log("Fetched Order:", response.data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(
@@ -77,7 +76,6 @@ export const fetchOrderItemById = createAsyncThunk<any, any>(
       const response = await apiCustomer.get(`${API_URL}/item/${orderItemId}`, {
         headers: { Authorization: `Bearer ${jwt}` }
       });
-      console.log("Fetched Order Item:", response.data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(
@@ -139,14 +137,6 @@ export interface OrderItem {
 
 /* ===================== INITIAL STATE ===================== */
 
-// const initialState = {
-//   orders: [],             // user order history
-//   currentOrder: null,     // single order (by id)
-//   orderItem: null,        // single order item
-
-//   loading: false,
-//   error: ""
-// };
 
 const initialState: {
   orders: Order[];

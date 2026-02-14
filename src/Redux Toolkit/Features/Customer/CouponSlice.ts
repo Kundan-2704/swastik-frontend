@@ -1,27 +1,3 @@
-// import { createAsyncThunk } from "@reduxjs/toolkit";
-// import { api } from "../../../Config/api";
-
-// const API_URL = "/api/coupon"
-
-// export const applyCoupon = createAsyncThunk<any, any>(
-//     "coupon/applyCoupon",
-//     async ({ apply, code, orderValue, jwt }, { rejectWithValue }) => {
-//         try {
-//             const response = await api.post(`${API_URL}/apply`, null, {
-//                 params: { apply, code, orderValue },
-//                 headers: { Authorization: `Bearer ${jwt}` }
-//             })
-//             console.log("apply coupon", response.data)
-//             return response.data
-//         } catch (error: any) {
-//             return rejectWithValue({
-//                 message:
-//                     error.response?.data?.message || "Failed to delete cart item",
-//                 status: error.response?.status || 500
-//             });
-//         }
-//     }
-// )
 
 
 
@@ -35,15 +11,6 @@ const API_URL = "/api/coupon";
 
 // ===================== INITIAL STATE =====================
 
-// const initialState = {
-//   coupon: null as any,
-//   discountAmount: 0,
-//   finalAmount: 0,
-
-//   loading: false,
-//   success: false,
-//   error: "" as string
-// };
 
 
 const initialState = {
@@ -69,7 +36,6 @@ export const applyCoupon = createAsyncThunk<any, any>(
           headers: { Authorization: `Bearer ${jwt}` }
         }
       );
-      console.log("apply coupon", response.data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue({

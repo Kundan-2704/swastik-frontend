@@ -194,7 +194,6 @@ const AccountForm = () => {
       enableReinitialize
       onSubmit={(values) => {
         const payload = mapFormToApiPayload(values);
-        console.log("UPDATE PAYLOAD 👉", payload);
         dispatch(updateSellerAccount(payload));
       }}
     >
