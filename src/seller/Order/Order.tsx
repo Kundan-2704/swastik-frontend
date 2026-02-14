@@ -226,69 +226,72 @@ useEffect(() => {
                       </span>
                     </td>
 
-                    <td className="px-4 py-4 text-right">
+                    <td className="px-4 py-4">
+  <div className="flex flex-wrap gap-2 justify-end">
 
-                      {/* PACKING SLIP DOWNLOAD */}
-                      <button
-                        onClick={() => dispatch(downloadPackingSlip(order._id))}
-                        className="block w-full text-xs px-3 py-1 rounded-full border border-blue-500 text-blue-600 cursor-pointer"
-                      >
-                        Download Slip
-                      </button>
+    {/* DOWNLOAD */}
+    <button
+      onClick={() => dispatch(downloadPackingSlip(order._id))}
+      className="text-xs px-3 py-1 rounded-full border border-blue-500 text-blue-600 hover:bg-blue-50"
+    >
+      Slip
+    </button>
 
-                      {/* ========== REPLACEMENT ACTIONS ========== */}
-                      {order.replacement?.status === "REQUESTED" && (
-                        <div className="flex flex-col gap-1 mb-2">
-                          <button
-                            onClick={() => dispatch(approveReplacement({ orderId: order._id }))}
-                            className="text-xs px-3 py-1 rounded-full bg-green-600 text-white"
-                          >
-                            Approve Replacement
-                          </button>
+    {/* UPDATE */}
+    <button
+      onClick={() => {
+        setSelectedOrderId(order._id);
+        setSelectedStatus(order.orderStatus);
+        setIsStatusModalOpen(true);
+      }}
+      className="text-xs px-3 py-1 rounded-full border border-[#B9935A] text-[#B9935A] hover:bg-[#B9935A]/10"
+    >
+      Update
+    </button>
 
-                          <button
-                            onClick={() => {
-                              const note = prompt("Reject reason?");
-                              if (!note) return;
-                              dispatch(rejectReplacement({ orderId: order._id, note }));
-                            }}
-                            className="text-xs px-3 py-1 rounded-full bg-red-500 text-white"
-                          >
-                            Reject
-                          </button>
-                        </div>
-                      )}
+    {/* ========== REPLACEMENT ACTIONS ========== */}
 
-                      {order.replacement?.status === "APPROVED" && (
-                        <button
-                          onClick={() => setPickupOrderId(order._id)}
-                          className="block w-full text-xs px-3 py-1 rounded-full border border-orange-500 text-orange-600 mb-2"
-                        >
-                          Pickup Old Saree
-                        </button>
-                      )}
+    {order.replacement?.status === "REQUESTED" && (
+      <>
+        <button
+          onClick={() => dispatch(approveReplacement({ orderId: order._id }))}
+          className="text-xs px-3 py-1 rounded-full bg-green-600 text-white hover:bg-green-700"
+        >
+          Approve
+        </button>
 
-                      {order.replacement?.status === "PICKED_UP" && (
-                        <button
-                          onClick={() => setShipOrderId(order._id)}
-                          className="block w-full text-xs px-3 py-1 rounded-full border border-blue-500 text-blue-600 mb-2"
-                        >
-                          Ship Replacement
-                        </button>
-                      )}
+        <button
+          onClick={() => {
+            const note = prompt("Reject reason?");
+            if (!note) return;
+            dispatch(rejectReplacement({ orderId: order._id, note }));
+          }}
+          className="text-xs px-3 py-1 rounded-full bg-red-500 text-white hover:bg-red-600"
+        >
+          Reject
+        </button>
+      </>
+    )}
 
+    {order.replacement?.status === "APPROVED" && (
+      <button
+        onClick={() => setPickupOrderId(order._id)}
+        className="text-xs px-3 py-1 rounded-full border border-orange-500 text-orange-600 hover:bg-orange-50"
+      >
+        Pickup
+      </button>
+    )}
 
-                      <button
-                        onClick={() => {
-                          setSelectedOrderId(order._id);
-                          setSelectedStatus(order.orderStatus);
-                          setIsStatusModalOpen(true);
-                        }}
-                        className="text-xs px-3 py-1 rounded-full border border-[#B9935A] text-[#B9935A]"
-                      >
-                        Update
-                      </button>
-                    </td>
+    {order.replacement?.status === "PICKED_UP" && (
+      <button
+        onClick={() => setShipOrderId(order._id)}
+        className="text-xs px-3 py-1 rounded-full border border-blue-500 text-blue-600 hover:bg-blue-50"
+      >
+        Ship
+      </button>
+    )}
+  </div>
+</td>
                   </tr>
                 );
               })}

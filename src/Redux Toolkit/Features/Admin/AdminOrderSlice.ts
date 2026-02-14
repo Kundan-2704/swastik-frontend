@@ -169,9 +169,18 @@ const adminOrderSlice = createSlice({
 
 .addCase(updateOrderStatus.fulfilled, (state, action) => {
   state.loading = false;
+
+  const updatedOrder = action.payload;
+
+  /* ✅ Update details page */
   if (state.order) {
-    state.order.orderStatus = action.payload.orderStatus;
+    state.order.orderStatus = updatedOrder.orderStatus;
   }
+
+  /* ✅🔥 Update orders LIST (THIS WAS MISSING) */
+  state.orders = state.orders.map(order =>
+    order._id === updatedOrder._id ? updatedOrder : order
+  );
 })
 .addCase(updateOrderStatus.pending, (state) => {
   state.loading = true;

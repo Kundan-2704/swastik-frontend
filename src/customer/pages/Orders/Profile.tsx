@@ -262,9 +262,9 @@ const Profile = () => {
           <Suspense fallback={<OrderSkeleton />}>
             <Routes>
               <Route path="/" element={<UserDetails />} />
-              <Route path="/orders" element={<Order />} />
+              <Route path="orders" element={<Order />} />
               <Route
-                path="/orders/:orderId/item/:orderItemId"
+                path="orders/:orderId/item/:orderItemId"
                 element={<OrderDetails />}
               />
             </Routes>

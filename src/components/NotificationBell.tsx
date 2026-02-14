@@ -47,14 +47,31 @@ const NotificationBell = () => {
 
   const handleClose = () => setAnchorEl(null);
 
-  const handleClickNotification = (n: any) => {
-    dispatch(markNotificationRead(n._id));
-    handleClose();
+  // const handleClickNotification = (n: any) => {
+  //   console.log("Notification:", n);   // 👈 ADD THIS
+  //    console.log("Full Notification:", n);
+  // console.log("DATA:", n.data);   // 👈 ADD THIS
+  //   dispatch(markNotificationRead(n._id));
+  //   handleClose();
 
-    if (n.type === "ORDER" && n.data?.orderId) {
-      navigate(`/orders/${n.data.orderId}`);
-    }
-  };
+  //   if (n.type === "ORDER" && n.data?.orderId) {
+  //     navigate(`/orders/${n.data.orderId}`);
+  //   }
+  // };
+
+  const handleClickNotification = (n: any) => {
+  handleClose();
+
+
+  if (n.link) {
+    navigate(n.link);
+  } 
+  else if (n.type === "ORDER" && n.data?.orderId) {
+    navigate(`/orders/${n.data.orderId}`);
+  }
+
+  dispatch(markNotificationRead(n._id));
+};
 
   const handleMarkAllRead = () => {
   dispatch(markAllNotificationsRead());
