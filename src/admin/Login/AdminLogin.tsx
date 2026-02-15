@@ -6,6 +6,7 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../Config/firebase";
 
 import { useEffect } from "react";
+import { apiAdmin } from "../../Config/apiAdmin.ts";
 
 
 const AdminLogin = () => {
@@ -24,8 +25,8 @@ const AdminLogin = () => {
       setLoading(true);
       setError("");
 
-      await api.post("/auth/send/login-signup-otp", {
-        email: "admin_" + email,
+      await apiAdmin.post("/auth/send/login-signup-otp", {
+        email: email,
       });
 
       setOtpSent(true);
@@ -41,16 +42,18 @@ const AdminLogin = () => {
       setLoading(true);
       setError("");
 
-      const res = await api.post("/auth/signin", {
-        email: "admin_" + email,
+      const res = await apiAdmin.post("/auth/signin", {
+        email:  email,
         otp,
       });
 
-      if (res.data.user?.role !== "ADMIN") {
+      if (res.data.role !== "ROLE_ADMIN") {
         throw new Error("Not an admin account");
       }
 
-      localStorage.setItem("admin_jwt", res.data.token);
+      // localStorage.setItem("admin_jwt", res.data.token);
+      localStorage.setItem("admin_jwt", res.data.jwt);
+localStorage.setItem("role", res.data.role); // ⭐ IMPORTANT
 
       // 🔥 SIMPLE NAVIGATE (no extra verify)
       navigate("/admin", { replace: true });
