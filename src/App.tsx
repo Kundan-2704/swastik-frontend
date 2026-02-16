@@ -30,7 +30,7 @@ import SellerApproval from "./admin/Seller/SellerApproval";
 import OrdersTable from "./admin/Order/OrdersTable";
 import OrderDetails from "./admin/Order/OrderDetails";
 import PendingApproval from "./Auth/Become Seller/PendingApproval";
-import { GlobalAIAgent } from "./ai-agent/GlobalAIAgent";
+// import { GlobalAIAgent } from "./ai-agent/GlobalAIAgent";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -118,7 +118,7 @@ function App() {
 
       </Routes>
 
-<GlobalAIAgent />
+{/* <GlobalAIAgent /> */}
 
     </ThemeProvider>
   );
