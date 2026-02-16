@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
 import {
   sendLoginSignupOtp,
@@ -21,7 +21,7 @@ import api from "../../Config/apiBase";
 import { Checkbox, FormControlLabel } from "@mui/material";
 
 
-const SignupForm = () => {
+const SignupForm = ({switchToLogin }: any) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const authState = useAppSelector((state) => state.auth);
@@ -52,25 +52,62 @@ const SignupForm = () => {
   // ============================
   // FORMIK
   // ============================
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      otp: "",
-    },
-    onSubmit: (values) => {
-      dispatch(
-        signup({
-          email: values.email,
-          fullName: values.name,
-          otp: values.otp,
-          navigate,
-        })
-      );
-      showSnack("Account created successfully", "success");
-    },
-  });
+  // const formik = useFormik({
+  //   initialValues: {
+  //     name: "",
+  //     email: "",
+  //     otp: "",
+  //   },
+  //   onSubmit: (values) => {
+  //     dispatch(
+  //       signup({
+  //         email: values.email,
+  //         fullName: values.name,
+  //         otp: values.otp,
+  //         navigate,
+  //       })
+  //     );
+  //     showSnack("Account created successfully", "success");
+  //   },
+  // });
 
+
+const formik = useFormik({
+  initialValues: {
+    name: "",
+    email: "",
+    otp: "",
+  },
+
+  onSubmit: async (values) => {
+
+  if (!acceptedTerms) {
+    showSnack("Please accept Terms & Conditions", "info");
+    return;
+  }
+
+  try {
+    await dispatch(
+      signup({
+        email: values.email,
+        fullName: values.name,
+        otp: values.otp,
+      })
+    ).unwrap();
+
+    showSnack("Account created successfully", "success");
+
+    // ✅ MAGIC FIX
+    setTimeout(() => {
+      switchToLogin ();
+    }, 300);
+
+  } catch (error: any) {
+    showSnack(error?.message || "Signup failed", "error");
+  }
+},
+});
+  
   // ============================
   // SEND OTP
   // ============================

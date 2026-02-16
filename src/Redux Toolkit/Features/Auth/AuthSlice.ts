@@ -52,18 +52,53 @@ export const sendLoginSignupOtp = createAsyncThunk<
 
 /* ================= SIGNUP ================= */
 
+// export const signup = createAsyncThunk<
+//   any,
+//   {
+//     email: string;
+//     fullName: string;
+//     otp: string;
+//     navigate: Function;
+//   },
+//   { rejectValue: { message: string; status: number } }
+// >(
+//   "auth/signup",
+//   async ({ email, fullName, otp, navigate }, { rejectWithValue }) => {
+//     try {
+//       const response = await apiCustomer.post(`${API_URL}/signup`, {
+//         email,
+//         fullName,
+//         otp,
+//       });
+
+//       localStorage.setItem("jwt", response.data.jwt);
+//       navigate("/");
+
+//       return response.data;
+//     } catch (error: any) {
+//       return rejectWithValue({
+//         message: error.response?.data?.message || "Signup failed",
+//         status: error.response?.status || 500,
+//       });
+//     }
+//   }
+// );
+
+
+
+
+
 export const signup = createAsyncThunk<
   any,
   {
     email: string;
     fullName: string;
     otp: string;
-    navigate: Function;
   },
   { rejectValue: { message: string; status: number } }
 >(
   "auth/signup",
-  async ({ email, fullName, otp, navigate }, { rejectWithValue }) => {
+  async ({ email, fullName, otp }, { rejectWithValue }) => {
     try {
       const response = await apiCustomer.post(`${API_URL}/signup`, {
         email,
@@ -72,9 +107,9 @@ export const signup = createAsyncThunk<
       });
 
       localStorage.setItem("jwt", response.data.jwt);
-      navigate("/");
 
       return response.data;
+
     } catch (error: any) {
       return rejectWithValue({
         message: error.response?.data?.message || "Signup failed",

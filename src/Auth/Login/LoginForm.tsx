@@ -19,7 +19,7 @@ import {
 import { auth as firebaseAuth, googleProvider } from "../../Config/firebase";
 import api from "../../Config/api.ts";
 
-const LoginForm: React.FC = () => {
+const LoginForm = ({switchToSignup } : any) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const authState = useAppSelector((state) => state.auth);

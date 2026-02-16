@@ -38,7 +38,14 @@ const Auth = () => {
           </div>
 
           {/* form */}
-          <div>{isLogin ? <LoginForm /> : <SignupForm />}</div>
+          {/* <div>{isLogin ? <LoginForm /> : <SignupForm />}</div> */}
+          <div>
+  {isLogin ? (
+    <LoginForm switchToSignup={() => setIsLogin(false)} />
+  ) : (
+    <SignupForm switchToLogin={() => setIsLogin(true)} />
+  )}
+</div>
 
           {/* toggle */}
           <div className="mt-6 flex items-center justify-center gap-2">
