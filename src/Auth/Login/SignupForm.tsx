@@ -154,8 +154,8 @@ const formik = useFormik({
       showSnack("Account created successfully", "success");
 
       setTimeout(() => {
-        navigate("/login", { replace: true });
-      }, 1500);
+     switchToLogin();
+      }, 800);
     } catch (error: any) {
       showSnack(
         error?.response?.data?.message ||
