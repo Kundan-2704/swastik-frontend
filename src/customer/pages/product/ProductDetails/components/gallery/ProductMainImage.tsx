@@ -14,6 +14,10 @@ interface Props {
   onHoverChange: (state: boolean) => void;
 }
 
+const isTouchDevice =
+  typeof window !== "undefined" &&
+  ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
 const ProductMainImage: React.FC<Props> = ({
   product,
   gallery,
@@ -36,10 +40,10 @@ const ProductMainImage: React.FC<Props> = ({
   rounded-2xl
   bg-[#f6f4f1]
   cursor-zoom-in
-  // touch-none
   select-none
 "
-        onClick={onOpen}
+        // onClick={onOpen}
+        onClick={!isTouchDevice ? onOpen : undefined}
         onMouseEnter={() => {
           gallery.handleMouseEnter();
           onHoverChange(true);
