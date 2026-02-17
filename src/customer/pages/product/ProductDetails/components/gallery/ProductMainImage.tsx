@@ -36,7 +36,7 @@ const ProductMainImage: React.FC<Props> = ({
   rounded-2xl
   bg-[#f6f4f1]
   cursor-zoom-in
-  touch-none
+  // touch-none
   select-none
 "
         onClick={onOpen}
