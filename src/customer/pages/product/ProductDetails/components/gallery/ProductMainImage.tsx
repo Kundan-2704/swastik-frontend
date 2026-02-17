@@ -49,9 +49,9 @@ const ProductMainImage: React.FC<Props> = ({
           onHoverChange(false);
         }}
         onMouseMove={gallery.handleMouseMove}
-        onTouchStart={gallery.handleTouchStart}
-        onTouchMove={gallery.handleTouchMove}
-        onTouchEnd={gallery.handleTouchEnd}
+        // onTouchStart={gallery.handleTouchStart}
+        // onTouchMove={gallery.handleTouchMove}
+        // onTouchEnd={gallery.handleTouchEnd}
       >
         <img
           src={src}

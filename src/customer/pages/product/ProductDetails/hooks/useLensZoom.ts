@@ -52,12 +52,12 @@ export const useLensZoom = () => {
     lensPos,
 
     handleMouseMove,
-    handleTouchMove,
+    // handleTouchMove,
 
     handleMouseEnter: () => setShowLens(true),
-    handleMouseLeave: () => setShowLens(false),
+    // handleMouseLeave: () => setShowLens(false),
 
     handleTouchStart: () => setShowLens(true),
-    handleTouchEnd: () => setShowLens(false),
+    // handleTouchEnd: () => setShowLens(false),
   };
 };
