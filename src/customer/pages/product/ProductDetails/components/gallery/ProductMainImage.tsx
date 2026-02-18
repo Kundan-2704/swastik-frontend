@@ -1,110 +1,7 @@
-
-
-
-
-
-// import React from "react";
-
-// interface Props {
-//   product: {
-//     images: string[];
-//   };
-//   gallery: any;
-//   onOpen: () => void;
-//   onHoverChange: (state: boolean) => void;
-// }
-
-// const isTouchDevice =
-//   typeof window !== "undefined" &&
-//   ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-
-// const ProductMainImage: React.FC<Props> = ({
-//   product,
-//   gallery,
-//   onOpen,
-//   onHoverChange,
-// }) => {
-//   if (!product?.images?.length) return null;
-
-//   const src = product.images[gallery.current];
-
-//   return (
-//     <div className="w-full lg:w-[75%]">
-//       <div
-//        className="
-//   relative
-//   w-full
-//   h-[520px]
-//   lg:h-[680px]
-//   overflow-hidden
-//   rounded-2xl
-//   bg-[#f6f4f1]
-//   cursor-zoom-in
-//   select-none
-// "
-//         // onClick={onOpen}
-//         onClick={!isTouchDevice ? onOpen : undefined}
-//         onMouseEnter={() => {
-//           gallery.handleMouseEnter();
-//           onHoverChange(true);
-//         }}
-//         onMouseLeave={() => {
-//           gallery.handleMouseLeave();
-//           onHoverChange(false);
-//         }}
-//         onMouseMove={gallery.handleMouseMove}
-//         // onTouchStart={gallery.handleTouchStart}
-//         // onTouchMove={gallery.handleTouchMove}
-//         // onTouchEnd={gallery.handleTouchEnd}
-//       >
-//         <img
-//           src={src}
-//           alt="product"
-//           draggable={false}
-//           className="
-//             w-full
-//             h-full
-//             object-cover
-//             will-change-transform
-//             transition-transform
-//             duration-300
-//             md:duration-300
-//             duration-0
-//           "
-//           style={
-//             gallery.isZooming
-//               ? {
-//                 transform: "scale(2)",
-//                 transformOrigin: `${gallery.zoomPos.x}% ${gallery.zoomPos.y}%`,
-//               }
-//               : {
-//                 transform: "none",
-//                 objectPosition: "50% 8%",
-//               }
-//           }
-//         />
-
-//         {/* Zoom label */}
-//         <span className="absolute bottom-4 right-4 bg-black/70 text-white text-xs px-3 py-1 rounded-full pointer-events-none">
-//           Click to zoom
-//         </span>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProductMainImage;
-
-
-
-
-
-
-
-
-
 import React from "react";
 import optimizeImage from "../../../../../../Util/optimizeImage";
+import { motion, AnimatePresence  } from "framer-motion";
+
 
 interface Props {
   product: {
@@ -135,6 +32,43 @@ const ProductMainImage: React.FC<Props> = ({
   // ✅ Tap detection refs (INSIDE COMPONENT)
   const touchStart = React.useRef(0);
   const touchMoved = React.useRef(false);
+
+
+  const swipeConfidenceThreshold = 80;
+
+const handleDragEnd = (event: any, info: any) => {
+  if (info.offset.x < -swipeConfidenceThreshold) {
+    gallery.setCurrent((prev: number) =>
+      prev < product.images.length - 1 ? prev + 1 : prev
+    );
+  }
+
+  if (info.offset.x > swipeConfidenceThreshold) {
+    gallery.setCurrent((prev: number) =>
+      prev > 0 ? prev - 1 : prev
+    );
+  }
+};
+
+
+const variants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 80 : -80,
+    opacity: 0.4,
+    scale: 0.98,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? -80 : 80,
+    opacity: 0.4,
+    scale: 0.98,
+  }),
+};
+
 
   return (
     <div className="w-full lg:w-[75%]">
@@ -185,7 +119,7 @@ const ProductMainImage: React.FC<Props> = ({
           }
         }}
       >
-        <img
+        {/* <img
           src={src}
           alt="product"
           loading="eager"
@@ -199,7 +133,6 @@ const ProductMainImage: React.FC<Props> = ({
             duration-300
           "
           style={
-            /* ✅ Zoom ONLY on Desktop */
             !isTouchDevice && gallery.isZooming
               ? {
                   transform: "scale(2)",
@@ -212,12 +145,58 @@ const ProductMainImage: React.FC<Props> = ({
           }
         />
 
-        {/* Zoom label */}
         {!isTouchDevice && (
           <span className="absolute bottom-4 right-4 bg-black/70 text-white text-xs px-3 py-1 rounded-full pointer-events-none">
             Click to zoom
           </span>
-        )}
+        )} */}
+
+<AnimatePresence mode="wait" custom={gallery.current}>
+  <motion.div
+    key={gallery.current}
+
+    drag={isTouchDevice ? "x" : false}
+    dragConstraints={{ left: 0, right: 0 }}
+    dragElastic={0.25}
+    onDragEnd={handleDragEnd}
+
+    variants={variants}
+    initial="enter"
+    animate="center"
+    exit="exit"
+    transition={{
+      duration: isTouchDevice ? 0.28 : 0.18,
+      ease: [0.22, 1, 0.36, 1],
+    }}
+
+    className="absolute inset-0"
+  >
+    {/* ✅ ZOOM LAYER (separate transform) */}
+    <div
+      className="w-full h-full transition-transform duration-300"
+      style={
+        !isTouchDevice && gallery.isZooming
+          ? {
+              transform: "scale(2)",
+              transformOrigin: `${gallery.zoomPos.x}% ${gallery.zoomPos.y}%`,
+            }
+          : {
+              transform: "scale(1)",
+            }
+      }
+    >
+      <img
+        src={src}
+        alt="product"
+        draggable={false}
+        className="w-full h-full object-cover"
+        style={{ objectPosition: "50% 8%" }}
+      />
+    </div>
+  </motion.div>
+</AnimatePresence>
+
+
       </div>
     </div>
   );

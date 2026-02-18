@@ -7,7 +7,10 @@ import optimizeImage from "../../../../../../Util/optimizeImage";
 
 const ProductThumbnails = ({ images, current, setCurrent }: any) => {
   return (
-    <div className="w-full lg:w-[18%] flex flex-row lg:flex-col gap-3">
+    <div 
+    // className="w-full lg:w-[18%] flex flex-row lg:flex-col gap-3"
+    className="hidden lg:flex w-[18%] shrink-0 flex-col gap-3"
+    >
       {images?.map((img: string, index: number) => (
         <button
           key={index}

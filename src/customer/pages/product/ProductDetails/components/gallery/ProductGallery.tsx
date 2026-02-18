@@ -38,6 +38,24 @@ const ProductGallery = ({ product }: any) => {
         onHoverChange={setPauseSlide} // 🔥 pause slide on hover
       />
 
+      <div className="flex justify-center gap-2 mt-4 lg:hidden">
+  {product.images?.map((_: any, index: number) => (
+    <button
+      key={index}
+      onClick={() => setCurrent(index)}
+      className={`
+        h-2.5 rounded-full transition-all duration-300
+        ${
+          current === index
+            ? "w-6 bg-[#3b1f1f]"   // active dot (premium)
+            : "w-2.5 bg-gray-300"
+        }
+      `}
+    />
+  ))}
+</div>
+
+
       {openLightbox && (
   <ProductImageLightbox
         images={product.images || []}
