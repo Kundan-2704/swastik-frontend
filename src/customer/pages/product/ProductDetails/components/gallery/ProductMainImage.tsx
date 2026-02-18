@@ -104,6 +104,7 @@
 
 
 import React from "react";
+import optimizeImage from "../../../../../../Util/optimizeImage";
 
 interface Props {
   product: {
@@ -122,7 +123,9 @@ const ProductMainImage: React.FC<Props> = ({
 }) => {
   if (!product?.images?.length) return null;
 
-  const src = product.images[gallery.current];
+  // const src = product.images[gallery.current];
+  const src = optimizeImage(product.images[gallery.current], 800);
+
 
   // ✅ Detect touch device
   const isTouchDevice =
@@ -185,6 +188,7 @@ const ProductMainImage: React.FC<Props> = ({
         <img
           src={src}
           alt="product"
+          loading="eager"
           draggable={false}
           className="
             w-full

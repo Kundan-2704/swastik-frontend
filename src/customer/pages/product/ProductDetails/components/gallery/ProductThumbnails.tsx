@@ -1,3 +1,4 @@
+import optimizeImage from "../../../../../../Util/optimizeImage";
 
 
 
@@ -24,7 +25,9 @@ const ProductThumbnails = ({ images, current, setCurrent }: any) => {
         >
           <img
             loading="lazy"
-            src={img}
+            // src={img}
+            src={optimizeImage(img, 200)}
+
             alt={`thumb-${index}`}
             className="w-full h-full object-cover"
           />

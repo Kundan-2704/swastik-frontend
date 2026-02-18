@@ -3,6 +3,7 @@ import "./ProductCard.css";
 import { useNavigate } from "react-router-dom";
 import QuickViewModal from "./ProductDetails/QuickViewModal";
 import { useMediaQuery } from "@mui/material";
+import optimizeImage from "../../../Util/optimizeImage";
 
 /* ================= TYPES ================= */
 
@@ -133,7 +134,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
       {images.map((img, index) => (
   <img
     key={index}
-    src={img}
+    // src={img}
+    src={optimizeImage(img, 400)}
+
     alt={item.title}
     loading="lazy"
     className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ${
