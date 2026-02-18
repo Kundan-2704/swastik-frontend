@@ -54,7 +54,7 @@ const HomeCategory: React.FC = () => {
     if (!categories || categories.length === 0) {
       dispatch(fetchHomeCategories());
     }
-  }, [dispatch, location.pathname]);
+  }, [dispatch, categories]);
 
   /* ===============================
      FILTER
@@ -142,6 +142,7 @@ const HomeCategory: React.FC = () => {
               duration-300
               ease-out
               hover:scale-[1.05]
+              will-change-transform
               focus:outline-none
               focus-visible:ring-2
               focus-visible:ring-[#D9A86C]

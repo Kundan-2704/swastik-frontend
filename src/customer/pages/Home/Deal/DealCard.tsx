@@ -44,10 +44,12 @@ const DealCard: React.FC<DealCardProps> = ({ deal }) => {
           src={imageSrc}
           alt={deal.title || "Deal product"}
           loading="lazy"
+          decoding="async"
+          fetchPriority="low"
           onError={(e) => {
             e.currentTarget.src = "/placeholder.jpg";
           }}
-          className="w-full h-full object-cover object-top"
+          className="w-full h-full object-cover object-top will-change-transform"
         />
 
         <div className="absolute top-2 right-2 bg-[#C6A35B] text-white text-[11px] font-semibold px-2 py-1 rounded-full">

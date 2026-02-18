@@ -41,6 +41,8 @@ const HomeCategoryCard: React.FC<HomeCategoryCardProps> = ({ item }) => {
           src={imageSrc}
           alt={item.name}
           loading="lazy"
+          decoding="async"
+          fetchPriority="low"
           onError={(e) => {
             e.currentTarget.src = "/placeholder.webp";
           }}

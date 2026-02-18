@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import Slider, { Settings } from "react-slick";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -21,18 +21,39 @@ const Deal: React.FC = () => {
     dispatch(getActiveDeals());
   }, [dispatch]);
 
-  const settings: Settings = {
-    dots: true,
-    infinite: deals.length > 5,
-    speed: 600,
+  // const settings: Settings = {
+  //   dots: true,
+  //   infinite: deals.length > 5,
+  //   speed: 600,
 
-    slidesToShow: isMobile ? 1 : 5,   // ✅ PERFECT CONTROL
-    slidesToScroll: 1,
+  //   slidesToShow: isMobile ? 1 : 5,   // ✅ PERFECT CONTROL
+  //   slidesToScroll: 1,
 
-    autoplay: deals.length > 1,
-    autoplaySpeed: 2500,
-    arrows: false,
-  };
+  //   autoplay: deals.length > 1,
+  //   autoplaySpeed: 2500,
+  //   arrows: false,
+  // };
+
+ const settings: Settings = useMemo(() => ({
+  dots: true,
+  infinite: deals.length > 5,
+  speed: 600,
+
+  slidesToShow: isMobile ? 1 : 5,
+  slidesToScroll: 1,
+
+  autoplay: deals.length > 1,
+  autoplaySpeed: 2500,
+
+  arrows: false,
+
+  lazyLoad: "ondemand",     // 🔥 BIG WIN
+  swipeToSlide: true,
+  touchThreshold: 10,
+
+}), [deals.length, isMobile]);
+
+
 
   if (loading) {
     return (
@@ -75,10 +96,10 @@ const Deal: React.FC = () => {
 
             return (
               <div key={product._id}>
-                <div className="px-2">
+                <div className="px-2 will-change-transform">
                   <button
                     type="button"
-                    className="w-full block text-left"
+                    className="w-full block text-left transform-gpu"
                     onClick={() =>
                       navigate(
                         `/product-details/${product.categoryId}/${product.title}/${product._id}`
