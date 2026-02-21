@@ -39,6 +39,9 @@ const Cart = () => {
 
   const hasItems = cart?.cartItems?.length > 0;
 
+  console.log("CART ITEMS 👇", cart?.cartItems);
+
+
   /* ===================== COUPON HANDLERS ===================== */
 
 

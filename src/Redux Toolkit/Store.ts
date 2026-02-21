@@ -47,6 +47,7 @@ import adminPaymentsReducer from "./Features/Admin/PaymentsSlice";
 import adminInvoiceReducer from "./Features/Admin/AdminInvoiceSlice";
 import adminInvoiceBulkReducer from "./Features/Admin/AdminInvoiceBulkSlice";
 import replacementAdminReducer from "./Features/Admin/ReplacementAdminSlice";
+import AdminProductsReducer from "./Features/Admin/AdminProductsSlice";
 
 
 //Notification
@@ -94,6 +95,7 @@ const rootReducer = combineReducers({
   adminInvoice: adminInvoiceReducer,
   adminInvoiceBulk: adminInvoiceBulkReducer,
   replacementAdmin: replacementAdminReducer,
+adminProducts: AdminProductsReducer,
 
 
 

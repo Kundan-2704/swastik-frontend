@@ -40,7 +40,9 @@ const Products: React.FC = () => {
 
   const safeCategoryId: string | undefined = categoryId
     ?.toLowerCase()
-    .replace(/\s+/g, "_");
+    // .replace(/\s+/g, "_");
+    .replace(/\s+/g, "-");
+
 
   const [sort, setSort] = useState<string>("newest");
 
@@ -63,15 +65,53 @@ const Products: React.FC = () => {
   }, [dispatch, safeCategoryId, searchQuery, sort]);
 
   /* ================= SEO ================= */
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (searchQuery) {
+  //     document.title = `Search results for "${searchQuery}" | Swastik`;
+  //   } else if (pageTitle) {
+  //     document.title = `${pageTitle} | Premium Handloom Sarees`;
+  //   } else {
+  //     document.title = "All Products | Swastik";
+  //   }
+  // }, [pageTitle, searchQuery]);
+
+
+  /* ================= SEO ================= */
+useEffect(() => {
+  /* ---- TITLE ---- */
+  if (searchQuery) {
+    document.title = `Search results for "${searchQuery}" | Swastik Handloom`;
+  } else if (pageTitle) {
+    document.title = `${pageTitle} | Pure Handloom ${pageTitle} Online`;
+  } else {
+    document.title = "Handloom Sarees Online | Swastik Handloom";
+  }
+
+  /* ---- META DESCRIPTION ---- */
+  const metaDescription = document.querySelector(
+    'meta[name="description"]'
+  );
+
+  if (metaDescription) {
     if (searchQuery) {
-      document.title = `Search results for "${searchQuery}" | Swastik`;
+      metaDescription.setAttribute(
+        "content",
+        `Explore search results for ${searchQuery} at Swastik Handloom. Discover authentic premium handloom sarees.`
+      );
     } else if (pageTitle) {
-      document.title = `${pageTitle} | Premium Handloom Sarees`;
+      metaDescription.setAttribute(
+        "content",
+        `Shop authentic ${pageTitle} at Swastik Handloom. Premium pure handloom sarees crafted with heritage weaving techniques.`
+      );
     } else {
-      document.title = "All Products | Swastik";
+      metaDescription.setAttribute(
+        "content",
+        "Explore premium handloom sarees at Swastik Handloom. Authentic heritage woven luxury collections."
+      );
     }
-  }, [pageTitle, searchQuery]);
+  }
+}, [pageTitle, searchQuery]);
+
 
   /* ================= HANDLERS ================= */
   const handleSortProduct = (e: SelectChangeEvent<string>) => {

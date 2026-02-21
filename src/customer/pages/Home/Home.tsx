@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 
 import WeaverImage from "../../../assets/C2.png";
 import ModelImage from "../../../assets/A1.png";
+import { useAppSelector } from "../../../Redux Toolkit/Store";
 
 
 /* ================= PRIMARY BUTTON ================= */
@@ -34,7 +35,6 @@ interface PrimaryButtonProps {
   className?: string;
   type?: "button" | "submit";
 }
-
 
 
 
@@ -53,34 +53,40 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       variant="contained"
       className={className}
       sx={{
-        background: "linear-gradient(135deg, #8B4A0F 0%, #C58B4E 45%, #E5B676 100%)",
-        borderRadius: "999px",
-        px: "40px",
-        py: "14px",
-        fontSize: "16px",
-        fontWeight: 700,
-        letterSpacing: "0.04em",
-        boxShadow: "0 14px 32px rgba(139, 74, 15, 0.45)",
-        textTransform: "none",
-        transition: "all .35s ease",
+  background: "linear-gradient(135deg, #6E3608 0%, #B8793A 45%, #DFA45F 100%)",
+  borderRadius: "999px",
+  px: "42px",
+  py: "15px",
 
-        "&:hover": {
-          background: "linear-gradient(135deg, #6E3608 0%, #A86C34 45%, #D49A54 100%)",
-          boxShadow: "0 18px 40px rgba(139, 74, 15, 0.55)",
-          transform: "translateY(-2px) scale(1.02)",
-        },
+  fontSize: "16px",
+  fontWeight: 700,
+  letterSpacing: "0.05em",
+  color: "#FFF8ED",
 
-        "&:active": {
-          transform: "scale(0.98)",
-        },
-      }}
+  boxShadow: `
+    0 10px 28px rgba(139, 74, 15, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25)
+  `,
+
+  textTransform: "none",
+  transition: "all 0.35s ease",
+
+  "&:hover": {
+    background:
+      "linear-gradient(135deg, #5A2C06 0%, #A86C34 45%, #D49A54 100%)",
+    boxShadow: "0 14px 34px rgba(139, 74, 15, 0.45)",
+    transform: "translateY(-2px)",
+  },
+
+  "&:active": {
+    transform: "scale(0.97)",
+  },
+}}
     >
       {children}
     </Button>
   );
 };
-
-
 
 const Home: React.FC = () => {
 
@@ -91,6 +97,9 @@ const Home: React.FC = () => {
 
   const navigate = useNavigate();
 
+  const { categories } = useAppSelector(
+  (state) => state.homeCategory
+);
 
 
   useEffect(() => {
@@ -130,7 +139,11 @@ React.useEffect(() => {
   return () => clearInterval(interval);
 }, []);
 
-
+const kosaCategory = React.useMemo(() => {
+  return categories?.find(
+    (c) => c?.name?.toLowerCase()?.includes("kosa")
+  );
+}, [categories]);
 
 
 
@@ -177,13 +190,25 @@ React.useEffect(() => {
           Handwoven by master artisans of Chhattisgarh
         </p>
 
-        <PrimaryButton
+        {/* <PrimaryButton
           startIcon={<ArrowForwardIcon />}
           onClick={() => navigate("/products")}
           className="w-full py-3.5 text-base font-semibold shadow-xl"
         >
           Shop Handloom Collection
-        </PrimaryButton>
+        </PrimaryButton> */}
+
+        <PrimaryButton
+  startIcon={<ArrowForwardIcon />}
+  onClick={() => {
+    if (!kosaCategory) return;
+
+    navigate(`/products/${kosaCategory.categoryId}`);
+  }}
+  className="w-full py-3.5 text-base font-semibold shadow-xl"
+>
+  Discover Kosa Sarees
+</PrimaryButton>
 
         <p className="text-xs text-white/80 mt-2 text-center">
           ⭐ 4.9 Rated by 2,000+ customers
@@ -234,12 +259,16 @@ React.useEffect(() => {
         </div>
 
         <PrimaryButton
-          startIcon={<ArrowForwardIcon />}
-          onClick={() => navigate("/products")}
-          className="px-16 py-4 text-lg font-semibold shadow-2xl hover:scale-[1.05]"
-        >
-          Shop Handloom Sarees
-        </PrimaryButton>
+  startIcon={<ArrowForwardIcon />}
+  onClick={() => {
+    if (!kosaCategory) return;
+
+    navigate(`/products/${kosaCategory.categoryId}`);
+  }}
+  className="px-16 py-4 text-lg font-semibold shadow-2xl hover:scale-[1.05]"
+>
+  Shop Kosa Sarees
+</PrimaryButton>
 
         <p className="text-xs tracking-[0.3em] uppercase text-[#8A7A68] mt-4">
           Limited artisan pieces • Small batch weaving

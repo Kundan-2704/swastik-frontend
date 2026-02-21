@@ -112,6 +112,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
       >
         {/* BADGES */}
         <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
+          {item.priority > 0 && (
+  <div className="special-ribbon">
+    Special Pick
+  </div>
+)}
           {item.isHandloom && <span className="badge">Handloom</span>}
           {item.isNaturalDyed && (
             <span className="badge">Natural Dye</span>
