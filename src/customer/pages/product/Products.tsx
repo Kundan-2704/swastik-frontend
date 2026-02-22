@@ -131,7 +131,8 @@ useEffect(() => {
 
   /* ================= UI ================= */
   return (
-    <div className="mt-14">
+    // <div className="mt-14">
+    <div className="mt-6 md:mt-10 lg:mt-14">
       {/* PAGE TITLE */}
       <h1 className="text-center text-3xl md:text-4xl font-bold tracking-[0.25em] text-[#4A1F2A] mb-3">
         {searchQuery

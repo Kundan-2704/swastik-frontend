@@ -81,6 +81,7 @@ export const getAllProducts = createAsyncThunk<
       params: queryParams,
     });
 
+    console.log("API Response:", response.data);
     return response.data;
   } catch (error: any) {
     return rejectWithValue({

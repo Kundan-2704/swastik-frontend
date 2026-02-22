@@ -17,6 +17,7 @@ import {
   AddShoppingCart,
   CheckCircle,
   Favorite,
+  FavoriteBorder,
 } from "@mui/icons-material";
 
 import { useAppDispatch, useAppSelector } from "../../../../Redux Toolkit/Store";
@@ -30,7 +31,6 @@ import ProductStockStatus from "./components/info/ProductStockStatus";
 import ProductTrustBadges from "./components/info/ProductTrustBadges";
 import DeliveryInfo from "./components/info/DeliveryInfo";
 
-import ColorSelector from "./components/selectors/ColorSelector";
 import QuantitySelector from "./components/selectors/QuantitySelector";
 
 import ProductDescription from "./components/details/ProductDescription";
@@ -46,6 +46,8 @@ import { useProductGallery } from "./hooks/useProductGallery";
 import ProductDetailsSkeleton from "./components/skeletons/ProductDetailsSkeleton";
 import MiniCartDrawer from "./components/cart/MiniCartDrawer";
 import StickyDesktopCTA from "./components/action/StickyDesktopCTA";
+import ColorSelector from "./components/selectors/ColorSelector";
+import { checkWishlist, toggleWishlist } from "../../../../Redux Toolkit/Features/Customer/wishlistSlice";
 
 /* ================= CONSTANTS ================= */
 const BRAND_COLOR = "#4A1F2A";
@@ -90,6 +92,14 @@ const ProductDetails: React.FC = () => {
   /* ================= AUTH ================= */
   const jwt = useMemo(() => localStorage.getItem("jwt"), []);
 
+  const wished = useAppSelector(
+  (state) => state.wishlist.items[product?._id]
+);
+
+const wishlistLoading = useAppSelector(
+  (state) => state.wishlist.loading
+);
+
   /* ================= FETCH ================= */
   useEffect(() => {
     if (productId) dispatch(fetchProductById(productId));
@@ -113,6 +123,17 @@ const ProductDetails: React.FC = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+  if (product?._id) {
+    dispatch(checkWishlist(product._id));
+  }
+}, [product?._id, dispatch]);
+
+const handleWishlist = () => {
+  if (!jwt) return showToast("Please login first", "error");
+
+  dispatch(toggleWishlist(product._id));
+};
 
   /* ================= GALLERY ================= */
   const gallery = useProductGallery(product);
@@ -318,7 +339,7 @@ const ProductDetails: React.FC = () => {
     </Button>
 
     {/* SECONDARY CTA */}
-    <Button
+    {/* <Button
       startIcon={<Favorite />}
       variant="outlined"
       fullWidth
@@ -335,7 +356,29 @@ const ProductDetails: React.FC = () => {
       }}
     >
       Wishlist
-    </Button>
+    </Button> */}
+
+<Button
+  onClick={handleWishlist}
+  startIcon={wished ? <Favorite /> : <FavoriteBorder />}
+  variant="outlined"
+  fullWidth
+  disabled={wishlistLoading}
+  sx={{
+    py: "0.95rem",
+    borderRadius: "999px",
+    borderColor: "#B9935A",
+    color: wished ? "#B9935A" : BRAND_COLOR,
+    textTransform: "none",
+    fontWeight: 600,
+    "&:hover": {
+      backgroundColor: "#FBF7F2",
+    },
+  }}
+>
+  {wished ? "Wishlisted" : "Wishlist"}
+</Button>
+
   </div>
 
   {/* ================= DESCRIPTION ================= */}

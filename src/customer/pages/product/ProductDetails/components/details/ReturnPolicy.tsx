@@ -6,10 +6,10 @@ const ReturnPolicy = () => {
       <Shield sx={{ color: "#B9935A" }} />
       <div>
         <p className="text-sm font-semibold text-[#4A1F2A]">
-          Easy 7-Day Returns
+          Easy 7-Day Replacement
         </p>
         <p className="text-xs text-[#7A6A58]">
-          Return unused products within 7 days. Authenticity guaranteed.
+          Replacement unused products within 7 days. Authenticity guaranteed.
         </p>
       </div>
     </div>

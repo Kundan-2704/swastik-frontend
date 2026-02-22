@@ -20,6 +20,7 @@ import Shipping from "../pages/shipping-policy";
 import Contact from "../pages/contact-us";
 import SellerPolicy from "../pages/seller-policy";
 import Authenticity from "../pages/product-authenticity";
+import Wishlist from "../pages/Wishlist/Wishlist";
 
 const CustomerRoutes = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -49,6 +50,7 @@ const CustomerRoutes = () => {
           element={<ProductDetails />}
         />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/checkout/address" element={<Checkout />} />
 
         <Route path="/order-success" element={<OrderSuccess />} />

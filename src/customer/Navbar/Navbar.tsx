@@ -5,6 +5,7 @@ import {
   Search,
   Storefront,
   Close,
+  Favorite,
 } from "@mui/icons-material";
 import {
   Avatar,
@@ -81,6 +82,12 @@ const cartCount =
     0
   ) || 0;
 
+
+  const wishlistItems = useAppSelector(
+  (state) => state.wishlist.items
+);
+
+const wishlistCount = Object.keys(wishlistItems || {}).length;
 
   return (
     <Box className="sticky top-0 z-50 bg-[#F8F3E8] shadow-md">
@@ -267,6 +274,35 @@ const cartCount =
   </Badge>
 </IconButton>
 
+<IconButton
+  onClick={() => navigate("/wishlist")}
+  sx={{
+    padding: { xs: 0.5, sm: 1 },
+  }}
+>
+  <Badge
+    badgeContent={wishlistCount}
+    invisible={wishlistCount === 0}
+    overlap="circular"
+    sx={{
+      "& .MuiBadge-badge": {
+        backgroundColor: "#7A1F2B",
+        color: "#fff",
+        fontSize: "10px",
+        height: 16,
+        minWidth: 16,
+        boxShadow: "0 0 0 2px #F8F3E8",
+      },
+    }}
+  >
+    <Favorite
+      sx={{
+        color: "#B5933A",
+        fontSize: { xs: 20, sm: 24 },
+      }}
+    />
+  </Badge>
+</IconButton>
 
     {/* MOBILE LOGIN */}
     {!isLarge && !userState.user?.fullName && (

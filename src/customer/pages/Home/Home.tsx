@@ -22,8 +22,8 @@ import Skeleton from "@mui/material/Skeleton";
 import { useNavigate } from "react-router-dom";
 
 
-import WeaverImage from "../../../assets/C2.png";
-import ModelImage from "../../../assets/A1.png";
+import WeaverImage from "../../../assets/C2.webp";
+import ModelImage from "../../../assets/A1.webp";
 import { useAppSelector } from "../../../Redux Toolkit/Store";
 
 
@@ -74,7 +74,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   "&:hover": {
     background:
       "linear-gradient(135deg, #5A2C06 0%, #A86C34 45%, #D49A54 100%)",
-    boxShadow: "0 14px 34px rgba(139, 74, 15, 0.45)",
+    boxShadow: "0 6px 18px rgba(139, 74, 15, 0.45)",
     transform: "translateY(-2px)",
   },
 
@@ -117,14 +117,15 @@ const Home: React.FC = () => {
 
 
   const heroImages = [
+     {
+    src: ModelImage,
+    position: "top",
+  },
   {
     src: WeaverImage,
     position: "center",
   },
-  {
-    src: ModelImage,
-    position: "top",
-  },
+ 
 ];
 
 
@@ -134,7 +135,7 @@ const [activeImage, setActiveImage] = React.useState(0);
 React.useEffect(() => {
   const interval = setInterval(() => {
     setActiveImage((prev) => (prev + 1) % heroImages.length);
-  }, 4500);
+  }, 6000);
 
   return () => clearInterval(interval);
 }, []);
@@ -174,7 +175,7 @@ const kosaCategory = React.useMemo(() => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.2 }}
+            transition={{ duration: 0.6 }}
           />
         </AnimatePresence>
 

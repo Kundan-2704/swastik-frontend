@@ -90,7 +90,10 @@ const Grid = () => {
                 alt={item.name}
                 loading="lazy"
                 decoding="async"
-                fetchPriority="low"
+                // fetchPriority="low"
+                 fetchPriority={index === 0 ? "high" : "low"}
+  width="500"
+  height="500"
                 className="
                   w-full h-full object-cover
                   transition-transform duration-700
