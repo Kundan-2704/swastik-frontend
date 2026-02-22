@@ -20,6 +20,7 @@ interface User {
 interface UserState {
   user: User | null;
   loading: boolean;
+  authChecked: boolean;
   error: string | null;
 }
 
@@ -53,6 +54,7 @@ export const fetchUserProfile = createAsyncThunk<
 const initialState: UserState = {
   user: null,
   loading: false,
+  authChecked: false,
   error: null,
 };
 
@@ -65,6 +67,7 @@ const userSlice = createSlice({
     resetUserState: (state) => {
       state.user = null;
       state.loading=false;
+      state.authChecked = true;
       state.error = null;
     },
   },
@@ -77,9 +80,11 @@ const userSlice = createSlice({
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        state.authChecked = true;
       })
       .addCase(fetchUserProfile.rejected, (state, action) => {
         state.loading = false;
+        state.authChecked = true;
         state.error = action.payload?.message || "Something went wrong";
       });
   },

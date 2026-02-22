@@ -16,7 +16,7 @@ import SellerProtectedRoute from "./Routes/SellerProtectedRoute";
 
 import { useAppDispatch, useAppSelector } from "./Redux Toolkit/Store";
 import { useEffect } from "react";
-import { fetchUserProfile } from "./Redux Toolkit/Features/Customer/UserSlice";
+import { fetchUserProfile, resetUserState } from "./Redux Toolkit/Features/Customer/UserSlice";
 import { createHomeCategory } from "./Redux Toolkit/Features/Customer/HomeCategorySlice";
 import { homeCategories } from "./Data/Category/HomeCategories";
 import AdminLogin from "./admin/Login/AdminLogin";
@@ -44,12 +44,22 @@ function App() {
 
 
   // ✅ CUSTOMER PROFILE LOAD (ONLY CUSTOMER)
+  // useEffect(() => {
+  //   const customerJwt = localStorage.getItem("jwt");
+  //   if (customerJwt || auth.jwt) {
+  //     dispatch(fetchUserProfile());
+  //   }
+  // }, [auth.jwt, dispatch]);
+
   useEffect(() => {
-    const customerJwt = localStorage.getItem("jwt");
-    if (customerJwt || auth.jwt) {
-      dispatch(fetchUserProfile());
-    }
-  }, [auth.jwt, dispatch]);
+  const customerJwt = localStorage.getItem("jwt");
+
+  if (customerJwt || auth.jwt) {
+    dispatch(fetchUserProfile());
+  } else {
+    dispatch(resetUserState());   // 👈 VERY IMPORTANT
+  }
+}, []);
 
   // ✅ HOME CATEGORIES (SAFE GLOBAL)
   useEffect(() => {

@@ -87,7 +87,21 @@ const cartCount =
   (state) => state.wishlist.items
 );
 
+useEffect(() => {
+   console.log("NAVBAR EFFECT");
+   return () => console.log("NAVBAR UNMOUNTED");
+}, []);
+
 const wishlistCount = Object.keys(wishlistItems || {}).length;
+
+
+
+ if (userState.loading) {
+     return <div style={{ height: "95px" }} />;
+  }
+  
+  const showLogin = userState.authChecked && !userState.user;
+
 
   return (
     <Box className="sticky top-0 z-50 bg-[#F8F3E8] shadow-md">
@@ -305,7 +319,8 @@ const wishlistCount = Object.keys(wishlistItems || {}).length;
 </IconButton>
 
     {/* MOBILE LOGIN */}
-    {!isLarge && !userState.user?.fullName && (
+    {/* {!isLarge && !userState.user?.fullName && ( */}
+    {!isLarge && showLogin && (
       <Button
         onClick={() => navigate("/login")}
         size="small"
@@ -339,8 +354,11 @@ const wishlistCount = Object.keys(wishlistItems || {}).length;
 
 
     {/* DESKTOP USER */}
-    {isLarge &&
-      (userState.user?.fullName ? (
+    {/* {isLarge &&
+      (userState.user?.fullName ? ( */}
+        {isLarge &&
+!showLogin &&
+(userState.user ? (
         <Button onClick={() => navigate("/account")}>
           {/* <Avatar sx={{ width: 28, height: 28 }} /> */}
            <Avatar
@@ -488,5 +506,6 @@ const wishlistCount = Object.keys(wishlistItems || {}).length;
     </Box>
   );
 };
+
 
 export default Navbar;

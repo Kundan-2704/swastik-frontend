@@ -403,7 +403,10 @@ const handleWishlist = () => {
       <CraftStory story={product.craftStory} />
       <ReturnPolicy />
       <FAQ />
-      <Reviews />
+      {/* <Reviews productId={product._id} /> */}
+      {product?._id && (
+   <Reviews productId={product._id} />
+)}
       <SimilarProductsSection product={product} />
       <MobileBottomBar product={product} onBuy={handleAddCartItem} />
 
