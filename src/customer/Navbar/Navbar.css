@@ -29,3 +29,77 @@
 .category-sheet:hover::-webkit-scrollbar-thumb {
     opacity: 1;
 }
+
+
+
+.mobile-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background: #F8F3E8;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+
+  padding: 6px 12px;
+
+  z-index: 1200;
+
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Icons spacing */
+.mobile-bottom-bar .flex {
+  width: 100%;
+  justify-content: space-around;
+}
+
+/* Prevent content overlap */
+@media (max-width: 1200px) {
+  body {
+    padding-bottom: 65px;
+  }
+}
+
+
+.logo {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Prevent image flicker */
+img {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+/* ✅ NAVBAR STABILITY FIX */
+.MuiBox-root {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* ✅ SMOOTH LIGHT SHADOW */
+.navbar-shadow {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+/* ✅ MOBILE SCROLL BOOST */
+html, body {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ✅ FONT RENDERING */
+
+/* ✅ MOBILE NAVBAR OFFSET */
+/* .app-layout {
+  padding-top: 95px;
+} */
+
+/* ✅ DESKTOP RESET */
+/* @media (min-width: 1200px) {
+  .app-layout {
+    padding-top: 0;
+  }
+} */

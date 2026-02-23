@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import Navbar from "../customer/Navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
 import Home from "../customer/pages/Home/Home";
 import ProductDetails from "../customer/pages/product/ProductDetails/ProductDetails";
@@ -21,7 +20,7 @@ import Contact from "../pages/contact-us";
 import SellerPolicy from "../pages/seller-policy";
 import Authenticity from "../pages/product-authenticity";
 import Wishlist from "../pages/Wishlist/Wishlist";
-
+import Navbar from "../customer/Navbar/Navbar";
 const CustomerRoutes = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,7 +39,7 @@ const CustomerRoutes = () => {
 
 
       <Navbar />
-
+<div className="pt-[95px] lg:pt-0">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
@@ -69,7 +68,7 @@ const CustomerRoutes = () => {
 
 
       </Routes>
-
+</div>
       <Footer />
 
 

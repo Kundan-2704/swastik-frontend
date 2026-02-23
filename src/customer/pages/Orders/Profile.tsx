@@ -79,7 +79,7 @@ const Profile = () => {
       border border-[#E3D4B6] bg-[#FFF5E7] text-[#4A1F2A] shadow-sm"
   >
     <span className="font-medium">{active}</span>
-    <span className="text-sm">▾</span>
+    <span className="text-3xl">▾</span>
   </button>
 
   {openMenu && (
