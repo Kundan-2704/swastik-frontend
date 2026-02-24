@@ -520,6 +520,168 @@
 
 
 
+// import React, { useEffect, useState } from "react";
+// import { Box, useMediaQuery, useTheme } from "@mui/material";
+// import { useNavigate } from "react-router-dom";
+
+// import { mainCategory } from "../../Data/Category/mainCategory";
+// import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
+// import { fetchCart } from "../../Redux Toolkit/Features/Customer/CartSlice";
+
+// import SearchBar from "./SearchBar";
+// import LogoSection from "./LogoSection";
+// import DesktopMenu from "./DesktopMenu";
+// import MobileDrawer from "./MobileDrawer";
+// import RightSection from "./RightSection";
+// import { performLogout } from "../../Redux Toolkit/Features/Auth/AuthSlice";
+
+// const Navbar = () => {
+//   const theme = useTheme();
+//   const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
+
+//   const [showSheet, setShowSheet] = useState(false);
+//   const [selectedCategory, setSelectedCategory] = useState("sarees");
+//   const [showSearch, setShowSearch] = useState(false);
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [mobileMenu, setMobileMenu] = useState(false);
+
+//   const navigate = useNavigate();
+//   const dispatch = useAppDispatch();
+
+//   const userState = useAppSelector((state) => state.user);
+//   const sellerAuth = useAppSelector((state) => state.seller.sellerAuth);
+//   const cart = useAppSelector((state) => state.cart.cart);
+//   const wishlistItems = useAppSelector((state) => state.wishlist.items);
+
+//   // const jwt = localStorage.getItem("jwt");
+//   const { jwt } = useAppSelector((state) => state.auth);
+
+//   useEffect(() => {
+//     if (jwt) dispatch(fetchCart(jwt));
+//   }, [jwt, dispatch]);
+
+//   const handleSearch = () => {
+//     if (!searchQuery.trim()) return;
+
+//     navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
+//     setShowSearch(false);
+//     setSearchQuery("");
+//     setMobileMenu(false);
+//   };
+//  const handleLogout = () => {
+//   dispatch(performLogout());
+//   navigate("/", { replace: true });
+// };
+
+//   const cartCount =
+//     cart?.cartItems?.reduce(
+//       (total, item) => total + item.quantity,
+//       0
+//     ) || 0;
+
+//   const wishlistCount = Object.keys(wishlistItems || {}).length;
+
+//   const isAuthLoading = !userState.authChecked || userState.loading;
+
+// if (isAuthLoading) {
+//   return (
+//     <Box className="w-full h-[95px] bg-[#F8F3E8]" />
+//   );
+// }
+
+//   return (
+//     <>
+//       {/* ✅ TOP NAVBAR */}
+//       {/* <Box className="sticky top-0 z-50 bg-[#F8F3E8] box-shadow: 0 1px 4px rgba(0,0,0,0.06)"> */}
+//       <Box
+//   className={`
+//     ${isLarge ? "sticky top-0" : "fixed top-0"}
+//     w-full z-50 bg-[#F8F3E8] navbar-shadow
+//   `}
+// >
+
+//         <SearchBar
+//           showSearch={showSearch}
+//           searchQuery={searchQuery}
+//           setSearchQuery={setSearchQuery}
+//           handleSearch={handleSearch}
+//         />
+
+//         <div className="flex items-center justify-between px-4 md:px-10 lg:px-20 h-[95px]">
+
+//           <LogoSection
+//             isLarge={isLarge}
+//             setMobileMenu={setMobileMenu}
+//             navigate={navigate}
+//           />
+
+//           {isLarge && (
+//             <DesktopMenu
+//               mainCategory={mainCategory}
+//               setSelectedCategory={setSelectedCategory}
+//               setShowSheet={setShowSheet}
+//               selectedCategory={selectedCategory}
+//               showSheet={showSheet}
+//               navigate={navigate}
+//             />
+//           )}
+
+//           {/* ✅ Desktop Right Section */}
+//           {isLarge && (
+//             <RightSection
+//               isLarge={isLarge}
+//               showSearch={showSearch}
+//               setShowSearch={setShowSearch}
+//               cartCount={cartCount}
+//               wishlistCount={wishlistCount}
+//               userState={userState}
+//               sellerAuth={sellerAuth}
+//               navigate={navigate}
+//             />
+//           )}
+//         </div>
+
+//         <MobileDrawer
+//           mobileMenu={mobileMenu}
+//           setMobileMenu={setMobileMenu}
+//           userState={userState}
+//           mainCategory={mainCategory}
+//           sellerAuth={sellerAuth}
+//           navigate={navigate}
+//           onLogout={handleLogout }
+//         />
+//       </Box>
+
+//       {/* ✅ MOBILE BOTTOM STICKY BAR */}
+//       {!isLarge && (
+//         <div className="mobile-bottom-bar">
+//           <RightSection
+//             isLarge={isLarge}
+//             showSearch={showSearch}
+//             setShowSearch={setShowSearch}
+//             cartCount={cartCount}
+//             wishlistCount={wishlistCount}
+//             userState={userState}
+//             sellerAuth={sellerAuth}
+//             navigate={navigate}
+//           />
+//         </div>
+//       )}
+//     </>
+//   );
+// };
+
+// export default Navbar;
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useState } from "react";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -552,12 +714,19 @@ const Navbar = () => {
   const sellerAuth = useAppSelector((state) => state.seller.sellerAuth);
   const cart = useAppSelector((state) => state.cart.cart);
   const wishlistItems = useAppSelector((state) => state.wishlist.items);
+  const { jwt } = useAppSelector((state) => state.auth);
 
-  const jwt = localStorage.getItem("jwt");
-
+  /* ✅ Cart Fetch */
   useEffect(() => {
     if (jwt) dispatch(fetchCart(jwt));
   }, [jwt, dispatch]);
+
+  /* ✅ Safe Auth State (🔥 KEY FIX) */
+  const isAuthLoading = !userState.authChecked;
+
+  const safeUserState = isAuthLoading
+    ? { ...userState, user: undefined }   // 👈 Prevent UI shift
+    : userState;
 
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
@@ -567,10 +736,11 @@ const Navbar = () => {
     setSearchQuery("");
     setMobileMenu(false);
   };
- const handleLogout = () => {
-  dispatch(performLogout());
-  navigate("/", { replace: true });
-};
+
+  const handleLogout = () => {
+    dispatch(performLogout());
+    navigate("/", { replace: true });
+  };
 
   const cartCount =
     cart?.cartItems?.reduce(
@@ -580,21 +750,15 @@ const Navbar = () => {
 
   const wishlistCount = Object.keys(wishlistItems || {}).length;
 
-  if (userState.loading) {
-    return <div style={{ height: "95px" }} />;
-  }
-
   return (
     <>
-      {/* ✅ TOP NAVBAR */}
-      {/* <Box className="sticky top-0 z-50 bg-[#F8F3E8] box-shadow: 0 1px 4px rgba(0,0,0,0.06)"> */}
+      {/* ✅ TOP NAVBAR (ALWAYS RENDERED) */}
       <Box
-  className={`
-    ${isLarge ? "sticky top-0" : "fixed top-0"}
-    w-full z-50 bg-[#F8F3E8] navbar-shadow
-  `}
->
-
+        className={`
+          ${isLarge ? "sticky top-0" : "fixed top-0"}
+          w-full z-50 bg-[#F8F3E8] navbar-shadow
+        `}
+      >
         <SearchBar
           showSearch={showSearch}
           searchQuery={searchQuery}
@@ -621,7 +785,6 @@ const Navbar = () => {
             />
           )}
 
-          {/* ✅ Desktop Right Section */}
           {isLarge && (
             <RightSection
               isLarge={isLarge}
@@ -629,7 +792,7 @@ const Navbar = () => {
               setShowSearch={setShowSearch}
               cartCount={cartCount}
               wishlistCount={wishlistCount}
-              userState={userState}
+              userState={safeUserState}   // 👈 KEY FIX
               sellerAuth={sellerAuth}
               navigate={navigate}
             />
@@ -639,15 +802,15 @@ const Navbar = () => {
         <MobileDrawer
           mobileMenu={mobileMenu}
           setMobileMenu={setMobileMenu}
-          userState={userState}
+          userState={safeUserState}   // 👈 KEY FIX
           mainCategory={mainCategory}
           sellerAuth={sellerAuth}
           navigate={navigate}
-          onLogout={handleLogout }
+          onLogout={handleLogout}
         />
       </Box>
 
-      {/* ✅ MOBILE BOTTOM STICKY BAR */}
+      {/* ✅ MOBILE BOTTOM BAR */}
       {!isLarge && (
         <div className="mobile-bottom-bar">
           <RightSection
@@ -656,7 +819,7 @@ const Navbar = () => {
             setShowSearch={setShowSearch}
             cartCount={cartCount}
             wishlistCount={wishlistCount}
-            userState={userState}
+            userState={safeUserState}   // 👈 KEY FIX
             sellerAuth={sellerAuth}
             navigate={navigate}
           />

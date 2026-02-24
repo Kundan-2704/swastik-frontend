@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../../Store";
-import { resetUserState } from "../Customer/UserSlice";
+import { fetchUserProfile, resetUserState } from "../Customer/UserSlice";
 import { logoutSeller } from "../Seller/SellerAuthenticationSlice";
 import { apiCustomer } from "../../../Config/apiCustomer";
 
@@ -19,7 +19,8 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  jwt: null,
+  // jwt: null,
+  jwt: localStorage.getItem("jwt"),
   role: null,
   loading: false,
   error: null,
@@ -131,7 +132,7 @@ export const signin = createAsyncThunk<
   { rejectValue: { message: string; status: number } }
 >(
   "auth/signin",
-  async ({ email, otp, navigate }, { rejectWithValue }) => {
+  async ({ email, otp, navigate }, { rejectWithValue, dispatch }) => {
     try {
       const response = await apiCustomer.post(`${API_URL}/signin`, {
         email,
@@ -139,6 +140,9 @@ export const signin = createAsyncThunk<
       });
 
       localStorage.setItem("jwt", response.data.jwt);
+
+      dispatch(fetchUserProfile());
+
       if(response.data.role=="ROLE_ADMIN"){
         navigate("/admin");
       }else navigate("/");

@@ -51,15 +51,23 @@ function App() {
   //   }
   // }, [auth.jwt, dispatch]);
 
-  useEffect(() => {
-  const customerJwt = localStorage.getItem("jwt");
+//   useEffect(() => {
+//   const customerJwt = localStorage.getItem("jwt");
 
-  if (customerJwt || auth.jwt) {
+//   if (customerJwt || auth.jwt) {
+//     dispatch(fetchUserProfile());
+//   } else {
+//     dispatch(resetUserState());   // 👈 VERY IMPORTANT
+//   }
+// }, []);
+
+useEffect(() => {
+  if (auth.jwt) {
     dispatch(fetchUserProfile());
   } else {
-    dispatch(resetUserState());   // 👈 VERY IMPORTANT
+    dispatch(resetUserState());
   }
-}, []);
+}, [auth.jwt]);
 
   // ✅ HOME CATEGORIES (SAFE GLOBAL)
   useEffect(() => {

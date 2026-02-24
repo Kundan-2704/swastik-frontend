@@ -47,15 +47,34 @@ const LoginForm = ({switchToSignup } : any) => {
   // ============================
   // FORMIK
   // ============================
+  // const formik = useFormik({
+  //   initialValues: {
+  //     email: "",
+  //     otp: "",
+  //   },
+  //   onSubmit: (values) => {
+  //     dispatch(signin({ ...values, navigate }));
+  //   },
+  // });
+
+
   const formik = useFormik({
-    initialValues: {
-      email: "",
-      otp: "",
-    },
-    onSubmit: (values) => {
-      dispatch(signin({ ...values, navigate }));
-    },
-  });
+  initialValues: {
+    email: "",
+    otp: "",
+  },
+
+  onSubmit: async (values) => {
+    try {
+      await dispatch(signin({ ...values, navigate })).unwrap();
+    } catch (error: any) {
+      showSnack(
+        error?.message || "Account not found. Please create an account.",
+        "error"
+      );
+    }
+  },
+});
 
   // ============================
   // SEND OTP
@@ -69,7 +88,7 @@ const LoginForm = ({switchToSignup } : any) => {
     try {
       const email = "signin_" + formik.values.email;
       await dispatch(sendLoginSignupOtp({ email }));
-      showSnack("OTP sent successfully", "success");
+      showSnack("OTP sent. Please check your email", "success");
     } catch {
       showSnack("Failed to send OTP", "error");
     }
@@ -97,7 +116,10 @@ const LoginForm = ({switchToSignup } : any) => {
       showSnack("Login failed", "error");
     } catch (error: any) {
       console.error("GOOGLE LOGIN ERROR →", error);
-      showSnack("Google login failed", "error");
+      showSnack(
+  "No account found. Please create your account to continue.",
+  "error"
+);
     }
   };
 
@@ -139,6 +161,13 @@ const LoginForm = ({switchToSignup } : any) => {
               sx={fieldSx}
             />
 
+{/* 👇 YAHAN ADD KARO */}
+<div className="text-xs text-[#8A7765] mt-3">
+  We’ll send you a one-time OTP to login or create your account
+</div>
+{/* <div className="text-xs text-[#8A7765] -mb-3">
+      Enter the OTP sent to your email
+    </div> */}
             {/* OTP */}
             {authState.otpSent && (
               <TextField
@@ -179,6 +208,11 @@ const LoginForm = ({switchToSignup } : any) => {
                 }}
               >
                 {authState.loading ? "Please wait..." : "Login"}
+                {/* {authState.loading
+  ? "Please wait..."
+  : authState.otpSent
+  ? "Verify OTP"
+  : "Login / Sign Up"} */}
               </Button>
             </div>
 
@@ -213,6 +247,19 @@ const LoginForm = ({switchToSignup } : any) => {
               Continue with Google
             </Button>
           </div>
+          <div className="text-center pt-2">
+  <span className="text-sm text-[#7A6A58]">
+    Don’t have an account?
+  </span>
+
+  <button
+    type="button"
+    onClick={switchToSignup}
+    className="ml-2 text-[#8B5E34] font-semibold hover:underline cursor-pointer"
+  >
+    Create Account
+  </button>
+</div>
         </div>
       </form>
 

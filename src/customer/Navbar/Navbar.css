@@ -82,7 +82,8 @@ img {
 
 /* ✅ SMOOTH LIGHT SHADOW */
 .navbar-shadow {
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);]
+  transition: opacity 0.2s ease;
 }
 
 /* ✅ MOBILE SCROLL BOOST */

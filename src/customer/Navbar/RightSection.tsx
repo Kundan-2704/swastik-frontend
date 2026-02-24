@@ -70,109 +70,91 @@ const RightSection: React.FC<RightSectionProps> = ({
 }) => {
 
   const user = userState.user;
-  const isLoggedIn = !!user;
+
+  const isAuthChecking = user === undefined;
+  const isLoggedIn = user !== null && user !== undefined;
 
   return (
     <div className="flex items-center gap-3">
 
-      {/* SEARCH (Always Visible) */}
       <IconButton onClick={() => setShowSearch(!showSearch)}>
         <Search sx={{ color: "#B5933A" }} />
       </IconButton>
 
-      {/* ✅ CART → Show only if Desktop OR Logged In */}
-      {(isLarge || isLoggedIn) && (
-        <IconButton
-        id="cart-icon"
-          onClick={() => navigate("/cart")}
-          sx={{ padding: { xs: 0.5, sm: 1 } }}
-        >
-          <Badge
-            badgeContent={cartCount}
-            invisible={cartCount === 0}
-            overlap="circular"
-            sx={badgeStyles}
-          >
-            <AddShoppingCart
-              sx={{
-                color: "#B5933A",
-                fontSize: { xs: 20, sm: 24 },
-              }}
-            />
-          </Badge>
-        </IconButton>
-      )}
+      <IconButton onClick={() => navigate("/cart")}>
+        <Badge badgeContent={cartCount} invisible={cartCount === 0} sx={badgeStyles}>
+          <AddShoppingCart sx={{ color: "#B5933A" }} />
+        </Badge>
+      </IconButton>
 
-      {/* ✅ WISHLIST → Same Rule */}
-      {(isLarge || isLoggedIn) && (
-        <IconButton
-          onClick={() => navigate("/wishlist")}
-          sx={{ padding: { xs: 0.5, sm: 1 } }}
-        >
-          <Badge
-            badgeContent={wishlistCount}
-            invisible={wishlistCount === 0}
-            overlap="circular"
-            sx={badgeStyles}
-          >
-            <Favorite
-              sx={{
-                color: "#B5933A",
-                fontSize: { xs: 20, sm: 24 },
-              }}
-            />
-          </Badge>
-        </IconButton>
-      )}
+      <IconButton onClick={() => navigate("/wishlist")}>
+        <Badge badgeContent={wishlistCount} invisible={wishlistCount === 0} sx={badgeStyles}>
+          <Favorite sx={{ color: "#B5933A" }} />
+        </Badge>
+      </IconButton>
 
-      {/* ✅ NOTIFICATIONS → Only Logged In */}
-      {isLoggedIn && <NotificationBell />}
+      <NotificationBell />
 
       {/* ✅ MOBILE */}
       {!isLarge && (
-        isLoggedIn ? (
-          <IconButton onClick={() => navigate("/account")}>
-            <Avatar sx={avatarStyles}>
-              {(user.fullName || user.email)
-                .charAt(0)
-                .toUpperCase()}
-            </Avatar>
-          </IconButton>
-        ) : (
-          <Button
-            onClick={() => navigate("/login")}
-            size="small"
-            variant="contained"
-            sx={{
-              backgroundColor: "#4A1F2A",
-              borderRadius: "999px",
-            }}
-          >
-            Login
-          </Button>
-        )
+        <div style={{ width: 70 }}>   {/* 👈 LOCK WIDTH */}
+          {isLoggedIn ? (
+            <IconButton
+              onClick={() => navigate("/account")}
+              sx={{ visibility: isAuthChecking ? "hidden" : "visible" }}  // 🔥 FIX
+            >
+              <Avatar sx={avatarStyles}>
+                {(user?.fullName || user?.email || "U")
+                  .charAt(0)
+                  .toUpperCase()}
+              </Avatar>
+            </IconButton>
+          ) : (
+            <Button
+              onClick={() => navigate("/login")}
+              size="small"
+              variant="contained"
+              sx={{
+                backgroundColor: "#4A1F2A",
+                borderRadius: "999px",
+                visibility: isAuthChecking ? "hidden" : "visible", // 🔥 FIX
+              }}
+            >
+              Login
+            </Button>
+          )}
+        </div>
       )}
 
       {/* ✅ DESKTOP */}
       {isLarge && (
-        isLoggedIn ? (
-          <Button onClick={() => navigate("/account")}>
-            <Avatar sx={avatarStyles}>
-              {user.email.charAt(0).toUpperCase()}
-            </Avatar>
-          </Button>
-        ) : (
-          <Button
-            onClick={() => navigate("/login")}
-            variant="contained"
-            sx={{ backgroundColor: "#4A1F2A" }}
-          >
-            Login
-          </Button>
-        )
+        <div style={{ width: 90 }}>   {/* 👈 LOCK WIDTH */}
+          {isLoggedIn ? (
+            <Button
+              onClick={() => navigate("/account")}
+              sx={{ visibility: isAuthChecking ? "hidden" : "visible" }} // 🔥 FIX
+            >
+              <Avatar sx={avatarStyles}>
+                {(user?.email || "U")
+                  .charAt(0)
+                  .toUpperCase()}
+              </Avatar>
+            </Button>
+          ) : (
+            <Button
+              onClick={() => navigate("/login")}
+              variant="contained"
+              sx={{
+                backgroundColor: "#4A1F2A",
+                visibility: isAuthChecking ? "hidden" : "visible", // 🔥 FIX
+              }}
+            >
+              Login
+            </Button>
+          )}
+        </div>
       )}
 
-      {/* SELLER (Desktop Only) */}
       {isLarge && (
         <Button
           onClick={() =>
