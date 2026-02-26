@@ -20,7 +20,7 @@ import Contact from "../pages/contact-us";
 import SellerPolicy from "../pages/seller-policy";
 import Authenticity from "../pages/product-authenticity";
 import Wishlist from "../pages/Wishlist/Wishlist";
-import Navbar from "../customer/Navbar/Navbar";
+import Navbar from "../customer/Navbar/Navbar2";
 const CustomerRoutes = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
