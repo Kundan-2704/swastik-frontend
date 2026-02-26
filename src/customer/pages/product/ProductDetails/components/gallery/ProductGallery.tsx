@@ -61,6 +61,7 @@ const ProductGallery = ({ product }: any) => {
         images={product.images || []}
         open={openLightbox}
         index={gallery.current}
+        setIndex={setCurrent}
         onClose={() => setOpenLightbox(false)}
   />
 )}
