@@ -9,7 +9,7 @@ const ContactUs = () => (
     />
     <PolicyLayout title="Contact Us">
       <p>Email: support@swastikhandloom.com</p>
-      <p>Phone: +91XXXXXXXXXX</p>
+      <p>Phone: +91-9244576470</p>
       <p>Address: Chhattisgarh, India</p>
     </PolicyLayout>
   </>

@@ -7,6 +7,7 @@ import {
   Snackbar,
   Alert,
   CircularProgress,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -218,6 +219,82 @@ const Checkout = () => {
                 "Checkout"
               )}
             </Button>
+<Box
+  mt={4}
+  textAlign="center"
+  sx={{
+    pt: 2,
+    borderTop: "1px solid rgba(0,0,0,0.06)",
+  }}
+>
+  <Typography
+    variant="caption"
+    sx={{
+      color: "#7A7A7A",
+      fontSize: "12px",
+      letterSpacing: "0.6px",
+      fontWeight: 500,
+    }}
+  >
+    Secure • Encrypted • Trusted Payments
+  </Typography>
+
+  <Box
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+    gap={3}
+    mt={1.8}
+  >
+    <Box
+      component="img"
+      src="/payments/visa.png"
+      sx={{
+        height: 20,
+        opacity: 0.75,
+        filter: "grayscale(20%)",
+        transition: "all 0.3s ease",
+        "&:hover": { opacity: 1, filter: "grayscale(0%)" },
+      }}
+    />
+
+    <Box
+      component="img"
+      src="/payments/mastercard.webp"
+      sx={{
+        height: 24,
+        opacity: 0.75,
+        filter: "grayscale(20%)",
+        transition: "all 0.3s ease",
+        "&:hover": { opacity: 1, filter: "grayscale(0%)" },
+      }}
+    />
+
+    <Box
+      component="img"
+      src="/payments/upi.png"
+      sx={{
+        height: 22,
+        opacity: 0.75,
+        filter: "grayscale(20%)",
+        transition: "all 0.3s ease",
+        "&:hover": { opacity: 1, filter: "grayscale(0%)" },
+      }}
+    />
+
+    <Box
+      component="img"
+      src="/payments/rupay.png"
+      sx={{
+        height: 22,
+        opacity: 0.75,
+        filter: "grayscale(20%)",
+        transition: "all 0.3s ease",
+        "&:hover": { opacity: 1, filter: "grayscale(0%)" },
+      }}
+    />
+  </Box>
+</Box>
           </section>
         </div>
       </div>

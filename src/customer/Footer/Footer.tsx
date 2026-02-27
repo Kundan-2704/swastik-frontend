@@ -23,7 +23,7 @@ const Footer = () => {
               </div>
               <div>
                 <p className="text-lg font-semibold tracking-wide">
-                  Swastik Kosa & Tassar
+                  Swastik Kosa & Tussar
                 </p>
                 <p className="text-xs uppercase tracking-[0.2em] text-[#D9A86C]">
                   Handcrafted • Heritage • Luxury
@@ -32,7 +32,7 @@ const Footer = () => {
             </div>
 
             <p className="text-sm leading-relaxed text-[#EAD9BF]">
-              Authentic Kosa & Tassar handloom sarees, handwoven by verified
+              Authentic Kosa & Tussar handloom sarees, handwoven by verified
               artisans of Chhattisgarh. GI-tagged, ethical, and timeless.
             </p>
 
@@ -47,10 +47,10 @@ const Footer = () => {
               </a>{" "}
               |{" "}
               <a
-                href="tel:+91XXXXXXXXXX"
+                href="tel:+91-9244576470"
                 className="underline hover:text-[#D9A86C]"
               >
-                +91XXXXXXXXXX
+                +91-9244576470
               </a>
             </p>
           </div>
@@ -59,10 +59,10 @@ const Footer = () => {
           <nav aria-label="Footer shop links">
             <h4 className="text-sm font-semibold text-[#D9A86C] mb-3">SHOP</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/kosa-sarees">Kosa Sarees</Link></li>
-              <li><Link to="/tassar-sarees">Tassar Sarees</Link></li>
-              <li><Link to="/handloom">Handloom Collection</Link></li>
-              <li><Link to="/wedding-edit">Wedding Edit</Link></li>
+              <li><Link to="/products/kosa_sarees">Kosa Sarees</Link></li>
+              <li><Link to="/products/tussar_sarees">Tussar Sarees</Link></li>
+              <li><Link to="/products/handloom_sarees">Handloom Collection</Link></li>
+              <li><Link to="/products/wedding-sarees">Wedding Edit</Link></li>
             </ul>
           </nav>
 
@@ -74,6 +74,7 @@ const Footer = () => {
               <li><Link to="/refund-replacement">Refund & Replacement</Link></li>
               <li><Link to="/privacy-policy">Privacy Policy</Link></li>
               <li><Link to="/contact-us">Contact Us</Link></li>
+              <li><Link to="/about-us">About Us</Link></li>
             </ul>
           </nav>
         </div>
@@ -82,7 +83,7 @@ const Footer = () => {
       {/* Bottom */}
       <div className="max-w-6xl mx-auto px-4 py-4 text-[11px] text-[#EAD9BF] flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <p>
-          © {new Date().getFullYear()} Swastik Kosa & Tassar. All rights reserved.
+          © {new Date().getFullYear()} Swastik Kosa & Tussar. All rights reserved.
         </p>
 
         <nav
