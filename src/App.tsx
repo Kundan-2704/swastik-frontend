@@ -34,6 +34,10 @@ import PendingApproval from "./Auth/Become Seller/PendingApproval";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import AffiliateWithdraw from "./affiliate/pages/AffiliateWithdraw";
+import AffiliateCommissions from "./affiliate/pages/AffiliateCommissions";
+import AffiliateDashboard from "./affiliate/pages/AffiliateDashboard";
+import AffiliateLayout from "./affiliate/layout/AffiliateLayout";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -127,6 +131,12 @@ useEffect(() => {
           <Route path="*" element={<AdminRoutes />} />
         </Route>
 
+{/* ================= AFFILIATE MOCK ================= */}
+<Route path="/affiliate" element={<AffiliateLayout />}>
+  <Route path="dashboard" element={<AffiliateDashboard />} />
+  <Route path="commissions" element={<AffiliateCommissions />} />
+  <Route path="withdraw" element={<AffiliateWithdraw />} />
+</Route>
 
         {/* ================= CUSTOMER ================= */}
         <Route path="/*" element={<CustomerRoutes />} />
