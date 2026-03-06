@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Redux Toolkit/Store";
@@ -28,6 +28,8 @@ import { handloomLevelThree } from "../../Data/Category/levelThree/handloomLevel
 import { weddingLevelThree } from "../../Data/Category/levelThree/weddingLevelThree";
 import { dailyWearLevelThree } from "../../Data/Category/levelThree/dailyWearLevelThree";
 import { printedLevelThree } from "../../Data/Category/levelThree/printedLevelThree";
+import { Snackbar, type AlertProps } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 
 /* ================= TYPES ================= */
 
@@ -86,6 +88,12 @@ const SellerProductEdit: React.FC = () => {
     const [existingImages, setExistingImages] = useState<string[]>([]);
     const [levelTwoOptions, setLevelTwoOptions] = useState<SubCategory[]>([]);
     const [levelThreeOptions, setLevelThreeOptions] = useState<SubCategory[]>([]);
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+const [snackbarMessage, setSnackbarMessage] = useState("");
+const [snackbarSeverity, setSnackbarSeverity] = useState<
+  "success" | "error" | "warning" | "info"
+>("success");
 
     /* ================= FETCH PRODUCT ================= */
 
@@ -217,6 +225,39 @@ const SellerProductEdit: React.FC = () => {
         setImages((prev) => prev.filter((_, i) => i !== index));
         setPreviews((prev) => prev.filter((_, i) => i !== index));
     };
+
+    const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const handleSnackbarClose = (
+  event?: React.SyntheticEvent | Event,
+  reason?: string
+) => {
+  if (reason === "clickaway") return;
+  setSnackbarOpen(false);
+};
+
+const { loading, error, successMessage } = useAppSelector(
+  (state) => state.sellerProduct
+);
+
+useEffect(() => {
+  if (successMessage) {
+    setSnackbarMessage(successMessage);
+    setSnackbarSeverity("success");
+    setSnackbarOpen(true);
+  }
+
+  if (error) {
+    setSnackbarMessage(error);
+    setSnackbarSeverity("error");
+    setSnackbarOpen(true);
+  }
+}, [successMessage, error]);
 
     /* ================= UI ================= */
 
@@ -437,6 +478,21 @@ const SellerProductEdit: React.FC = () => {
                     Update Product
                 </button>
             </form>
+
+            <Snackbar
+  open={snackbarOpen}
+  autoHideDuration={4000}
+  onClose={handleSnackbarClose}
+  anchorOrigin={{ vertical: "top", horizontal: "right" }}
+>
+  <Alert
+    onClose={handleSnackbarClose}
+    severity={snackbarSeverity}
+    sx={{ width: "100%" }}
+  >
+    {snackbarMessage}
+  </Alert>
+</Snackbar>
         </div>
     );
 };

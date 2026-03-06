@@ -10,7 +10,7 @@ const initialState = {
   singleProduct: null as any, // EDIT PAGE
   loading: false,
   error: "" as string,
-};
+  successMessage: "" as string,};
 
 interface FetchSellerProductParams {
   jwt: string;
@@ -201,6 +201,9 @@ const sellerProductSlice = createSlice({
     clearSingleProduct: (state) => {
       state.singleProduct = null;
     },
+    clearSellerProductMessages:(state)=>{
+      state.successMessage = "";
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -239,6 +242,7 @@ const sellerProductSlice = createSlice({
       /* ===== CREATE ===== */
       .addCase(createProduct.fulfilled, (state, action) => {
         state.products.unshift(action.payload);
+          state.successMessage = "Product created successfully"; 
       })
 
       /* ===== UPDATE FULL ===== */
@@ -248,6 +252,8 @@ const sellerProductSlice = createSlice({
           p._id === updated._id ? updated : p
         );
         state.singleProduct = updated;
+
+         state.successMessage = "Product updated successfully";
       })
 
       /* ===== UPDATE STOCK ===== */
@@ -274,6 +280,8 @@ const sellerProductSlice = createSlice({
         state.products = state.products.filter(
           (p: any) => p._id !== action.payload
         );
+
+          state.successMessage = "Product deleted successfully"; 
       });
   },
 });
@@ -283,6 +291,7 @@ const sellerProductSlice = createSlice({
 export const {
   clearSellerProductError,
   clearSingleProduct,
+  clearSellerProductMessages,
 } = sellerProductSlice.actions;
 
 export default sellerProductSlice.reducer;

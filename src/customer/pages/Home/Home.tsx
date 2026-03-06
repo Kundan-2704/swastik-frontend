@@ -114,8 +114,7 @@ const Home: React.FC = () => {
     const timer = setTimeout(() => setLoading(false), 1200); // simulate API
     return () => clearTimeout(timer);
   }, []);
-
-
+  
   const heroImages = [
      {
     src: ModelImage,
@@ -329,7 +328,6 @@ const kosaCategory = React.useMemo(() => {
       {/* ================= PREMIUM COLLECTION ================= */}
       <section className="py-16">
 
-        {/* TITLE */}
         {loading ? (
           <div className="flex justify-center mb-10">
             <Skeleton
@@ -345,7 +343,6 @@ const kosaCategory = React.useMemo(() => {
           </h2>
         )}
 
-        {/* CONTENT */}
         {loading ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-4 lg:px-20">
             {Array.from({ length: 4 }).map((_, i) => (
@@ -365,7 +362,6 @@ const kosaCategory = React.useMemo(() => {
         )}
 
       </section>
-
 
       {/* ================= EXPLORE BY CRAFT ================= */}
       {/* ================= EXPLORE BY CRAFT ================= */}

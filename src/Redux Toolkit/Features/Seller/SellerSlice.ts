@@ -21,7 +21,8 @@ const initialState = {
   profile: null as any,
   account: null as any, // 👈 account == profile
 
-  loading: false,
+  loading: true,
+   accountFetched: false,
   error: null as string | null,
 
   profileUpdated: false,
@@ -204,10 +205,12 @@ const sellerManagementSlice = createSlice({
       .addCase(fetchSellerAccount.fulfilled, (state, action) => {
         state.loading = false;
         state.account = action.payload;
+         state.accountFetched = true;
       })
       .addCase(fetchSellerAccount.rejected, (state, action: any) => {
         state.loading = false;
         state.error = action.payload;
+         state.accountFetched = true;
       })
 
       .addCase(updateSellerAccount.pending, (state) => {

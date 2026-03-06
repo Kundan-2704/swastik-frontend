@@ -24,7 +24,7 @@ const SareeCategory = () => {
   }, [dispatch, location.pathname]); // 🔥 MOST IMPORTANT
 
   /* ================= LOADING / SKELETON ================= */
-  if (homeCategories.length === 0) {
+  if (categories.length === 0 && homeCategories.length === 0) {
     return (
       <div className="px-4 lg:px-20 py-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
         {[...Array(6)].map((_, i) => (
