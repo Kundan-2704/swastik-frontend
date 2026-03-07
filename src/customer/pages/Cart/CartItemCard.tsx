@@ -28,14 +28,27 @@ const CartItemCard = ({ item }: any) => {
     });
   };
 
+  // const handleRemoveItem = () => {
+  //   dispatch(
+  //     deleteCartItem({
+  //       jwt: localStorage.getItem("jwt") || "",
+  //       cartitemId: item._id,
+  //     })
+  //   );
+  // };
+
   const handleRemoveItem = () => {
-    dispatch(
-      deleteCartItem({
-        jwt: localStorage.getItem("jwt") || "",
-        cartitemId: item._id,
-      })
-    );
-  };
+  const jwt = localStorage.getItem("jwt") || "";
+
+  dispatch(
+    deleteCartItem({
+      jwt,
+      cartitemId: item._id,
+    })
+  ).then(() => {
+    dispatch(fetchCart(jwt));
+  });
+};
 
   return (
     <div className="border border-[#E3D4B6] rounded-xl bg-[#FFFAF2] shadow-sm relative overflow-hidden">
