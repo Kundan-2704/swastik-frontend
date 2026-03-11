@@ -38,6 +38,7 @@ import AffiliateWithdraw from "./affiliate/pages/AffiliateWithdraw";
 import AffiliateCommissions from "./affiliate/pages/AffiliateCommissions";
 import AffiliateDashboard from "./affiliate/pages/AffiliateDashboard";
 import AffiliateLayout from "./affiliate/layout/AffiliateLayout";
+import { requestNotificationPermission } from "./hooks/usePushNotification";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -78,7 +79,22 @@ useEffect(() => {
     dispatch(createHomeCategory(homeCategories));
   }, [dispatch]);
 
- 
+//  useEffect(() => {
+//   requestNotificationPermission();
+// }, []);
+
+
+// ✅ NAYA — App.tsx mein yeh lagao:
+useEffect(() => {
+  const jwt = localStorage.getItem("jwt");
+  const sellerJwt = localStorage.getItem("seller_jwt");
+
+  if (sellerJwt) {
+    requestNotificationPermission("seller");
+  } else if (jwt) {
+    requestNotificationPermission("user");
+  }
+}, [auth.jwt]); // auth change hone pe dobara run hoga
 
   return (
     <ThemeProvider theme={customeTheme}>

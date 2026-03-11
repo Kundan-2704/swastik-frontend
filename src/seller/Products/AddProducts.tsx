@@ -105,6 +105,24 @@ const showSnackbar = (message: string, severity: AlertColor) => {
 
   /* ================= FORMIK ================= */
 
+type WomenFabricDetails = {
+  fabric?: string;
+  weave?: string;
+  fabricLength?: string;
+  occasion?: string;
+  care?: string;
+  origin?: string;
+};
+
+type MenFabricDetails = {
+  fabric?: string;
+  weave?: string;
+  fabricLength?: string;
+  dhotiLength?: string;
+  care?: string;
+  origin?: string;
+};
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -125,6 +143,24 @@ const showSnackbar = (message: string, severity: AlertColor) => {
         care: "",
         origin: "",
       },
+
+      detailsWomen: {
+  fabric: "",
+  weave: "",
+  fabricLength: "",
+  occasion: "",
+  care: "",
+  origin: "",
+},
+
+detailsMen: {
+  fabric: "",
+  weave: "",
+  fabricLength: "",
+  dhotiLength: "",
+  care: "",
+  origin: "",
+},
 
       delivery: {
         estimatedDays: "5–7 working days",
@@ -154,6 +190,16 @@ const showSnackbar = (message: string, severity: AlertColor) => {
           images.map((img) => uploadToCloudinary(img))
         );
 
+ let finalDetails: any = values.details;
+
+if (values.category === "women") {
+  finalDetails = values.detailsWomen;
+}
+
+if (values.category === "men") {
+  finalDetails = values.detailsMen;
+}
+
         const payload = {
           title: values.title,
           description: values.description,
@@ -167,7 +213,8 @@ const showSnackbar = (message: string, severity: AlertColor) => {
           colors: values.colors.filter((c) => c.name),
           sizes: values.sizes,
 
-          details: values.details,
+          details: finalDetails,
+          
           delivery: values.delivery,
           craftStory: values.craftStory,
           faqs: [],
@@ -203,6 +250,9 @@ const showSnackbar = (message: string, severity: AlertColor) => {
       }
     },
   });
+
+  const isWomen = formik.values.category === "women";
+const isMen = formik.values.category === "men";
 
   /* ================= IMAGE HANDLERS ================= */
 
@@ -362,7 +412,7 @@ const showSnackbar = (message: string, severity: AlertColor) => {
         </div>
 
         {/* DETAILS */}
-        <div className="grid grid-cols-2 gap-4">
+        {/* <div className="grid grid-cols-2 gap-4">
           {Object.keys(formik.values.details).map((key) => (
             <input
               key={key}
@@ -374,7 +424,55 @@ const showSnackbar = (message: string, severity: AlertColor) => {
               className="border p-2 rounded"
             />
           ))}
-        </div>
+        </div> */}
+
+        {isWomen && (
+  <div className="grid grid-cols-2 gap-4">
+    {Object.keys(formik.values.detailsWomen).map((key) => (
+      <input
+        key={key}
+        placeholder={key}
+        value={(formik.values.detailsWomen as any)[key]}
+        onChange={(e) =>
+          formik.setFieldValue(`detailsWomen.${key}`, e.target.value)
+        }
+        className="border p-2 rounded"
+      />
+    ))}
+  </div>
+)}
+
+{isMen && (
+  <div className="grid grid-cols-2 gap-4">
+    {Object.keys(formik.values.detailsMen).map((key) => (
+      <input
+        key={key}
+        placeholder={key}
+        value={(formik.values.detailsMen as any)[key]}
+        onChange={(e) =>
+          formik.setFieldValue(`detailsMen.${key}`, e.target.value)
+        }
+        className="border p-2 rounded"
+      />
+    ))}
+  </div>
+)}
+
+{!isMen && !isWomen && (
+  <div className="grid grid-cols-2 gap-4">
+    {Object.keys(formik.values.details).map((key) => (
+      <input
+        key={key}
+        placeholder={key}
+        value={(formik.values.details as any)[key]}
+        onChange={(e) =>
+          formik.setFieldValue(`details.${key}`, e.target.value)
+        }
+        className="border p-2 rounded"
+      />
+    ))}
+  </div>
+)}
 
         {/* CRAFT STORY */}
         <textarea
