@@ -22,8 +22,8 @@ import Skeleton from "@mui/material/Skeleton";
 import { useNavigate } from "react-router-dom";
 
 
-import WeaverImage from "../../../assets/C2.webp";
-import ModelImage from "../../../assets/A1.webp";
+import WeaverImage from "../../../assets/weaver.jpg";
+import ModelImage from "../../../assets/Hero-Model.jpg";
 import { useAppSelector } from "../../../Redux Toolkit/Store";
 
 
@@ -122,7 +122,7 @@ const Home: React.FC = () => {
   },
   {
     src: WeaverImage,
-    position: "center",
+    position: "60% 40%",
   },
  
 ];
@@ -158,7 +158,8 @@ const kosaCategory = React.useMemo(() => {
 {/* ================= HERO SECTION ================= */}
 
 <section className="w-full border-b border-[#ECDCC2] bg-[#FBF7F2] overflow-hidden">
-  <div className="max-w-7xl mx-auto px-4 lg:px-20 py-12 lg:pt-16 lg:pb-20">
+  {/* <div className="max-w-7xl mx-auto px-4 lg:px-20 py-12 lg:pt-16 lg:pb-20"> */}
+  <div className="max-w-7xl mx-auto px-4 lg:px-20 pt-6 pb-12 lg:pt-8 lg:pb-16">
 
     {/* ================= MOBILE HERO ================= */}
     <div className="block lg:hidden relative mb-12">
@@ -291,8 +292,9 @@ const kosaCategory = React.useMemo(() => {
               style={{
                 objectPosition:
                   heroImages[activeImage].position === "top"
-                    ? "center top"
-                    : "center center",
+                    ? "60% 30%"
+                    // : "center center",
+      : heroImages[activeImage].position,
               }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -309,7 +311,8 @@ const kosaCategory = React.useMemo(() => {
             className="absolute bottom-10 left-6 text-white/90  tracking-[0.35em] uppercase text-xs opacity-90
 "
           >
-            {activeImage === 0 ? "Woven by Hands" : "Worn with Pride"}
+            {/* {activeImage === 0 ? "Woven by Hands" : "Worn with Pride"} */}
+            {activeImage === 0 ? "Worn with Pride" : "Woven by Hands"}
           </motion.div>
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
