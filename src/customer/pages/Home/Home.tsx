@@ -150,9 +150,9 @@ const kosaCategory = React.useMemo(() => {
   return (
     <main className="bg-[#F8F3E8]">
 
-      <div className="w-full bg-gradient-to-r from-[#8B5E34] via-[#C58B4E] to-[#E5B676] text-white text-center py-2 text-sm font-medium backdrop-blur-sm">
+      {/* <div className="w-full bg-gradient-to-r from-[#8B5E34] via-[#C58B4E] to-[#E5B676] text-white text-center py-2 text-sm font-medium backdrop-blur-sm">
   ⚠️ Test Mode: Orders & payments are for demo only. Product images are AI-generated; real products will be available soon.
-</div>
+</div> */}
 
 
 {/* ================= HERO SECTION ================= */}

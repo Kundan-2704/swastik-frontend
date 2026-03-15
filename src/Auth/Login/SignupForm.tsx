@@ -263,7 +263,7 @@ const formik = useFormik({
     <span>
       I agree to the{" "}
       <a
-        href="/terms-and-conditions"
+        href="/terms-conditions"
         target="_blank"
         className="underline text-[#8B5E34] hover:text-[#6B4423]"
       >

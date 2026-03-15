@@ -22,6 +22,7 @@ import Authenticity from "../pages/product-authenticity";
 import Wishlist from "../pages/Wishlist/Wishlist";
 import Navbar from "../customer/Navbar/Navbar2";
 import AboutUs from "../pages/AboutUs";
+import SellerAgreement from "../pages/SellerAgreement";
 const CustomerRoutes = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
@@ -67,6 +68,7 @@ const CustomerRoutes = () => {
 <Route path="/seller-policy" element={<SellerPolicy />} />
 <Route path="/product-authenticity" element={<Authenticity />} />
 <Route path="/about-us" element={<AboutUs />} />
+<Route path="/seller-agreement" element={<SellerAgreement />} />
 
 
       </Routes>

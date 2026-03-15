@@ -1,4 +1,4 @@
-
+import React from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -70,9 +70,11 @@ const Footer = () => {
           <nav aria-label="Footer support links">
             <h4 className="text-sm font-semibold text-[#D9A86C] mb-3">SUPPORT</h4>
             <ul className="space-y-2 text-sm">
+              <li><Link to="/policies">Terms & Policies</Link></li>
               <li><Link to="/shipping-policy">Shipping Policy</Link></li>
               <li><Link to="/refund-replacement">Refund & Replacement</Link></li>
               <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/seller-agreement">Seller Agreement</Link></li>
               <li><Link to="/contact-us">Contact Us</Link></li>
               <li><Link to="/about-us">About Us</Link></li>
             </ul>
