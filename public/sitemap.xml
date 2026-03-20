@@ -19,6 +19,44 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+  <loc>https://swastikhandloom.com/products/kosa_sarees</loc>
+  <priority>0.8</priority>
+</url>
+  <url>
+  <loc>https://swastikhandloom.com/products/tussar_sarees</loc>
+  <priority>0.8</priority>
+</url>
+  <url>
+  <loc>https://swastikhandloom.com/products/handloom_sarees</loc>
+  <priority>0.8</priority>
+</url>
+  <url>
+  <loc>https://swastikhandloom.com/products/women</loc>
+  <priority>0.8</priority>
+</url>
+  <url>
+  <loc>https://swastikhandloom.com/products/men</loc>
+  <priority>0.8</priority>
+</url>
+  <url>
+  <loc>https://swastikhandloom.com/products/printed_sarees</loc>
+  <priority>0.8</priority>
+</url>
+  <url>
+  <loc>https://swastikhandloom.com/products/daily_wear_sarees</loc>
+  <priority>0.8</priority>
+</url>
+  <url>
+  <loc>https://swastikhandloom.com/products/wedding_sarees</loc>
+  <priority>0.8</priority>
+</url>
+  
+<!-- Blog -->
+<url>
+  <loc>https://swastikhandloom.com/blog</loc>
+  <priority>0.7</priority>
+</url>
   <!-- Become Seller -->
   <url>
     <loc>https://swastikhandloom.com/become-seller</loc>

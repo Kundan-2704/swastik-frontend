@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useRef } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../customer/pages/Home/Home";
@@ -23,6 +24,7 @@ import Wishlist from "../pages/Wishlist/Wishlist";
 import Navbar from "../customer/Navbar/Navbar2";
 import AboutUs from "../pages/AboutUs";
 import SellerAgreement from "../pages/SellerAgreement";
+import Blog from "../pages/blog";
 const CustomerRoutes = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
@@ -69,6 +71,7 @@ const CustomerRoutes = () => {
 <Route path="/product-authenticity" element={<Authenticity />} />
 <Route path="/about-us" element={<AboutUs />} />
 <Route path="/seller-agreement" element={<SellerAgreement />} />
+<Route path="/blog" element={<Blog />} />
 
 
       </Routes>
