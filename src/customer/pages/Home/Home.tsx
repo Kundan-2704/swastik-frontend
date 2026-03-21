@@ -22,7 +22,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { useNavigate } from "react-router-dom";
 
 
-import WeaverImage from "../../../assets/weaver.jpg";
+import WeaverImage from "../../../assets/weaver1.webp";
 import ModelImage from "../../../assets/Hero-Model.jpg";
 import { useAppSelector } from "../../../Redux Toolkit/Store";
 
