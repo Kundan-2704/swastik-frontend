@@ -293,8 +293,8 @@ const kosaCategory = React.useMemo(() => {
                 objectPosition:
                   heroImages[activeImage].position === "top"
                     ? "60% 30%"
-                    // : "center center",
-      : heroImages[activeImage].position,
+                    : "center center",
+      // : heroImages[activeImage].position,
               }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

@@ -58,7 +58,7 @@ export const requestNotificationPermission = async (
     const token = await getToken(messaging, { vapidKey: VAPID_KEY });
     if (!token) return null;
 
-    console.log("FCM TOKEN:", token);
+    // console.log("FCM TOKEN:", token);
 
     // ✅ Role ke hisaab se sahi key aur URL use karo
     const authToken = role === "seller"
@@ -75,7 +75,7 @@ export const requestNotificationPermission = async (
         { fcmToken: token },
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
-      console.log(`FCM Token saved for ${role} ✅`);
+      // console.log(`FCM Token saved for ${role} ✅`);
     } else {
       console.warn("Auth token nahi mila");
     }
