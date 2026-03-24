@@ -243,6 +243,7 @@ useEffect(() => {
 
           {/* PRODUCT GRID */}
           {!loading && products?.length > 0 && (
+            <>
             <div
               className={`grid ${
                 isMobile
@@ -254,6 +255,22 @@ useEffect(() => {
                 <ProductCard key={item._id} item={item} />
               ))}
             </div>
+
+            {/* SEO CONTENT */}
+    <div className="mt-16 max-w-4xl mx-auto text-[#6A5B4A] text-sm leading-relaxed text-center">
+      <h2 className="text-lg font-semibold mb-2">
+        About {pageTitle}
+      </h2>
+
+      <p>
+        {pageTitle} sarees are premium handloom creations crafted by skilled artisans
+        using traditional weaving techniques. Our collection includes authentic,
+        elegant and high-quality designs perfect for weddings, festive occasions
+        and cultural celebrations. Explore exclusive handcrafted {pageTitle} at
+        Swastik Handloom.
+      </p>
+    </div>
+</>
           )}
 
           {/* PAGINATION (DESKTOP) */}
