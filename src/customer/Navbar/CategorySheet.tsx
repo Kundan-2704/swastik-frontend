@@ -26,6 +26,8 @@ import { handloomLevelThree } from "../../Data/Category/levelThree/handloomLevel
 import { weddingLevelThree } from "../../Data/Category/levelThree/weddingLevelThree";
 import { dailyWearLevelThree } from "../../Data/Category/levelThree/dailyWearLevelThree";
 import { printedLevelThree } from "../../Data/Category/levelThree/printedLevelThree";
+import { accessoriesLevelTwo } from "../../Data/Category/levelTwo/accessoriesLevelTwo";
+import { accessoriesLevelThree } from "../../Data/Category/levelThree/accessoriesLevelThree";
 
 /* ------------ TYPES ------------ */
 interface SubCategory {
@@ -47,6 +49,8 @@ const categoryTwo: Record<string, SubCategory[]> = {
   tussar_sarees: tussarLevelTwo,
   handloom_sarees: handloomLevelTwo,
 
+  accessories : accessoriesLevelTwo,
+
   wedding_sarees: weddingLevelTwo,
   daily_wear_sarees: dailyWearLevelTwo,
   printed_sarees: printedLevelTwo,
@@ -61,6 +65,8 @@ const categoryThree: Record<string, SubCategory[]> = {
   kosa_sarees: kosaLevelThree,
   tussar_sarees: tussarLevelThree,
   handloom_sarees: handloomLevelThree,
+
+  accessories: accessoriesLevelThree,
 
   wedding_sarees: weddingLevelThree,
   daily_wear_sarees: dailyWearLevelThree,
