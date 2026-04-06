@@ -1,5 +1,5 @@
 
-
+import React from "react";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@mui/material";
 import { customeTheme } from "./Theme/customeTheme";
@@ -39,6 +39,7 @@ import AffiliateCommissions from "./affiliate/pages/AffiliateCommissions";
 import AffiliateDashboard from "./affiliate/pages/AffiliateDashboard";
 import AffiliateLayout from "./affiliate/layout/AffiliateLayout";
 import { requestNotificationPermission } from "./hooks/usePushNotification";
+import WhatsappChat from "./customer/components/WhatsappChat";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -56,50 +57,50 @@ function App() {
   //   }
   // }, [auth.jwt, dispatch]);
 
-//   useEffect(() => {
-//   const customerJwt = localStorage.getItem("jwt");
+  //   useEffect(() => {
+  //   const customerJwt = localStorage.getItem("jwt");
 
-//   if (customerJwt || auth.jwt) {
-//     dispatch(fetchUserProfile());
-//   } else {
-//     dispatch(resetUserState());   // 👈 VERY IMPORTANT
-//   }
-// }, []);
+  //   if (customerJwt || auth.jwt) {
+  //     dispatch(fetchUserProfile());
+  //   } else {
+  //     dispatch(resetUserState());   // 👈 VERY IMPORTANT
+  //   }
+  // }, []);
 
-useEffect(() => {
-  if (auth.jwt) {
-    dispatch(fetchUserProfile());
-  } else {
-    dispatch(resetUserState());
-  }
-}, [auth.jwt]);
+  useEffect(() => {
+    if (auth.jwt) {
+      dispatch(fetchUserProfile());
+    } else {
+      dispatch(resetUserState());
+    }
+  }, [auth.jwt]);
 
   // ✅ HOME CATEGORIES (SAFE GLOBAL)
   useEffect(() => {
     dispatch(createHomeCategory(homeCategories));
   }, [dispatch]);
 
-//  useEffect(() => {
-//   requestNotificationPermission();
-// }, []);
+  //  useEffect(() => {
+  //   requestNotificationPermission();
+  // }, []);
 
 
-// ✅ NAYA — App.tsx mein yeh lagao:
-useEffect(() => {
-  const jwt = localStorage.getItem("jwt");
-  const sellerJwt = localStorage.getItem("seller_jwt");
+  // ✅ NAYA — App.tsx mein yeh lagao:
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    const sellerJwt = localStorage.getItem("seller_jwt");
 
-  if (sellerJwt) {
-    requestNotificationPermission("seller");
-  } else if (jwt) {
-    requestNotificationPermission("user");
-  }
-}, [auth.jwt]); // auth change hone pe dobara run hoga
+    if (sellerJwt) {
+      requestNotificationPermission("seller");
+    } else if (jwt) {
+      requestNotificationPermission("user");
+    }
+  }, [auth.jwt]); // auth change hone pe dobara run hoga
 
   return (
     <ThemeProvider theme={customeTheme}>
 
- 
+
 
 
       <Toaster position="top-right" />
@@ -111,10 +112,10 @@ useEffect(() => {
         <Route path="/become-seller" element={<BecomeSeller />} />
         <Route path="/seller/login" element={<SellerLogin />} />
         <Route
-  path="/seller/pending-approval"
-  element={<PendingApproval />}
-/>
-    
+          path="/seller/pending-approval"
+          element={<PendingApproval />}
+        />
+
 
         {/* ================= SELLER (PROTECTED) ================= */}
         <Route
@@ -147,12 +148,12 @@ useEffect(() => {
           <Route path="*" element={<AdminRoutes />} />
         </Route>
 
-{/* ================= AFFILIATE MOCK ================= */}
-<Route path="/affiliate" element={<AffiliateLayout />}>
-  <Route path="dashboard" element={<AffiliateDashboard />} />
-  <Route path="commissions" element={<AffiliateCommissions />} />
-  <Route path="withdraw" element={<AffiliateWithdraw />} />
-</Route>
+        {/* ================= AFFILIATE MOCK ================= */}
+        <Route path="/affiliate" element={<AffiliateLayout />}>
+          <Route path="dashboard" element={<AffiliateDashboard />} />
+          <Route path="commissions" element={<AffiliateCommissions />} />
+          <Route path="withdraw" element={<AffiliateWithdraw />} />
+        </Route>
 
         {/* ================= CUSTOMER ================= */}
         <Route path="/*" element={<CustomerRoutes />} />
@@ -162,7 +163,9 @@ useEffect(() => {
 
       </Routes>
 
-{/* <GlobalAIAgent /> */}
+      {/* <GlobalAIAgent /> */}
+
+      <WhatsappChat />
 
     </ThemeProvider>
   );

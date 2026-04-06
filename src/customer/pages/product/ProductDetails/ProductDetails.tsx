@@ -48,6 +48,7 @@ import MiniCartDrawer from "./components/cart/MiniCartDrawer";
 import StickyDesktopCTA from "./components/action/StickyDesktopCTA";
 import ColorSelector from "./components/selectors/ColorSelector";
 import { checkWishlist, toggleWishlist } from "../../../../Redux Toolkit/Features/Customer/wishlistSlice";
+import WhatsappChat from "../../../components/WhatsappChat";
 
 /* ================= CONSTANTS ================= */
 const BRAND_COLOR = "#4A1F2A";
@@ -93,12 +94,12 @@ const ProductDetails: React.FC = () => {
   const jwt = useMemo(() => localStorage.getItem("jwt"), []);
 
   const wished = useAppSelector(
-  (state) => state.wishlist.items[product?._id]
-);
+    (state) => state.wishlist.items[product?._id]
+  );
 
-const wishlistLoading = useAppSelector(
-  (state) => state.wishlist.loading
-);
+  const wishlistLoading = useAppSelector(
+    (state) => state.wishlist.loading
+  );
 
   /* ================= FETCH ================= */
   useEffect(() => {
@@ -124,16 +125,16 @@ const wishlistLoading = useAppSelector(
   }, []);
 
   useEffect(() => {
-  if (product?._id) {
-    dispatch(checkWishlist(product._id));
-  }
-}, [product?._id, dispatch]);
+    if (product?._id) {
+      dispatch(checkWishlist(product._id));
+    }
+  }, [product?._id, dispatch]);
 
-const handleWishlist = () => {
-  if (!jwt) return showToast("Please login first", "error");
+  const handleWishlist = () => {
+    if (!jwt) return showToast("Please login first", "error");
 
-  dispatch(toggleWishlist(product._id));
-};
+    dispatch(toggleWishlist(product._id));
+  };
 
   /* ================= GALLERY ================= */
   const gallery = useProductGallery(product);
@@ -249,97 +250,97 @@ const handleWishlist = () => {
           product={product}
           gallery={gallery}
           imageRef={gallery.imageRef}
-          
+
         />
 
-      <section className="space-y-6">
+        <section className="space-y-6">
 
-  {/* 1️⃣ PRODUCT HEADER */}
-  <ProductHeader product={product} />
+          {/* 1️⃣ PRODUCT HEADER */}
+          <ProductHeader product={product} />
 
-  {/* 2️⃣ PRICE (decision trigger) */}
-  <ProductPrice product={product} />
+          {/* 2️⃣ PRICE (decision trigger) */}
+          <ProductPrice product={product} />
 
-  {/* 3️⃣ STOCK STATUS */}
-  <ProductStockStatus quantity={product.quantity} />
+          {/* 3️⃣ STOCK STATUS */}
+          <ProductStockStatus quantity={product.quantity} />
 
-  {/* 4️⃣ DELIVERY (important but not blocking) */}
- <div className="mt-4 border border-[#EADFCF] rounded-xl p-3">
-  <DeliveryInfo />
-</div>
+          {/* 4️⃣ DELIVERY (important but not blocking) */}
+          <div className="mt-4 border border-[#EADFCF] rounded-xl p-3">
+            <DeliveryInfo />
+          </div>
 
-  
 
-<div className="w-full">
 
-  {/* ================= COLOR + QUANTITY ================= */}
-  <div
-    className="
+          <div className="w-full">
+
+            {/* ================= COLOR + QUANTITY ================= */}
+            <div
+              className="
       flex flex-col
       gap-4
       md:flex-row
       md:items-end
       md:gap-8
     "
-  >
-    {/* COLOR */}
-    <div className="w-full md:flex-1">
-      <ColorSelector
-        colors={product.colors}
-        color={selectedColor}
-        setColor={setSelectedColor}
-      />
-    </div>
+            >
+              {/* COLOR */}
+              <div className="w-full md:flex-1">
+                <ColorSelector
+                  colors={product.colors}
+                  color={selectedColor}
+                  setColor={setSelectedColor}
+                />
+              </div>
 
-    {/* QUANTITY */}
-    <div className="w-full md:flex-1">
-      <QuantitySelector
-        quantity={quantity}
-        setQuantity={setQuantity}
-      />
-    </div>
-  </div>
+              {/* QUANTITY */}
+              <div className="w-full md:flex-1">
+                <QuantitySelector
+                  quantity={quantity}
+                  setQuantity={setQuantity}
+                />
+              </div>
+            </div>
 
-</div>
+          </div>
 
 
 
-  {/* ================= CTA ZONE ================= */}
-  <div className="mt-8 flex flex-col md:flex-row gap-4">
+          {/* ================= CTA ZONE ================= */}
+          <div className="mt-8 flex flex-col md:flex-row gap-4">
 
-    {/* PRIMARY CTA */}
-    <Button
-      startIcon={
-        added ? (
-          <CheckCircle />
-        ) : adding ? (
-          <CircularProgress size={18} />
-        ) : (
-          <AddShoppingCart />
-        )
-      }
-      variant="contained"
-      fullWidth
-      disabled={adding || added}
-      onClick={handleAddCartItem}
-      sx={{
-        py: "0.95rem",
-        backgroundColor: added ? SUCCESS_COLOR : BRAND_COLOR,
-        borderRadius: "999px",
-        textTransform: "none",
-        fontWeight: 700,
-        fontSize: "1rem",
-        boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-        "&:hover": {
-          backgroundColor: added ? SUCCESS_COLOR : BRAND_COLOR,
-        },
-      }}
-    >
-      {added ? "Added to Bag" : adding ? "Adding..." : "Add to Bag"}
-    </Button>
+            {/* PRIMARY CTA */}
+            <Button
+              startIcon={
+                added ? (
+                  <CheckCircle />
+                ) : adding ? (
+                  <CircularProgress size={18} />
+                ) : (
+                  <AddShoppingCart />
+                )
+              }
+              variant="contained"
+              fullWidth
+              disabled={adding || added}
+              onClick={handleAddCartItem}
+              sx={{
+                py: "0.95rem",
+                backgroundColor: added ? SUCCESS_COLOR : BRAND_COLOR,
+                borderRadius: "999px",
+                textTransform: "none",
+                fontWeight: 700,
+                fontSize: "1rem",
+                boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+                "&:hover": {
+                  backgroundColor: added ? SUCCESS_COLOR : BRAND_COLOR,
+                },
+              }}
+            >
+              {added ? "Added to Bag" : adding ? "Adding..." : "Add to Bag"}
+            </Button>
 
-    {/* SECONDARY CTA */}
-    {/* <Button
+            {/* SECONDARY CTA */}
+            {/* <Button
       startIcon={<Favorite />}
       variant="outlined"
       fullWidth
@@ -358,55 +359,55 @@ const handleWishlist = () => {
       Wishlist
     </Button> */}
 
-<Button
-  onClick={handleWishlist}
-  startIcon={wished ? <Favorite /> : <FavoriteBorder />}
-  variant="outlined"
-  fullWidth
-  disabled={wishlistLoading}
-  sx={{
-    py: "0.95rem",
-    borderRadius: "999px",
-    borderColor: "#B9935A",
-    color: wished ? "#B9935A" : BRAND_COLOR,
-    textTransform: "none",
-    fontWeight: 600,
-    "&:hover": {
-      backgroundColor: "#FBF7F2",
-    },
-  }}
->
-  {wished ? "Wishlisted" : "Wishlist"}
-</Button>
+            <Button
+              onClick={handleWishlist}
+              startIcon={wished ? <Favorite /> : <FavoriteBorder />}
+              variant="outlined"
+              fullWidth
+              disabled={wishlistLoading}
+              sx={{
+                py: "0.95rem",
+                borderRadius: "999px",
+                borderColor: "#B9935A",
+                color: wished ? "#B9935A" : BRAND_COLOR,
+                textTransform: "none",
+                fontWeight: 600,
+                "&:hover": {
+                  backgroundColor: "#FBF7F2",
+                },
+              }}
+            >
+              {wished ? "Wishlisted" : "Wishlist"}
+            </Button>
 
-  </div>
+          </div>
 
-  {/* ================= DESCRIPTION ================= */}
-  <div className="pt-4">
-    <ProductDescription description={product.description} />
-  </div>
+          {/* ================= DESCRIPTION ================= */}
+          <div className="pt-4">
+            <ProductDescription description={product.description} />
+          </div>
 
-  {/* ================= TRUST ================= */}
-  <div className="mt-4 border-t border-[#EADFCF] pt-4">
-  <ProductTrustBadges />
-</div>
+          {/* ================= TRUST ================= */}
+          <div className="mt-4 border-t border-[#EADFCF] pt-4">
+            <ProductTrustBadges />
+          </div>
 
 
-</section>
+        </section>
 
       </div>
 
       <Divider />
 
       <ProductSpecs details={product.details} />
-      
+
       <CraftStory story={product.craftStory} />
       <ReturnPolicy />
       <FAQ />
       {/* <Reviews productId={product._id} /> */}
       {product?._id && (
-   <Reviews productId={product._id} />
-)}
+        <Reviews productId={product._id} />
+      )}
       <SimilarProductsSection product={product} />
       <MobileBottomBar product={product} onBuy={handleAddCartItem} />
 
@@ -441,6 +442,7 @@ const handleWishlist = () => {
         quantity={quantity}
       />
 
+<WhatsappChat productName={product.title} />
 
     </div>
   );
