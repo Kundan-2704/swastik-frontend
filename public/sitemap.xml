@@ -55,6 +55,88 @@
   <loc>https://swastikhandloom.com/products/pure-kosa-silk</loc>
   <priority>0.8</priority>
 </url>
+
+
+
+<!-- LEVEL 2 CATEGORIES -->
+
+<!-- KOSA -->
+<url><loc>https://swastikhandloom.com/products/pure-kosa-silk</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/ghicha-kosa</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/matka-kosa</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/dupion-kosa</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/semi-tussar-kosa</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/kosa-cotton</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/kosa-resham</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/wedding-kosa</loc><priority>0.9</priority></url>
+
+<!-- TUSSAR -->
+<url><loc>https://swastikhandloom.com/products/pure-tussar-silk</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/semi-tussar</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/fine-tussar</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/hard-tussar</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/handspun-tussar</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/millspun-tussar</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/wedding-tussar</loc><priority>0.9</priority></url>
+
+<!-- HANDLOOM -->
+<url><loc>https://swastikhandloom.com/products/pure-handloom-silk</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/cotton-handloom</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/tussar-handloom</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/kosa-handloom</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/khadi-handloom</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/jamdani-handloom</loc><priority>0.9</priority></url>
+<url><loc>https://swastikhandloom.com/products/wedding-handloom</loc><priority>0.9</priority></url>
+
+<!-- WOMEN -->
+<url><loc>https://swastikhandloom.com/products/women-handloom-kurtis</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/women-handloom-ethnic-sets</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/women-handloom-dresses</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/women-handloom-tops</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/women-handloom-bottomwear</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/women-kosa-silk</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/women-tussar-silk</loc><priority>0.8</priority></url>
+
+<!-- MEN -->
+<url><loc>https://swastikhandloom.com/products/boys_dhoti_kurta</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/boys_kurta_pajama</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/boys_angavastram</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/boys_handloom_kurta</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/boys_kosa_silk_outfits</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/boys_tussar_silk_outfits</loc><priority>0.8</priority></url>
+
+<!-- PRINTED -->
+<url><loc>https://swastikhandloom.com/products/block_printed</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/hand_printed</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/digital_printed</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/batik_printed</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/bandhej_printed</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/kalamkari_printed</loc><priority>0.8</priority></url>
+<url><loc>https://swastikhandloom.com/products/tribal_printed</loc><priority>0.8</priority></url>
+
+
+<!-- LEVEL 3 EXAMPLES (IMPORTANT FOR LONG TAIL SEO) -->
+
+<!-- KOSA -->
+<url><loc>https://swastikhandloom.com/products/kosa-soft-pure</loc><priority>0.7</priority></url>
+<url><loc>https://swastikhandloom.com/products/kosa-hard-pure</loc><priority>0.7</priority></url>
+<url><loc>https://swastikhandloom.com/products/kosa-natural-dyed</loc><priority>0.7</priority></url>
+<url><loc>https://swastikhandloom.com/products/raw-ghicha-kosa</loc><priority>0.7</priority></url>
+<url><loc>https://swastikhandloom.com/products/soft-ghicha-kosa</loc><priority>0.7</priority></url>
+<url><loc>https://swastikhandloom.com/products/matka-plain-kosa</loc><priority>0.7</priority></url>
+<url><loc>https://swastikhandloom.com/products/matka-zari-kosa</loc><priority>0.7</priority></url>
+
+<!-- TUSSAR -->
+<url><loc>https://swastikhandloom.com/products/soft-pure-tussar</loc><priority>0.7</priority></url>
+<url><loc>https://swastikhandloom.com/products/natural-dyed-pure-tussar</loc><priority>0.7</priority></url>
+<url><loc>https://swastikhandloom.com/products/fine-tussar-plain</loc><priority>0.7</priority></url>
+
+<!-- PRINTED -->
+<url><loc>https://swastikhandloom.com/products/floral_block_print</loc><priority>0.7</priority></url>
+<url><loc>https://swastikhandloom.com/products/geometric_block_print</loc><priority>0.7</priority></url>
+<url><loc>https://swastikhandloom.com/products/warli_print</loc><priority>0.7</priority></url>
+
+</urlset>
   
 <!-- Blog -->
 <url>
