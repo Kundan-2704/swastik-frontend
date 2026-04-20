@@ -25,6 +25,7 @@ import Navbar from "../customer/Navbar/Navbar2";
 import AboutUs from "../pages/AboutUs";
 import SellerAgreement from "../pages/SellerAgreement";
 import Blog from "../pages/blog";
+import TrustStrip from "../customer/pages/product/ProductDetails/components/TrustStrip";
 const CustomerRoutes = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
@@ -44,6 +45,7 @@ const CustomerRoutes = () => {
 
       <Navbar />
 <div className="pt-[95px] lg:pt-0">
+      <TrustStrip />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
