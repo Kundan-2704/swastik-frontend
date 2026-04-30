@@ -27,6 +27,7 @@ import axios from "axios";
 declare global {
   interface Window {
     Razorpay: any;
+    gtag?: (...args: any[]) => void; // ✅ add this
   }
 }
 
@@ -129,7 +130,15 @@ const [codLoading,setCodLoading] = useState(false)
                 },
               }
             );
-
+            
+   // ✅🔥 YAHI ADD KARNA HAI (GA4 PURCHASE EVENT)
+    if (window.gtag) {
+      window.gtag('event', 'purchase', {
+        transaction_id: response.razorpay_payment_id,
+        value: cart.cart?.finalAmount || 0, // dynamic price
+        currency: 'INR'
+      });
+    }
             navigate("/order-success");
           } catch (err) {
             console.error("VERIFY ERROR:", err);
@@ -243,6 +252,15 @@ const placeCODOrder = async () => {
   );
 
   console.log("COD RESPONSE:", res.data);
+
+    // ✅ SUCCESS → यहाँ डालो
+  if (window.gtag) {
+    window.gtag('event', 'purchase', {
+      transaction_id: "COD_" + Date.now(),
+      value: cart.cart?.finalAmount || 0,
+      currency: 'INR'
+    });
+  }
 
   // close popup
   setCodOpen(false);
