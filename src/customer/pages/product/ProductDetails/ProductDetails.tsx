@@ -308,7 +308,7 @@ const ProductDetails: React.FC = () => {
 
       setTimeout(() => setAdded(false), 1200);
     } catch (err: any) {
-      showToast(err?.message || "Failed to add item", "error");
+      showToast(err?.message || "Login required to add items to cart", "error");
     } finally {
       setAdding(false);
     }
