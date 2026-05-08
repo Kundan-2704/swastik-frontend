@@ -189,15 +189,96 @@ const ProductDetails: React.FC = () => {
   }, [gallery.imageRef]);
 
   /* ================= ADD TO CART ================= */
+  // const handleAddCartItem = useCallback(async () => {
+  //   if (adding || added) return;
+
+  //   if (!jwt) return showToast("Please login first", "error");
+  //   if (!product) return;
+
+  //   try {
+  //     setAdding(true);
+
+  //     await dispatch(
+  //       addItemToCart({
+  //         jwt,
+  //         request: {
+  //           productId: product._id,
+  //           quantity,
+  //           color: selectedColor?.name,
+  //         },
+  //       })
+  //     ).unwrap();
+
+  //     flyToCart();
+  //     setAdded(true);
+  //     showToast("Added to cart", "success");
+
+  //     setCartOpen(true);
+
+
+  //     setTimeout(() => setAdded(false), 1200);
+  //   } catch (err: any) {
+  //     showToast(err?.message || "Failed to add item", "error");
+  //   } finally {
+  //     setAdding(false);
+  //   }
+  // }, [
+  //   adding,
+  //   added,
+  //   jwt,
+  //   product,
+  //   quantity,
+  //   selectedColor,
+  //   dispatch,
+  //   flyToCart,
+  //   showToast,
+  // ]);
+
   const handleAddCartItem = useCallback(async () => {
     if (adding || added) return;
 
-    if (!jwt) return showToast("Please login first", "error");
     if (!product) return;
 
     try {
       setAdding(true);
 
+      // ================= GUEST CART =================
+      if (!jwt) {
+        const guestCart = JSON.parse(
+          localStorage.getItem("guestCart") || "[]"
+        );
+
+        guestCart.push({
+          productId: product._id,
+          quantity,
+          color: selectedColor?.name,
+          product,
+        });
+
+        localStorage.setItem("guestCart", JSON.stringify(guestCart));
+
+        flyToCart();
+        setAdded(true);
+        showToast("Added to cart", "success");
+
+        if (window.fbq) {
+          window.fbq("track", "AddToCart", {
+            content_ids: [product._id],
+            content_name: product.title,
+            content_type: "product",
+            value: product.sellingPrice,
+            currency: "INR",
+          });
+        }
+
+        setCartOpen(true);
+
+        setTimeout(() => setAdded(false), 1200);
+
+        return;
+      }
+
+      // ================= LOGGED IN USER =================
       await dispatch(
         addItemToCart({
           jwt,
@@ -213,8 +294,17 @@ const ProductDetails: React.FC = () => {
       setAdded(true);
       showToast("Added to cart", "success");
 
-      setCartOpen(true);
+      if (window.fbq) {
+        window.fbq("track", "AddToCart", {
+          content_ids: [product._id],
+          content_name: product.title,
+          content_type: "product",
+          value: product.sellingPrice,
+          currency: "INR",
+        });
+      }
 
+      setCartOpen(true);
 
       setTimeout(() => setAdded(false), 1200);
     } catch (err: any) {
@@ -442,7 +532,7 @@ const ProductDetails: React.FC = () => {
         quantity={quantity}
       />
 
-<WhatsappChat productName={product.title} />
+      <WhatsappChat productName={product.title} />
 
     </div>
   );

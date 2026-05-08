@@ -32,14 +32,30 @@ const Cart = () => {
 
   const jwt = useMemo(() => localStorage.getItem("jwt"), []);
 
+  const [guestCart, setGuestCart] = useState<any[]>([]);
+
   /* ===================== FETCH CART ===================== */
   useEffect(() => {
     if (jwt) dispatch(fetchCart(jwt));
   }, [dispatch, jwt]);
 
-  const hasItems = cart?.cartItems?.length > 0;
+  // const hasItems = cart?.cartItems?.length > 0;
+  const hasItems = jwt
+    ? cart?.cartItems?.length > 0
+    : guestCart.length > 0;
 
   // console.log("CART ITEMS 👇", cart?.cartItems);
+
+
+  useEffect(() => {
+    if (!jwt) {
+      const storedCart = JSON.parse(
+        localStorage.getItem("guestCart") || "[]"
+      );
+
+      setGuestCart(storedCart);
+    }
+  }, [jwt]);
 
 
   /* ===================== COUPON HANDLERS ===================== */
@@ -47,27 +63,37 @@ const Cart = () => {
 
   const handleApplyCoupon = () => {
 
-  dispatch(applyCoupon({ code: couponCode.trim(), jwt }))
-     .unwrap()
-     .then(res => {
+    dispatch(applyCoupon({ code: couponCode.trim(), jwt }))
+      .unwrap()
+      .then(res => {
         dispatch(fetchCart(jwt));
-     })
-     .catch(err => {
+      })
+      .catch(err => {
         console.log("COUPON ERROR ❌", err);
-     });
-};
+      });
+  };
 
   const handleRemoveCoupon = () => {
     setCouponCode("");
     dispatch(removeCouponFromCart(jwt))
-  .unwrap()
-  .then(() => dispatch(fetchCart(jwt)));
+      .unwrap()
+      .then(() => dispatch(fetchCart(jwt)));
   };
 
+  // const handleBuyNow = () => {
+  //   setProcessing(true);
+  //   navigate("/checkout/address");
+  // };
+
   const handleBuyNow = () => {
-    setProcessing(true);
-    navigate("/checkout/address");
-  };
+  if (!jwt) {
+    navigate("/login");
+    return;
+  }
+
+  setProcessing(true);
+  navigate("/checkout/address");
+};
 
   /* ===================== SKELETON UI ===================== */
   if (loading && !cart) {
@@ -96,9 +122,24 @@ const Cart = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* LEFT */}
           <div className="lg:col-span-2 space-y-5">
-            {cart!.cartItems.map((item) => (
+            {/* {cart!.cartItems.map((item) => (
               <CartItemCard key={item._id} item={item} />
-            ))}
+            ))} */}
+
+            {jwt
+              ? cart!.cartItems.map((item) => (
+                <CartItemCard key={item._id} item={item} />
+              ))
+              : guestCart.map((item, index) => (
+                <CartItemCard
+                  key={index}
+                  item={{
+                    ...item,
+                    product: item.product,
+                  }}
+                />
+              ))}
+
           </div>
 
           {/* RIGHT */}
@@ -167,7 +208,7 @@ const Cart = () => {
             <section className="border border-[#E3D4B6] rounded-xl bg-white shadow-sm">
               <PricingCard />
               <div className="p-5">
-              
+
 
                 <Button
                   className="buy-now"
