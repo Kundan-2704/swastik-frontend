@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Divider,
   Button,
@@ -62,6 +62,9 @@ type Color = {
 
 const ProductDetails: React.FC = () => {
   const { productId } = useParams();
+
+   const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
 
   const product = useAppSelector((s) => s.products.product);
@@ -308,8 +311,21 @@ const ProductDetails: React.FC = () => {
 
       setTimeout(() => setAdded(false), 1200);
     } catch (err: any) {
-      showToast(err?.message || "Login required to add items to cart", "error");
-    } finally {
+
+  const errorMessage =
+    err?.message || "Login required to add items to cart";
+
+  showToast(errorMessage, "error");
+
+  if (
+    errorMessage.includes("Login required") ||
+    errorMessage.includes("Unauthorized")
+  ) {
+    setTimeout(() => {
+      navigate("/login");
+    }, 1200);
+  }
+} finally {
       setAdding(false);
     }
   }, [
@@ -322,6 +338,7 @@ const ProductDetails: React.FC = () => {
     dispatch,
     flyToCart,
     showToast,
+    navigate
   ]);
 
   /* ================= LOADING ================= */
