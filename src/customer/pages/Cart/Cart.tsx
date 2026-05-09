@@ -206,7 +206,23 @@ const Cart = () => {
 
             {/* PRICE */}
             <section className="border border-[#E3D4B6] rounded-xl bg-white shadow-sm">
-              <PricingCard />
+              {/* <PricingCard /> */}
+
+              {jwt ? (
+  <PricingCard />
+) : (
+  <div className="p-5">
+    <p className="font-semibold text-lg">
+      Total: ₹
+      {guestCart.reduce(
+        (total, item) =>
+          total + item.product.sellingPrice * item.quantity,
+        0
+      )}
+    </p>
+  </div>
+)}
+
               <div className="p-5">
 
 

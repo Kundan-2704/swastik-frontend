@@ -60,21 +60,57 @@ export const fetchCart = createAsyncThunk<any, string>(
 );
 
 // ================= ADD ITEM =================
+// export const addItemToCart = createAsyncThunk<
+//   any,
+//   { jwt: string; request: any }
+// >("cart/addItemToCart", async ({ jwt, request }, { rejectWithValue }) => {
+//   try {
+//     const response = await apiCustomer.put(`${API_URL}/add`, request, {
+//       headers: { Authorization: `Bearer ${jwt}` },
+//     });
+//     return response.data;
+//   } catch (error: any) {
+//     return rejectWithValue(
+//       error.response?.data?.message || "Failed to add item"
+//     );
+//   }
+// });
+
 export const addItemToCart = createAsyncThunk<
   any,
-  { jwt: string; request: any }
->("cart/addItemToCart", async ({ jwt, request }, { rejectWithValue }) => {
-  try {
-    const response = await apiCustomer.put(`${API_URL}/add`, request, {
-      headers: { Authorization: `Bearer ${jwt}` },
-    });
-    return response.data;
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message || "Failed to add item"
-    );
+  { jwt: string | null; request: any }
+>(
+  "cart/addItemToCart",
+  async ({ jwt, request }, { rejectWithValue }) => {
+
+    // ✅ GUEST USER => NO API CALL
+    if (!jwt || jwt === "undefined" || jwt === "null") {
+      return {
+        guest: true,
+        request,
+      };
+    }
+
+    try {
+      const response = await apiCustomer.put(
+        `${API_URL}/add`,
+        request,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+
+      return response.data;
+
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to add item"
+      );
+    }
   }
-});
+);
 
 // ================= UPDATE ITEM =================
 export const updateCartItem = createAsyncThunk<

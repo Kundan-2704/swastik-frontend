@@ -1,42 +1,41 @@
+import React from "react";
 import StatCard from "../components/StatCard";
-
-const mockData = {
-  totalClicks: 542,
-  totalOrders: 38,
-  pendingEarnings: 8200,
-  totalEarnings: 45200,
-  referralLink: "http://localhost:5173/?ref=AFF123",
-};
+import ChartCard from "../components/ChartCard";
+import TrafficSources from "../components/TrafficSources";
+import ReferralLinkBox from "../components/ReferralLinkBox";
+import TopProducts from "../components/TopProducts";
+import RecentConversions from "../components/RecentConversions";
 
 const AffiliateDashboard = () => {
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-8">Affiliate Dashboard</h1>
+    <div className="p-4 md:p-6 space-y-6">
 
-      <div className="grid grid-cols-4 gap-6 mb-8">
-        <StatCard title="Total Clicks" value={mockData.totalClicks} />
-        <StatCard title="Total Orders" value={mockData.totalOrders} />
-        <StatCard title="Pending Earnings" value={`₹${mockData.pendingEarnings}`} />
-        <StatCard title="Total Earnings" value={`₹${mockData.totalEarnings}`} />
+      <h1 className="text-2xl font-semibold">Affiliate Analytics</h1>
+
+      {/* stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <StatCard title="Total Earnings" value="₹2,45,600" growth="+12%" />
+        <StatCard title="Total Clicks" value="18,240" growth="+8%" />
+        <StatCard title="Conversions" value="1,248" growth="+5%" />
+        <StatCard title="Conversion Rate" value="3.6%" growth="+1.2%" />
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="font-semibold mb-4">Your Referral Link</h2>
-
-        <div className="flex gap-4">
-          <input
-            className="border p-2 w-full rounded"
-            value={mockData.referralLink}
-            readOnly
-          />
-          <button
-            onClick={() => navigator.clipboard.writeText(mockData.referralLink)}
-            className="bg-orange-500 text-white px-4 py-2 rounded"
-          >
-            Copy
-          </button>
-        </div>
+      {/* charts */}
+      <div className="grid md:grid-cols-3 gap-4">
+        <ChartCard title="Earnings Trend" />
+        <ChartCard title="Clicks vs Conversions" />
+        <TrafficSources />
       </div>
+
+      {/* referral */}
+      <ReferralLinkBox />
+
+      {/* tables */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <TopProducts />
+        <RecentConversions />
+      </div>
+
     </div>
   );
 };

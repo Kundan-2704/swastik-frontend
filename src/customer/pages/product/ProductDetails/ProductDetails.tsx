@@ -94,7 +94,16 @@ const ProductDetails: React.FC = () => {
   });
 
   /* ================= AUTH ================= */
-  const jwt = useMemo(() => localStorage.getItem("jwt"), []);
+  // const jwt = useMemo(() => localStorage.getItem("jwt"), []);
+
+  const storedJwt = localStorage.getItem("jwt");
+
+const jwt =
+  storedJwt &&
+  storedJwt !== "undefined" &&
+  storedJwt !== "null"
+    ? storedJwt
+    : null;
 
   const wished = useAppSelector(
     (state) => state.wishlist.items[product?._id]
@@ -237,68 +246,233 @@ const ProductDetails: React.FC = () => {
   //   showToast,
   // ]);
 
-  const handleAddCartItem = useCallback(async () => {
-    if (adding || added) return;
+//   const handleAddCartItem = useCallback(async () => {
+//     if (adding || added) return;
 
-    if (!product) return;
+//     if (!product) return;
 
-    try {
-      setAdding(true);
+//     try {
+//       setAdding(true);
 
-      // ================= GUEST CART =================
-      if (!jwt) {
+//       // ================= GUEST CART =================
+//       if (!jwt) {
+//         const guestCart = JSON.parse(
+//           localStorage.getItem("guestCart") || "[]"
+//         );
+
+//         // guestCart.push({
+//         //   productId: product._id,
+//         //   quantity,
+//         //   color: selectedColor?.name,
+//         //   product,
+//         // });
+
+//         const existingItemIndex = guestCart.findIndex(
+//   (item: any) =>
+//     item.productId === product._id &&
+//     item.color === selectedColor?.name
+// );
+
+// if (existingItemIndex > -1) {
+//   guestCart[existingItemIndex].quantity += quantity;
+// } else {
+//   guestCart.push({
+//     productId: product._id,
+//     quantity,
+//     color: selectedColor?.name,
+//     product,
+//   });
+// }
+
+//         localStorage.setItem("guestCart", JSON.stringify(guestCart));
+
+//         flyToCart();
+//         setAdded(true);
+//         showToast("Added to cart", "success");
+
+//         if (window.fbq) {
+//           window.fbq("track", "AddToCart", {
+//             content_ids: [product._id],
+//             content_name: product.title,
+//             content_type: "product",
+//             value: product.sellingPrice,
+//             currency: "INR",
+//           });
+//         }
+
+//         setCartOpen(true);
+
+//         setTimeout(() => setAdded(false), 1200);
+
+//         return;
+//       }
+
+//       // ================= LOGGED IN USER =================
+//       await dispatch(
+//         addItemToCart({
+//           jwt,
+//           request: {
+//             productId: product._id,
+//             quantity,
+//             color: selectedColor?.name,
+//           },
+//         })
+//       ).unwrap();
+
+//       flyToCart();
+//       setAdded(true);
+//       showToast("Added to cart", "success");
+
+//       if (window.fbq) {
+//         window.fbq("track", "AddToCart", {
+//           content_ids: [product._id],
+//           content_name: product.title,
+//           content_type: "product",
+//           value: product.sellingPrice,
+//           currency: "INR",
+//         });
+//       }
+
+//       setCartOpen(true);
+
+//       setTimeout(() => setAdded(false), 1200);
+//     } catch (err: any) {
+
+//   const errorMessage =
+//     err?.message || "Login required to add items to cart";
+
+//   showToast(errorMessage, "error");
+
+//   // if (
+//   //   errorMessage.includes("Login required") ||
+//   //   errorMessage.includes("Unauthorized")
+//   // ) {
+//   //   setTimeout(() => {
+//   //     navigate("/login");
+//   //   }, 1200);
+//   // }
+// } finally {
+//       setAdding(false);
+//     }
+//   }, [
+//     adding,
+//     added,
+//     jwt,
+//     product,
+//     quantity,
+//     selectedColor,
+//     dispatch,
+//     flyToCart,
+//     showToast,
+//     navigate
+//   ]);
+
+const handleAddCartItem = useCallback(async () => {
+  if (adding || added) return;
+
+  if (!product) return;
+
+  setAdding(true);
+
+  try {
+    // =========================
+    // GUEST USER CART
+    // =========================
+    console.log("GUEST USER FLOW");
+    if (!jwt || jwt === "undefined" || jwt === "null") {
+      try {
         const guestCart = JSON.parse(
           localStorage.getItem("guestCart") || "[]"
         );
 
-        guestCart.push({
-          productId: product._id,
-          quantity,
-          color: selectedColor?.name,
-          product,
-        });
+        const existingItemIndex = guestCart.findIndex(
+          (item: any) =>
+            item.productId === product._id &&
+            item.color === selectedColor?.name
+        );
 
-        localStorage.setItem("guestCart", JSON.stringify(guestCart));
-
-        flyToCart();
-        setAdded(true);
-        showToast("Added to cart", "success");
-
-        if (window.fbq) {
-          window.fbq("track", "AddToCart", {
-            content_ids: [product._id],
-            content_name: product.title,
-            content_type: "product",
-            value: product.sellingPrice,
-            currency: "INR",
-          });
-        }
-
-        setCartOpen(true);
-
-        setTimeout(() => setAdded(false), 1200);
-
-        return;
-      }
-
-      // ================= LOGGED IN USER =================
-      await dispatch(
-        addItemToCart({
-          jwt,
-          request: {
+        if (existingItemIndex > -1) {
+          guestCart[existingItemIndex].quantity += quantity;
+        } else {
+          guestCart.push({
             productId: product._id,
             quantity,
             color: selectedColor?.name,
-          },
-        })
-      ).unwrap();
+            product,
+          });
+        }
 
+        localStorage.setItem(
+          "guestCart",
+          JSON.stringify(guestCart)
+        );
+
+        // SAFE ANIMATION
+        try {
+          flyToCart();
+        } catch (e) {
+          console.log("flyToCart error", e);
+        }
+
+        // SAFE FB PIXEL
+        try {
+          if ((window as any).fbq) {
+            (window as any).fbq("track", "AddToCart", {
+              content_ids: [product._id],
+              content_name: product.title,
+              content_type: "product",
+              value: product.sellingPrice,
+              currency: "INR",
+            });
+          }
+        } catch (e) {
+          console.log("fbq error", e);
+        }
+
+        setAdded(true);
+        setCartOpen(true);
+
+        showToast("Added to cart", "success");
+
+        setTimeout(() => {
+          setAdded(false);
+        }, 1200);
+
+        return;
+      } catch (guestError) {
+        console.log("Guest cart error", guestError);
+
+        showToast("Failed to add item", "error");
+
+        return;
+      }
+    }
+
+    // =========================
+    // LOGGED IN USER CART
+    // =========================
+    await dispatch(
+      addItemToCart({
+        jwt,
+        request: {
+          productId: product._id,
+          quantity,
+          color: selectedColor?.name,
+        },
+      })
+    ).unwrap();
+console.log("LOGGED IN FLOW");
+    // SAFE ANIMATION
+    try {
       flyToCart();
-      setAdded(true);
-      showToast("Added to cart", "success");
+    } catch (e) {
+      console.log("flyToCart error", e);
+    }
 
-      if (window.fbq) {
-        window.fbq("track", "AddToCart", {
+    // SAFE FB PIXEL
+    try {
+      if ((window as any).fbq) {
+        (window as any).fbq("track", "AddToCart", {
           content_ids: [product._id],
           content_name: product.title,
           content_type: "product",
@@ -306,40 +480,42 @@ const ProductDetails: React.FC = () => {
           currency: "INR",
         });
       }
-
-      setCartOpen(true);
-
-      setTimeout(() => setAdded(false), 1200);
-    } catch (err: any) {
-
-  const errorMessage =
-    err?.message || "Login required to add items to cart";
-
-  showToast(errorMessage, "error");
-
-  if (
-    errorMessage.includes("Login required") ||
-    errorMessage.includes("Unauthorized")
-  ) {
-    setTimeout(() => {
-      navigate("/login");
-    }, 1200);
-  }
-} finally {
-      setAdding(false);
+    } catch (e) {
+      console.log("fbq error", e);
     }
-  }, [
-    adding,
-    added,
-    jwt,
-    product,
-    quantity,
-    selectedColor,
-    dispatch,
-    flyToCart,
-    showToast,
-    navigate
-  ]);
+
+    setAdded(true);
+    setCartOpen(true);
+
+    showToast("Added to cart", "success");
+
+    setTimeout(() => {
+      setAdded(false);
+    }, 1200);
+
+  } catch (err: any) {
+    console.log("ADD TO CART ERROR", err);
+
+    const errorMessage =
+      err?.response?.data?.message ||
+      err?.message ||
+      "Failed to add item";
+
+    showToast(errorMessage, "error");
+  } finally {
+    setAdding(false);
+  }
+}, [
+  adding,
+  added,
+  jwt,
+  product,
+  quantity,
+  selectedColor,
+  dispatch,
+  flyToCart,
+  showToast,
+]);
 
   /* ================= LOADING ================= */
   if (!product) {

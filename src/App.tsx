@@ -34,8 +34,8 @@ import PendingApproval from "./Auth/Become Seller/PendingApproval";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import AffiliateWithdraw from "./affiliate/pages/AffiliateWithdraw";
-import AffiliateCommissions from "./affiliate/pages/AffiliateCommissions";
+// import AffiliateWithdraw from "./affiliate/pages/Withdraw";
+// import AffiliateCommissions from "./affiliate/pages/Commissions";
 import AffiliateDashboard from "./affiliate/pages/AffiliateDashboard";
 import AffiliateLayout from "./affiliate/layout/AffiliateLayout";
 import { requestNotificationPermission } from "./hooks/usePushNotification";
@@ -151,8 +151,8 @@ function App() {
         {/* ================= AFFILIATE MOCK ================= */}
         <Route path="/affiliate" element={<AffiliateLayout />}>
           <Route path="dashboard" element={<AffiliateDashboard />} />
-          <Route path="commissions" element={<AffiliateCommissions />} />
-          <Route path="withdraw" element={<AffiliateWithdraw />} />
+          {/* <Route path="commissions" element={<AffiliateCommissions />} /> */}
+          {/* <Route path="withdraw" element={<AffiliateWithdraw />} /> */}
         </Route>
 
         {/* ================= CUSTOMER ================= */}
