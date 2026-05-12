@@ -58,6 +58,43 @@ const LoginForm = ({switchToSignup } : any) => {
   // });
 
 
+const mergeGuestCart = async (token: string) => {
+  try {
+    const guestCart = JSON.parse(
+      localStorage.getItem("guestCart") || "[]"
+    );
+
+    console.log("GUEST CART", guestCart);
+
+    if (!guestCart.length) return;
+
+    for (const item of guestCart) {
+
+      console.log("ADDING ITEM", item);
+
+      await api.put(
+        "/api/cart/add",
+        {
+          productId: item.productId,
+          quantity: item.quantity,
+          color: item.color,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    }
+
+    console.log("MERGE SUCCESS");
+
+    localStorage.removeItem("guestCart");
+
+  } catch (err) {
+    console.log("MERGE CART ERROR", err);
+  }
+};
   const formik = useFormik({
   initialValues: {
     email: "",
@@ -66,7 +103,23 @@ const LoginForm = ({switchToSignup } : any) => {
 
   onSubmit: async (values) => {
     try {
-      await dispatch(signin({ ...values, navigate })).unwrap();
+      // await dispatch(signin({ ...values, navigate })).unwrap();
+      const res = await dispatch(
+  signin({ ...values, navigate })
+).unwrap();
+
+const token = localStorage.getItem("jwt");
+
+if (token) {
+  await mergeGuestCart(token);
+}
+
+      showSnack("Welcome back to Swastik", "success");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 800);
+
     } catch (error: any) {
       showSnack(
         error?.message || "Account not found. Please create an account.",
@@ -105,6 +158,9 @@ const LoginForm = ({switchToSignup } : any) => {
 
       if (res.data?.token) {
         localStorage.setItem("jwt", res.data.token);
+
+        await mergeGuestCart(res.data.token);
+
         showSnack("Welcome back to Swastik", "success");
 
         setTimeout(() => {
