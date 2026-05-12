@@ -153,7 +153,13 @@ useEffect(() => {
     <h3 className="font-semibold">Shipping Details</h3>
 
     <div className="text-sm space-y-1">
-      <p>Courier: <b>{order.shipping.courier}</b></p>
+      {/* <p>Courier: <b>{order.shipping.courier}</b></p> */}
+      <p>
+  Courier:{" "}
+  <b>
+    Delhivery
+  </b>
+</p>
       <p>Tracking ID: <b>{order.shipping.awb || "Will be updated"}</b></p>
       <p>Status: <b>{order.shipping.status.replaceAll("_", " ")}</b></p>
 
@@ -169,15 +175,15 @@ useEffect(() => {
   )}
 
 
-      {order.shipping.awb && (
-        <a
-          href={`https://www.dtdc.in/tracking.asp?strCnno=${order.shipping.awb}`}
-          target="_blank"
-          className="text-blue-600 text-xs underline"
-        >
-          Track on DTDC
-        </a>
-      )}
+
+<a
+  href="https://www.delhivery.com/tracking"
+  target="_blank"
+  rel="noreferrer"
+  className="text-blue-600 text-xs underline"
+>
+  Track Shipment
+</a>
     </div>
 
     <Button
