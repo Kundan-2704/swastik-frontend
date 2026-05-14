@@ -306,7 +306,7 @@ if (token) {
               Continue with Google
             </Button>
           </div>
-          <div className="text-center pt-2">
+          {/* <div className="text-center pt-2">
   <span className="text-sm text-[#7A6A58]">
     Don’t have an account?
   </span>
@@ -318,7 +318,7 @@ if (token) {
   >
     Create Account
   </button>
-</div>
+</div> */}
         </div>
       </form>
 
