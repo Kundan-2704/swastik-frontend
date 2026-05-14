@@ -122,7 +122,8 @@ if (token) {
 
     } catch (error: any) {
       showSnack(
-        error?.message || "Account not found. Please create an account.",
+        // error?.message || "Account not found. Please create an account.",
+         error?.message || "Login failed. Please try again.",
         "error"
       );
     }
@@ -173,7 +174,8 @@ if (token) {
     } catch (error: any) {
       console.error("GOOGLE LOGIN ERROR →", error);
       showSnack(
-  "No account found. Please create your account to continue.",
+  // "No account found. Please create your account to continue.",
+  "Google login failed. Please try again.",
   "error"
 );
     }
@@ -219,7 +221,8 @@ if (token) {
 
 {/* 👇 YAHAN ADD KARO */}
 <div className="text-xs text-[#8A7765] mt-3">
-  We’ll send you a one-time OTP to login or create your account
+  {/* We’ll send you a one-time OTP to login or create your account */}
+  Enter your email to continue securely
 </div>
 {/* <div className="text-xs text-[#8A7765] -mb-3">
       Enter the OTP sent to your email
@@ -263,12 +266,12 @@ if (token) {
                   },
                 }}
               >
-                {authState.loading ? "Please wait..." : "Login"}
-                {/* {authState.loading
+                {/* {authState.loading ? "Please wait..." : "Login"} */}
+                {authState.loading
   ? "Please wait..."
   : authState.otpSent
   ? "Verify OTP"
-  : "Login / Sign Up"} */}
+  : "Continue"}
               </Button>
             </div>
 

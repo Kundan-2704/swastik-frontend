@@ -86,10 +86,7 @@ const Cart = () => {
   // };
 
   const handleBuyNow = () => {
-  if (!jwt) {
-    navigate("/login");
-    return;
-  }
+  
 
   setProcessing(true);
   navigate("/checkout/address");
@@ -207,8 +204,12 @@ const Cart = () => {
             {/* PRICE */}
             <section className="border border-[#E3D4B6] rounded-xl bg-white shadow-sm">
               {/* <PricingCard /> */}
+              
+<PricingCard
+  guestCart={!jwt ? guestCart : null}
+/>
 
-              {jwt ? (
+              {/* {jwt ? (
   <PricingCard />
 ) : (
   <div className="p-5">
@@ -221,7 +222,7 @@ const Cart = () => {
       )}
     </p>
   </div>
-)}
+)} */}
 
               <div className="p-5">
 

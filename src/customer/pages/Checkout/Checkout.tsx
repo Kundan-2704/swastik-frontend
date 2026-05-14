@@ -9,7 +9,7 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../../Redux Toolkit/Store";
@@ -60,8 +60,8 @@ const Checkout = () => {
 
   const [paymentMethod, setPaymentMethod] = useState<"RAZORPAY" | "COD">("RAZORPAY");
 
-  const [codOpen,setCodOpen] = useState(false)
-const [codLoading,setCodLoading] = useState(false)
+  const [codOpen, setCodOpen] = useState(false)
+  const [codLoading, setCodLoading] = useState(false)
 
 
   const [snack, setSnack] = useState({
@@ -70,10 +70,36 @@ const [codLoading,setCodLoading] = useState(false)
     type: "success" as "success" | "error",
   });
 
+  const jwt = localStorage.getItem("jwt") || "";
+
+  const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+
+  const requireLogin = () => {
+
+  setSnack({
+    open: true,
+    msg: "login required to continue secure checkout",
+    type: "error"
+  });
+
+  setTimeout(() => {
+
+    navigate("/login");
+
+  }, 2200);
+
+};
+
   /* ================= LOAD ADDRESSES ================= */
+  // useEffect(() => {
+  //   dispatch(fetchUserAddresses(localStorage.getItem("jwt") || ""));
+  // }, [dispatch]);
+
   useEffect(() => {
-    dispatch(fetchUserAddresses(localStorage.getItem("jwt") || ""));
-  }, [dispatch]);
+    if (jwt) {
+      dispatch(fetchUserAddresses(jwt));
+    }
+  }, [dispatch, jwt]);
 
   useEffect(() => {
     if (addresses.length === 1) {
@@ -87,6 +113,10 @@ const [codLoading,setCodLoading] = useState(false)
   /* ================= CHECKOUT ================= */
 
   const handleCheckout = async () => {
+    if (!jwt){
+      requireLogin();
+      return;
+    }
     if (loading) return;
     if (!selectedAddress) return alert("Select address");
 
@@ -130,15 +160,15 @@ const [codLoading,setCodLoading] = useState(false)
                 },
               }
             );
-            
-   // ✅🔥 YAHI ADD KARNA HAI (GA4 PURCHASE EVENT)
-    if (window.gtag) {
-      window.gtag('event', 'purchase', {
-        transaction_id: response.razorpay_payment_id,
-        value: cart.cart?.finalAmount || 0, // dynamic price
-        currency: 'INR'
-      });
-    }
+
+            // ✅🔥 YAHI ADD KARNA HAI (GA4 PURCHASE EVENT)
+            if (window.gtag) {
+              window.gtag('event', 'purchase', {
+                transaction_id: response.razorpay_payment_id,
+                value: cart.cart?.finalAmount || 0, // dynamic price
+                currency: 'INR'
+              });
+            }
             navigate("/order-success");
           } catch (err) {
             console.error("VERIFY ERROR:", err);
@@ -163,141 +193,141 @@ const [codLoading,setCodLoading] = useState(false)
   };
 
 
-//  const placeCODOrder = async () => {
+  //  const placeCODOrder = async () => {
 
-//  if(!selectedAddress){
+  //  if(!selectedAddress){
 
-//   alert("Select address")
-//   return
+  //   alert("Select address")
+  //   return
 
-//  }
+  //  }
 
-//  try{
+  //  try{
 
-//   setCodLoading(true)
+  //   setCodLoading(true)
 
-//   const res = await axios.post(
+  //   const res = await axios.post(
 
-//    `${import.meta.env.VITE_API_BASE_URL}/api/payment/create-cod-order`,
+  //    `${import.meta.env.VITE_API_BASE_URL}/api/payment/create-cod-order`,
 
-//    {
-//     addressId:selectedAddress
-//    },
+  //    {
+  //     addressId:selectedAddress
+  //    },
 
-//    {
-//     headers:{
-//      Authorization:`Bearer ${localStorage.getItem("jwt")}`
-//     }
-//    }
+  //    {
+  //     headers:{
+  //      Authorization:`Bearer ${localStorage.getItem("jwt")}`
+  //     }
+  //    }
 
-//   )
+  //   )
 
-//   console.log("COD RESPONSE:",res.data)
+  //   console.log("COD RESPONSE:",res.data)
 
-//   // success check
-//   if(res.status === 200){
+  //   // success check
+  //   if(res.status === 200){
 
-//    setCodOpen(false)
+  //    setCodOpen(false)
 
-//    navigate("/order-success")
+  //    navigate("/order-success")
 
-//   }
+  //   }
 
-//  }
-//  catch(err:any){
+  //  }
+  //  catch(err:any){
 
 
-//   alert("COD failed")
+  //   alert("COD failed")
 
-//  }
-//  finally{
+  //  }
+  //  finally{
 
-//   setCodLoading(false)
+  //   setCodLoading(false)
 
-//  }
+  //  }
 
-// }
+  // }
 
-const placeCODOrder = async () => {
+  const placeCODOrder = async () => {
 
- if (!selectedAddress) {
+    if (!selectedAddress) {
 
-  setSnack({
-   open: true,
-   msg: "Please select delivery address",
-   type: "error"
-  });
+      setSnack({
+        open: true,
+        msg: "Please select delivery address",
+        type: "error"
+      });
 
-  return;
- }
-
- try {
-
-  setCodLoading(true);
-
-  const res = await axios.post(
-
-   `${import.meta.env.VITE_API_BASE_URL}/api/payment/create-cod-order`,
-
-   {
-    addressId: selectedAddress
-   },
-
-   {
-    headers: {
-     Authorization: `Bearer ${localStorage.getItem("jwt")}`
+      return;
     }
-   }
 
-  );
+    try {
 
-  console.log("COD RESPONSE:", res.data);
+      setCodLoading(true);
 
-    // ✅ SUCCESS → यहाँ डालो
-  if (window.gtag) {
-    window.gtag('event', 'purchase', {
-      transaction_id: "COD_" + Date.now(),
-      value: cart.cart?.finalAmount || 0,
-      currency: 'INR'
-    });
-  }
+      const res = await axios.post(
 
-  // close popup
-  setCodOpen(false);
+        `${import.meta.env.VITE_API_BASE_URL}/api/payment/create-cod-order`,
 
-  // show success snackbar
-  setSnack({
-   open: true,
-   msg: "Order placed successfully (Cash on Delivery)",
-   type: "success"
-  });
+        {
+          addressId: selectedAddress
+        },
 
-  // redirect after short delay
-  setTimeout(() => {
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
+          }
+        }
 
-   navigate("/order-success");
+      );
 
-  }, 1200);
+      console.log("COD RESPONSE:", res.data);
 
- }
- catch (err: any) {
+      // ✅ SUCCESS → यहाँ डालो
+      if (window.gtag) {
+        window.gtag('event', 'purchase', {
+          transaction_id: "COD_" + Date.now(),
+          value: cart.cart?.finalAmount || 0,
+          currency: 'INR'
+        });
+      }
 
-  console.log("COD ERROR:", err?.response?.data);
+      // close popup
+      setCodOpen(false);
 
-  setSnack({
-   open: true,
-   msg: err?.response?.data?.message || "COD order failed",
-   type: "error"
-  });
+      // show success snackbar
+      setSnack({
+        open: true,
+        msg: "Order placed successfully (Cash on Delivery)",
+        type: "success"
+      });
 
- }
- finally {
+      // redirect after short delay
+      setTimeout(() => {
 
-  setCodLoading(false);
+        navigate("/order-success");
 
- }
+      }, 1200);
 
-};
+    }
+    catch (err: any) {
+
+      console.log("COD ERROR:", err?.response?.data);
+
+      setSnack({
+        open: true,
+        msg: err?.response?.data?.message || "COD order failed",
+        type: "error"
+      });
+
+    }
+    finally {
+
+      setCodLoading(false);
+
+    }
+
+  };
 
 
   return (
@@ -312,7 +342,20 @@ const placeCODOrder = async () => {
             </h1>
 
             <Button
-              onClick={() => setOpenAddress(true)}
+              // onClick={() => setOpenAddress(true)}
+              onClick={() => {
+
+                if (!jwt) {
+
+                 requireLogin();
+
+                  return;
+
+                }
+
+                setOpenAddress(true);
+
+              }}
               variant="outlined"
               sx={{
                 borderColor: "#B9935A",
@@ -347,97 +390,117 @@ const placeCODOrder = async () => {
         {/* RIGHT */}
         <div className="space-y-6">
 
-               <Box
+          <Box
 
-sx={{
+            sx={{
 
-border:"1px solid #EADFD0",
+              border: "1px solid #EADFD0",
 
-borderRadius:"14px",
+              borderRadius: "14px",
 
-p:2,
+              p: 2,
 
-background:"#FFFDF8",
+              background: "#FFFDF8",
 
-mb:2
+              mb: 2
 
-}}
+            }}
 
->
+          >
 
-<Typography
+            <Typography
 
-fontWeight={600}
+              fontWeight={600}
 
-color="#4A1F2A"
+              color="#4A1F2A"
 
-mb={1}
+              mb={1}
 
->
+            >
 
-Cash on Delivery Available
+              Cash on Delivery Available
 
-</Typography>
+            </Typography>
 
-<Button
+            <Button
 
-fullWidth
+              fullWidth
 
-// onClick={()=>setCodOpen(true)}
-onClick={() => {
+              // onClick={()=>setCodOpen(true)}
+              onClick={() => {
 
- if (!selectedAddress) {
+                if (!jwt) {
 
-  setSnack({
-   open:true,
-   msg:"Please select delivery address",
-   type:"error"
-  })
+                  requireLogin();
 
-  return
- }
+                  return;
 
- setCodOpen(true)
+                }
 
-}}
+                if (!selectedAddress) {
 
-sx={{
+                  setSnack({
+                    open: true,
+                    msg: "Please select delivery address",
+                    type: "error"
+                  })
 
-borderRadius:"999px",
+                  return
+                }
 
-border:"1px solid #4A1F2A",
+                setCodOpen(true)
 
-color:"#4A1F2A",
+              }}
 
-fontWeight:600,
+              sx={{
 
-py:1,
+                borderRadius: "999px",
 
-"&:hover":{
+                border: "1px solid #4A1F2A",
 
-background:"#4A1F2A",
+                color: "#4A1F2A",
 
-color:"white"
+                fontWeight: 600,
 
-}
+                py: 1,
 
-}}
+                "&:hover": {
 
->
+                  background: "#4A1F2A",
 
-Buy Now with COD
+                  color: "white"
 
-</Button>
+                }
 
-</Box>
+              }}
+
+            >
+
+              Buy Now with COD
+
+            </Button>
+
+          </Box>
 
           <section className="border p-5 rounded-xl bg-white shadow-sm">
-            {cart.loading ? <PricingSkeleton /> : <PricingCard />}
+            {/* {cart.loading ? <PricingSkeleton /> : <PricingCard />} */}
+            {cart.loading ? (
+
+              <PricingSkeleton />
+
+            ) : (
+
+              <PricingCard
+                guestCart={!jwt ? guestCart : null}
+              />
+
+            )}
 
             <Button
               fullWidth
               variant="contained"
-              disabled={!selectedAddress || cart.cart?.finalAmount === 0 || loading}
+              // disabled={!selectedAddress || cart.cart?.finalAmount === 0 || loading}
+              disabled={loading}
               onClick={handleCheckout}
               sx={{
                 mt: 2,
@@ -453,82 +516,82 @@ Buy Now with COD
                 "Checkout"
               )}
             </Button>
-<Box
-  mt={4}
-  textAlign="center"
-  sx={{
-    pt: 2,
-    borderTop: "1px solid rgba(0,0,0,0.06)",
-  }}
->
-  <Typography
-    variant="caption"
-    sx={{
-      color: "#7A7A7A",
-      fontSize: "12px",
-      letterSpacing: "0.6px",
-      fontWeight: 500,
-    }}
-  >
-    Secure • Encrypted • Trusted Payments
-  </Typography>
+            <Box
+              mt={4}
+              textAlign="center"
+              sx={{
+                pt: 2,
+                borderTop: "1px solid rgba(0,0,0,0.06)",
+              }}
+            >
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "#7A7A7A",
+                  fontSize: "12px",
+                  letterSpacing: "0.6px",
+                  fontWeight: 500,
+                }}
+              >
+                Secure • Encrypted • Trusted Payments
+              </Typography>
 
-  <Box
-    display="flex"
-    justifyContent="center"
-    alignItems="center"
-    gap={3}
-    mt={1.8}
-  >
-    <Box
-      component="img"
-      src="/payments/visa.png"
-      sx={{
-        height: 20,
-        opacity: 0.75,
-        filter: "grayscale(20%)",
-        transition: "all 0.3s ease",
-        "&:hover": { opacity: 1, filter: "grayscale(0%)" },
-      }}
-    />
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                gap={3}
+                mt={1.8}
+              >
+                <Box
+                  component="img"
+                  src="/payments/visa.png"
+                  sx={{
+                    height: 20,
+                    opacity: 0.75,
+                    filter: "grayscale(20%)",
+                    transition: "all 0.3s ease",
+                    "&:hover": { opacity: 1, filter: "grayscale(0%)" },
+                  }}
+                />
 
-    <Box
-      component="img"
-      src="/payments/mastercard.webp"
-      sx={{
-        height: 24,
-        opacity: 0.75,
-        filter: "grayscale(20%)",
-        transition: "all 0.3s ease",
-        "&:hover": { opacity: 1, filter: "grayscale(0%)" },
-      }}
-    />
+                <Box
+                  component="img"
+                  src="/payments/mastercard.webp"
+                  sx={{
+                    height: 24,
+                    opacity: 0.75,
+                    filter: "grayscale(20%)",
+                    transition: "all 0.3s ease",
+                    "&:hover": { opacity: 1, filter: "grayscale(0%)" },
+                  }}
+                />
 
-    <Box
-      component="img"
-      src="/payments/upi.png"
-      sx={{
-        height: 22,
-        opacity: 0.75,
-        filter: "grayscale(20%)",
-        transition: "all 0.3s ease",
-        "&:hover": { opacity: 1, filter: "grayscale(0%)" },
-      }}
-    />
+                <Box
+                  component="img"
+                  src="/payments/upi.png"
+                  sx={{
+                    height: 22,
+                    opacity: 0.75,
+                    filter: "grayscale(20%)",
+                    transition: "all 0.3s ease",
+                    "&:hover": { opacity: 1, filter: "grayscale(0%)" },
+                  }}
+                />
 
-    <Box
-      component="img"
-      src="/payments/rupay.png"
-      sx={{
-        height: 22,
-        opacity: 0.75,
-        filter: "grayscale(20%)",
-        transition: "all 0.3s ease",
-        "&:hover": { opacity: 1, filter: "grayscale(0%)" },
-      }}
-    />
-  </Box>
-</Box>
+                <Box
+                  component="img"
+                  src="/payments/rupay.png"
+                  sx={{
+                    height: 22,
+                    opacity: 0.75,
+                    filter: "grayscale(20%)",
+                    transition: "all 0.3s ease",
+                    "&:hover": { opacity: 1, filter: "grayscale(0%)" },
+                  }}
+                />
+              </Box>
+            </Box>
           </section>
         </div>
       </div>
@@ -550,37 +613,37 @@ Buy Now with COD
       </Snackbar> */}
 
       <Snackbar
- open={snack.open}
- autoHideDuration={3000}
+        open={snack.open}
+        autoHideDuration={3000}
 
- anchorOrigin={{
-  vertical: "top",
-  horizontal: "center"
- }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center"
+        }}
 
- onClose={() =>
-  setSnack({
-   ...snack,
-   open:false
-  })
- }
->
+        onClose={() =>
+          setSnack({
+            ...snack,
+            open: false
+          })
+        }
+      >
 
- <Alert
-  severity={snack.type}
-  variant="filled"
+        <Alert
+          severity={snack.type}
+          variant="filled"
 
-  sx={{
-   borderRadius:"12px",
-   fontWeight:500
-  }}
- >
+          sx={{
+            borderRadius: "12px",
+            fontWeight: 500
+          }}
+        >
 
-  {snack.msg}
+          {snack.msg}
 
- </Alert>
+        </Alert>
 
-</Snackbar>
+      </Snackbar>
 
       <AddressDialog
         open={openAddress}
@@ -588,145 +651,145 @@ Buy Now with COD
       />
 
 
-<Modal
+      <Modal
 
-open={codOpen}
+        open={codOpen}
 
-onClose={()=>setCodOpen(false)}
+        onClose={() => setCodOpen(false)}
 
->
+      >
 
-<Box
+        <Box
 
-sx={{
+          sx={{
 
-position:"absolute",
+            position: "absolute",
 
-top:"50%",
+            top: "50%",
 
-left:"50%",
+            left: "50%",
 
-transform:"translate(-50%,-50%)",
+            transform: "translate(-50%,-50%)",
 
-width:420,
+            width: 420,
 
-background:"#FFFCF7",
+            background: "#FFFCF7",
 
-borderRadius:"18px",
+            borderRadius: "18px",
 
-boxShadow:"0 20px 60px rgba(0,0,0,0.2)",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
 
-p:4,
+            p: 4,
 
-border:"1px solid #EADFD0"
+            border: "1px solid #EADFD0"
 
-}}
+          }}
 
->
+        >
 
-<Typography
+          <Typography
 
-fontWeight={600}
+            fontWeight={600}
 
-fontSize={20}
+            fontSize={20}
 
-color="#4A1F2A"
+            color="#4A1F2A"
 
-mb={1}
+            mb={1}
 
->
+          >
 
-Confirm Cash on Delivery
+            Confirm Cash on Delivery
 
-</Typography>
+          </Typography>
 
-<Typography
+          <Typography
 
-fontSize={14}
+            fontSize={14}
 
-color="gray"
+            color="gray"
 
-mb={3}
+            mb={3}
 
->
+          >
 
-Pay in cash when your order is delivered.
+            Pay in cash when your order is delivered.
 
-</Typography>
+          </Typography>
 
-<Box
+          <Box
 
-sx={{
+            sx={{
 
-background:"#FFF7ED",
+              background: "#FFF7ED",
 
-p:2,
+              p: 2,
 
-borderRadius:"10px",
+              borderRadius: "10px",
 
-mb:2,
+              mb: 2,
 
-border:"1px dashed #B9935A"
+              border: "1px dashed #B9935A"
 
-}}
+            }}
 
->
+          >
 
-<Typography fontSize={13}>
+            <Typography fontSize={13}>
 
-✔ No advance payment required  
-✔ Secure order placement  
-✔ Pay at doorstep  
+              ✔ No advance payment required
+              ✔ Secure order placement
+              ✔ Pay at doorstep
 
-</Typography>
+            </Typography>
 
-</Box>
+          </Box>
 
-<Button
+          <Button
 
-fullWidth
+            fullWidth
 
-onClick={placeCODOrder}
+            onClick={placeCODOrder}
 
-disabled={codLoading}
+            disabled={codLoading}
 
-sx={{
+            sx={{
 
-background:"#4A1F2A",
+              background: "#4A1F2A",
 
-color:"white",
+              color: "white",
 
-borderRadius:"999px",
+              borderRadius: "999px",
 
-py:1.5,
+              py: 1.5,
 
-fontWeight:600,
+              fontWeight: 600,
 
-"&:hover":{
+              "&:hover": {
 
-background:"#34121C"
+                background: "#34121C"
 
-}
+              }
 
-}}
+            }}
 
->
+          >
 
-{codLoading ?
+            {codLoading ?
 
-<CircularProgress size={22} sx={{color:"white"}}/>
+              <CircularProgress size={22} sx={{ color: "white" }} />
 
-:
+              :
 
-"Confirm Order"
+              "Confirm Order"
 
-}
+            }
 
-</Button>
+          </Button>
 
-</Box>
+        </Box>
 
-</Modal>
+      </Modal>
 
     </Box>
   );
