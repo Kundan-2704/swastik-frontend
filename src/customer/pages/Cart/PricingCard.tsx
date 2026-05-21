@@ -151,6 +151,12 @@ const PricingCard = ({ guestCart = null }: PricingCardProps) => {
 
   if (!cart && !isGuest) return null;
 
+  /* ===================== SHIPPING RULE ===================== */
+
+const SHIPPING_THRESHOLD = 1500;
+const SHIPPING_CHARGE = 99;
+
+
   /* ===================== VALUES ===================== */
 
   const subtotal = isGuest
@@ -165,13 +171,27 @@ const PricingCard = ({ guestCart = null }: PricingCardProps) => {
     ? 0
     : cart?.couponDiscount || 0;
 
-  const shippingCharge = isGuest
-    ? 0
-    : cart?.shippingCharge || 0;
+  // const shippingCharge = isGuest
+  //   ? 0
+  //   : cart?.shippingCharge || 0;
 
-  const finalAmount = isGuest
-    ? guestFinalAmount
-    : cart?.finalAmount || 0;
+  // const finalAmount = isGuest
+  //   ? guestFinalAmount
+  //   : cart?.finalAmount || 0;
+
+  /* FINAL AMOUNT BEFORE SHIPPING */
+const amountAfterDiscount = isGuest
+  ? guestFinalAmount
+  : cart?.finalAmount || 0;
+
+/* SHIPPING LOGIC */
+const shippingCharge =
+  amountAfterDiscount >= SHIPPING_THRESHOLD
+    ? 0
+    : SHIPPING_CHARGE;
+
+/* FINAL TOTAL */
+const finalAmount = amountAfterDiscount + shippingCharge;
 
   const totalSavings = discount + couponDiscount;
 
