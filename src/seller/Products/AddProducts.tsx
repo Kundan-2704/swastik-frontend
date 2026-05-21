@@ -31,6 +31,8 @@ import { womenLevelThree } from "../../Data/Category/levelThree/womenLevelThree"
 import { Snackbar, type AlertColor } from "@mui/material";
 
 import MuiAlert from "@mui/material/Alert";
+import { cjpLevelTwo } from "../../Data/Category/levelTwo/CjpLevelTwo";
+import { cjpLevelThree } from "../../Data/Category/levelThree/CjpLevelThree";
 
 /* ================= TYPES ================= */
 
@@ -64,6 +66,7 @@ const levelTwoMap: Record<string, SubCategory[]> = {
   printed_sarees: printedLevelTwo,
   men: menLevelTwo,
   women: womenLevelTwo,
+  cjp: cjpLevelTwo,
 };
 
 const levelThreeMap: Record<string, SubCategory[]> = {
@@ -75,6 +78,7 @@ const levelThreeMap: Record<string, SubCategory[]> = {
   printed_sarees: printedLevelThree,
   men: menLevelThree,
   women: womenLevelThree,
+  cjp: cjpLevelThree,
 };
 
 /* ================= COMPONENT ================= */
@@ -88,40 +92,40 @@ const AddProducts: React.FC = () => {
   const [levelThreeOptions, setLevelThreeOptions] = useState<SubCategory[]>([]);
 
   const [snackbar, setSnackbar] = useState<{
-  open: boolean;
-  message: string;
-  severity: AlertColor;
-}>({
-  open: false,
-  message: "",
-  severity: "success",
-});
+    open: boolean;
+    message: string;
+    severity: AlertColor;
+  }>({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
-const showSnackbar = (message: string, severity: AlertColor) => {
-  setSnackbar({ open: true, message, severity });
-};
+  const showSnackbar = (message: string, severity: AlertColor) => {
+    setSnackbar({ open: true, message, severity });
+  };
 
 
 
   /* ================= FORMIK ================= */
 
-type WomenFabricDetails = {
-  fabric?: string;
-  weave?: string;
-  fabricLength?: string;
-  occasion?: string;
-  care?: string;
-  origin?: string;
-};
+  type WomenFabricDetails = {
+    fabric?: string;
+    weave?: string;
+    fabricLength?: string;
+    occasion?: string;
+    care?: string;
+    origin?: string;
+  };
 
-type MenFabricDetails = {
-  fabric?: string;
-  weave?: string;
-  fabricLength?: string;
-  dhotiLength?: string;
-  care?: string;
-  origin?: string;
-};
+  type MenFabricDetails = {
+    fabric?: string;
+    weave?: string;
+    fabricLength?: string;
+    dhotiLength?: string;
+    care?: string;
+    origin?: string;
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -145,21 +149,30 @@ type MenFabricDetails = {
       },
 
       detailsWomen: {
-  fabric: "",
-  weave: "",
-  fabricLength: "",
-  occasion: "",
-  care: "",
-  origin: "",
-},
+        fabric: "",
+        weave: "",
+        fabricLength: "",
+        occasion: "",
+        care: "",
+        origin: "",
+      },
 
-detailsMen: {
-  fabric: "",
-  weave: "",
-  fabricLength: "",
-  dhotiLength: "",
-  care: "",
-  origin: "",
+      detailsMen: {
+        fabric: "",
+        weave: "",
+        fabricLength: "",
+        dhotiLength: "",
+        care: "",
+        origin: "",
+      },
+
+      detailsCjp: {
+  material: "",
+  fit: "",
+  gsm: "",
+  printType: "",
+  sleeve: "",
+  countryOfOrigin: "",
 },
 
       delivery: {
@@ -190,14 +203,18 @@ detailsMen: {
           images.map((img) => uploadToCloudinary(img))
         );
 
- let finalDetails: any = values.details;
+        let finalDetails: any = values.details;
 
-if (values.category === "women") {
-  finalDetails = values.detailsWomen;
-}
+        if (values.category === "women") {
+          finalDetails = values.detailsWomen;
+        }
 
-if (values.category === "men") {
-  finalDetails = values.detailsMen;
+        if (values.category === "men") {
+          finalDetails = values.detailsMen;
+        }
+
+        if (values.category === "cjp") {
+  finalDetails = values.detailsCjp;
 }
 
         const payload = {
@@ -214,7 +231,7 @@ if (values.category === "men") {
           sizes: values.sizes,
 
           details: finalDetails,
-          
+
           delivery: values.delivery,
           craftStory: values.craftStory,
           faqs: [],
@@ -252,7 +269,8 @@ if (values.category === "men") {
   });
 
   const isWomen = formik.values.category === "women";
-const isMen = formik.values.category === "men";
+  const isMen = formik.values.category === "men";
+  const isCjp = formik.values.category === "cjp";
 
   /* ================= IMAGE HANDLERS ================= */
 
@@ -427,46 +445,62 @@ const isMen = formik.values.category === "men";
         </div> */}
 
         {isWomen && (
-  <div className="grid grid-cols-2 gap-4">
-    {Object.keys(formik.values.detailsWomen).map((key) => (
-      <input
-        key={key}
-        placeholder={key}
-        value={(formik.values.detailsWomen as any)[key]}
-        onChange={(e) =>
-          formik.setFieldValue(`detailsWomen.${key}`, e.target.value)
-        }
-        className="border p-2 rounded"
-      />
-    ))}
-  </div>
-)}
+          <div className="grid grid-cols-2 gap-4">
+            {Object.keys(formik.values.detailsWomen).map((key) => (
+              <input
+                key={key}
+                placeholder={key}
+                value={(formik.values.detailsWomen as any)[key]}
+                onChange={(e) =>
+                  formik.setFieldValue(`detailsWomen.${key}`, e.target.value)
+                }
+                className="border p-2 rounded"
+              />
+            ))}
+          </div>
+        )}
 
-{isMen && (
-  <div className="grid grid-cols-2 gap-4">
-    {Object.keys(formik.values.detailsMen).map((key) => (
-      <input
-        key={key}
-        placeholder={key}
-        value={(formik.values.detailsMen as any)[key]}
-        onChange={(e) =>
-          formik.setFieldValue(`detailsMen.${key}`, e.target.value)
-        }
-        className="border p-2 rounded"
-      />
-    ))}
-  </div>
-)}
+        {isMen && (
+          <div className="grid grid-cols-2 gap-4">
+            {Object.keys(formik.values.detailsMen).map((key) => (
+              <input
+                key={key}
+                placeholder={key}
+                value={(formik.values.detailsMen as any)[key]}
+                onChange={(e) =>
+                  formik.setFieldValue(`detailsMen.${key}`, e.target.value)
+                }
+                className="border p-2 rounded"
+              />
+            ))}
+          </div>
+        )}
 
-{!isMen && !isWomen && (
+        {!isMen && !isWomen && !isCjp && (
+          <div className="grid grid-cols-2 gap-4">
+            {Object.keys(formik.values.details).map((key) => (
+              <input
+                key={key}
+                placeholder={key}
+                value={(formik.values.details as any)[key]}
+                onChange={(e) =>
+                  formik.setFieldValue(`details.${key}`, e.target.value)
+                }
+                className="border p-2 rounded"
+              />
+            ))}
+          </div>
+        )}
+
+        {isCjp && (
   <div className="grid grid-cols-2 gap-4">
-    {Object.keys(formik.values.details).map((key) => (
+    {Object.keys(formik.values.detailsCjp).map((key) => (
       <input
         key={key}
         placeholder={key}
-        value={(formik.values.details as any)[key]}
+        value={(formik.values.detailsCjp as any)[key]}
         onChange={(e) =>
-          formik.setFieldValue(`details.${key}`, e.target.value)
+          formik.setFieldValue(`detailsCjp.${key}`, e.target.value)
         }
         className="border p-2 rounded"
       />
@@ -537,22 +571,22 @@ const isMen = formik.values.category === "men";
         </button>
       </form>
 
-<Snackbar
+      <Snackbar
 
-  open={snackbar.open}
-  autoHideDuration={3000}
-  onClose={() => setSnackbar({ ...snackbar, open: false })}
-  anchorOrigin={{ vertical: "top", horizontal: "right" }}
->
-  <MuiAlert
-    elevation={6}
-    variant="filled"
-    severity={snackbar.severity}
-    onClose={() => setSnackbar({ ...snackbar, open: false })}
-  >
-    {snackbar.message}
-  </MuiAlert>
-</Snackbar>
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          severity={snackbar.severity}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+        >
+          {snackbar.message}
+        </MuiAlert>
+      </Snackbar>
 
 
     </div>

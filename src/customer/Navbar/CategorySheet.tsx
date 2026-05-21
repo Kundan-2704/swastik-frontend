@@ -28,6 +28,8 @@ import { dailyWearLevelThree } from "../../Data/Category/levelThree/dailyWearLev
 import { printedLevelThree } from "../../Data/Category/levelThree/printedLevelThree";
 import { accessoriesLevelTwo } from "../../Data/Category/levelTwo/accessoriesLevelTwo";
 import { accessoriesLevelThree } from "../../Data/Category/levelThree/accessoriesLevelThree";
+import { cjpLevelTwo } from "../../Data/Category/levelTwo/CjpLevelTwo";
+import { cjpLevelThree } from "../../Data/Category/levelThree/CjpLevelThree";
 
 /* ------------ TYPES ------------ */
 interface SubCategory {
@@ -51,6 +53,8 @@ const categoryTwo: Record<string, SubCategory[]> = {
 
   accessories : accessoriesLevelTwo,
 
+  cjp: cjpLevelTwo,
+
   wedding_sarees: weddingLevelTwo,
   daily_wear_sarees: dailyWearLevelTwo,
   printed_sarees: printedLevelTwo,
@@ -67,6 +71,8 @@ const categoryThree: Record<string, SubCategory[]> = {
   handloom_sarees: handloomLevelThree,
 
   accessories: accessoriesLevelThree,
+
+  cjp: cjpLevelThree,
 
   wedding_sarees: weddingLevelThree,
   daily_wear_sarees: dailyWearLevelThree,

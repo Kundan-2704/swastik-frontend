@@ -20,6 +20,8 @@ import { menLevelTwo } from "../../Data/Category/levelTwo/menLevelTwo";
 import {  menLevelThree } from "../../Data/Category/levelThree/menLevelThree";
 import { womenLevelTwo } from "../../Data/Category/levelTwo/womenLevelTwo";
 import { womenLevelThree } from "../../Data/Category/levelThree/womenLevelThree";
+import { cjpLevelThree } from "../../Data/Category/levelThree/CjpLevelThree";
+import { cjpLevelTwo } from "../../Data/Category/levelTwo/CjpLevelTwo";
 
 
 const SeedCategories = () => {
@@ -60,7 +62,8 @@ const SeedCategories = () => {
         ...womenLevelTwo,
         ...womenLevelThree,
 
-        
+        ...cjpLevelTwo,
+...cjpLevelThree,
 
       ];
 
