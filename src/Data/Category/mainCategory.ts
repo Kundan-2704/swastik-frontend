@@ -8,9 +8,10 @@ export const mainCategory = [
 
   { name: "Women", categoryId: "women", level: 1 },
 
-   { name: "CJP", categoryId: "cjp", level: 1 },
-
+  
   { name: "Men", categoryId: "men", level: 1 },
+  
+  // { name: "CJP", categoryId: "cjp", level: 1 },
 
   { name: "Accessories", categoryId: "accessories", level: 1 },
 
