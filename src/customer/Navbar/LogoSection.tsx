@@ -77,19 +77,7 @@ const LogoSection: React.FC<LogoSectionProps> = ({
           Swastik
         </h1>
       </div>
-<div className="flex justify-end">
-  <IconButton
-  onClick={()=> navigate("/")}
-  size="small"
-  sx={{padding:0.5}}
-  >
-    <Home
-    sx={
-      {color: "#B5933A", fontSize: 30, position: "relative"}
-    }
-    />
-  </IconButton>
-</div>
+
       {/* RIGHT → EMPTY SPACER (MAGIC 😂) */}
       <div />
     </div>
