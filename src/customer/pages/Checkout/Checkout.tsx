@@ -193,60 +193,6 @@ const Checkout = () => {
   };
 
 
-  //  const placeCODOrder = async () => {
-
-  //  if(!selectedAddress){
-
-  //   alert("Select address")
-  //   return
-
-  //  }
-
-  //  try{
-
-  //   setCodLoading(true)
-
-  //   const res = await axios.post(
-
-  //    `${import.meta.env.VITE_API_BASE_URL}/api/payment/create-cod-order`,
-
-  //    {
-  //     addressId:selectedAddress
-  //    },
-
-  //    {
-  //     headers:{
-  //      Authorization:`Bearer ${localStorage.getItem("jwt")}`
-  //     }
-  //    }
-
-  //   )
-
-  //   console.log("COD RESPONSE:",res.data)
-
-  //   // success check
-  //   if(res.status === 200){
-
-  //    setCodOpen(false)
-
-  //    navigate("/order-success")
-
-  //   }
-
-  //  }
-  //  catch(err:any){
-
-
-  //   alert("COD failed")
-
-  //  }
-  //  finally{
-
-  //   setCodLoading(false)
-
-  //  }
-
-  // }
 
   const placeCODOrder = async () => {
 
@@ -281,7 +227,6 @@ const Checkout = () => {
 
       );
 
-      console.log("COD RESPONSE:", res.data);
 
       // ✅ SUCCESS → यहाँ डालो
       if (window.gtag) {
@@ -602,15 +547,7 @@ const Checkout = () => {
         </Box>
       </Modal>
 
-      {/* <Snackbar
-        open={snack.open}
-        autoHideDuration={3000}
-        onClose={() => setSnack({ ...snack, open: false })}
-      >
-        <Alert severity={snack.type} sx={{ borderRadius: 999 }}>
-          {snack.msg}
-        </Alert>
-      </Snackbar> */}
+   
 
       <Snackbar
         open={snack.open}

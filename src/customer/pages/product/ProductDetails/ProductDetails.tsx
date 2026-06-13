@@ -201,171 +201,7 @@ const jwt =
   }, [gallery.imageRef]);
 
   /* ================= ADD TO CART ================= */
-  // const handleAddCartItem = useCallback(async () => {
-  //   if (adding || added) return;
-
-  //   if (!jwt) return showToast("Please login first", "error");
-  //   if (!product) return;
-
-  //   try {
-  //     setAdding(true);
-
-  //     await dispatch(
-  //       addItemToCart({
-  //         jwt,
-  //         request: {
-  //           productId: product._id,
-  //           quantity,
-  //           color: selectedColor?.name,
-  //         },
-  //       })
-  //     ).unwrap();
-
-  //     flyToCart();
-  //     setAdded(true);
-  //     showToast("Added to cart", "success");
-
-  //     setCartOpen(true);
-
-
-  //     setTimeout(() => setAdded(false), 1200);
-  //   } catch (err: any) {
-  //     showToast(err?.message || "Failed to add item", "error");
-  //   } finally {
-  //     setAdding(false);
-  //   }
-  // }, [
-  //   adding,
-  //   added,
-  //   jwt,
-  //   product,
-  //   quantity,
-  //   selectedColor,
-  //   dispatch,
-  //   flyToCart,
-  //   showToast,
-  // ]);
-
-//   const handleAddCartItem = useCallback(async () => {
-//     if (adding || added) return;
-
-//     if (!product) return;
-
-//     try {
-//       setAdding(true);
-
-//       // ================= GUEST CART =================
-//       if (!jwt) {
-//         const guestCart = JSON.parse(
-//           localStorage.getItem("guestCart") || "[]"
-//         );
-
-//         // guestCart.push({
-//         //   productId: product._id,
-//         //   quantity,
-//         //   color: selectedColor?.name,
-//         //   product,
-//         // });
-
-//         const existingItemIndex = guestCart.findIndex(
-//   (item: any) =>
-//     item.productId === product._id &&
-//     item.color === selectedColor?.name
-// );
-
-// if (existingItemIndex > -1) {
-//   guestCart[existingItemIndex].quantity += quantity;
-// } else {
-//   guestCart.push({
-//     productId: product._id,
-//     quantity,
-//     color: selectedColor?.name,
-//     product,
-//   });
-// }
-
-//         localStorage.setItem("guestCart", JSON.stringify(guestCart));
-
-//         flyToCart();
-//         setAdded(true);
-//         showToast("Added to cart", "success");
-
-//         if (window.fbq) {
-//           window.fbq("track", "AddToCart", {
-//             content_ids: [product._id],
-//             content_name: product.title,
-//             content_type: "product",
-//             value: product.sellingPrice,
-//             currency: "INR",
-//           });
-//         }
-
-//         setCartOpen(true);
-
-//         setTimeout(() => setAdded(false), 1200);
-
-//         return;
-//       }
-
-//       // ================= LOGGED IN USER =================
-//       await dispatch(
-//         addItemToCart({
-//           jwt,
-//           request: {
-//             productId: product._id,
-//             quantity,
-//             color: selectedColor?.name,
-//           },
-//         })
-//       ).unwrap();
-
-//       flyToCart();
-//       setAdded(true);
-//       showToast("Added to cart", "success");
-
-//       if (window.fbq) {
-//         window.fbq("track", "AddToCart", {
-//           content_ids: [product._id],
-//           content_name: product.title,
-//           content_type: "product",
-//           value: product.sellingPrice,
-//           currency: "INR",
-//         });
-//       }
-
-//       setCartOpen(true);
-
-//       setTimeout(() => setAdded(false), 1200);
-//     } catch (err: any) {
-
-//   const errorMessage =
-//     err?.message || "Login required to add items to cart";
-
-//   showToast(errorMessage, "error");
-
-//   // if (
-//   //   errorMessage.includes("Login required") ||
-//   //   errorMessage.includes("Unauthorized")
-//   // ) {
-//   //   setTimeout(() => {
-//   //     navigate("/login");
-//   //   }, 1200);
-//   // }
-// } finally {
-//       setAdding(false);
-//     }
-//   }, [
-//     adding,
-//     added,
-//     jwt,
-//     product,
-//     quantity,
-//     selectedColor,
-//     dispatch,
-//     flyToCart,
-//     showToast,
-//     navigate
-//   ]);
+ 
 
 const handleAddCartItem = useCallback(async () => {
   if (adding || added) return;
@@ -378,7 +214,6 @@ const handleAddCartItem = useCallback(async () => {
     // =========================
     // GUEST USER CART
     // =========================
-    console.log("GUEST USER FLOW");
     if (!jwt || jwt === "undefined" || jwt === "null") {
       try {
         const guestCart = JSON.parse(
@@ -461,7 +296,6 @@ const handleAddCartItem = useCallback(async () => {
         },
       })
     ).unwrap();
-console.log("LOGGED IN FLOW");
     // SAFE ANIMATION
     try {
       flyToCart();
@@ -623,24 +457,6 @@ console.log("LOGGED IN FLOW");
             </Button>
 
             {/* SECONDARY CTA */}
-            {/* <Button
-      startIcon={<Favorite />}
-      variant="outlined"
-      fullWidth
-      sx={{
-        py: "0.95rem",
-        borderRadius: "999px",
-        borderColor: "#B9935A",
-        color: BRAND_COLOR,
-        textTransform: "none",
-        fontWeight: 600,
-        "&:hover": {
-          backgroundColor: "#FBF7F2",
-        },
-      }}
-    >
-      Wishlist
-    </Button> */}
 
             <Button
               onClick={handleWishlist}
